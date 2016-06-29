@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:composite="http://java.sun.com/jsf/composite"> 
+
+<!-- INTERFACE -->
+<composite:interface>
+   <composite:attribute name="parameter"/>   
+</composite:interface>
+
+<!-- IMPLEMENTATION -->
+<composite:implementation>
+   
+   <h:panelGrid columns="2" columnClasses="titleCell">
+   
+   	  <h:outputLabel for="id" value="Id: " styleClass="outputLabel" rendered="false"/>
+ 	  <h:outputText id="id" value="#{cc.attrs.parameter.id}" rendered="false"/>
+   
+ 	  <h:outputLabel for="name" value="Name: " styleClass="outputLabel"/>
+ 	  <h:outputText id="name" value="#{cc.attrs.parameter.name}" />
+ 	  
+ 	  <h:outputLabel for="value" value="Value: " styleClass="outputLabel"/>
+ 	  <h:outputText id="value" value="#{cc.attrs.parameter.value}" />
+ 	  
+ 	  <h:outputLabel for="description" value="Description: " styleClass="outputLabel"/>
+ 	  <h:outputText id="description" value="#{cc.attrs.parameter.description}" />
+ 	  
+   </h:panelGrid>
+  
+</composite:implementation>
+</html>

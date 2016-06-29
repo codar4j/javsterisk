@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"		
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:composite="http://java.sun.com/jsf/composite">
+
+		<!-- INTERFACE -->
+		<composite:interface>
+			<composite:attribute name="sipBuddies" />
+		</composite:interface>
+
+		<!-- IMPLEMENTATION -->
+		<composite:implementation>
+		
+			<h:panelGrid columns="2" columnClasses="titleCell">
+				
+				<h:outputLabel for="name" value="Name: " styleClass="outputLabel"/>
+ 	  			<h:outputText id="name" value="#{cc.attrs.sipBuddies.name}" />
+ 	  			
+ 	  			<h:outputLabel for="secret" value="Secret: " styleClass="outputLabel"/>
+ 	  			<h:outputText id="secret" value="******" />
+ 	  			
+ 	  			<h:outputLabel for="defaultUser" value="DefaultUser: " styleClass="outputLabel"/>
+ 	  			<h:outputText id="defaultuser" value="#{cc.attrs.sipBuddies.defaultuser}" />
+ 	  			
+ 	  			<h:outputLabel for="host" value="Host: " styleClass="outputLabel"/>
+ 	  			<h:outputText id="host" value="#{cc.attrs.sipBuddies.host}" />
+ 	  			
+ 	  			<h:outputLabel for="type" value="Type: " styleClass="outputLabel"/>
+ 	  			<h:outputText id="type" value="#{cc.attrs.sipBuddies.type}" />
+ 	  			
+ 	  			<h:outputLabel for="context" value="Context: " styleClass="outputLabel"/>
+ 	  			<h:outputText id="context" value="#{cc.attrs.sipBuddies.context}" />
+ 	  			
+ 	  			<h:outputLabel for="qualify" value="Qualify: " styleClass="outputLabel"/>
+ 	  			<h:outputText id="qualify" value="#{cc.attrs.sipBuddies.qualify}" />
+ 	  			
+ 	  			<h:outputLabel for="nat" value="Nat: " styleClass="outputLabel"/>
+ 	  			<h:outputText id="nat" value="#{cc.attrs.sipBuddies.nat}" />
+							
+			</h:panelGrid>
+
+</composite:implementation>
+</html>

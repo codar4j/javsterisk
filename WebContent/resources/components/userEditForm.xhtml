@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:composite="http://java.sun.com/jsf/composite">
+
+		<!-- INTERFACE -->
+		<composite:interface>
+			<composite:attribute name="userEdit" />
+		</composite:interface>
+
+		<!-- IMPLEMENTATION -->	
+		<composite:implementation>
+
+				<h:panelGrid columns="3" columnClasses="titleCell">
+					
+		            <p:outputLabel for="usernameEdit" value="Username" />   
+		            <p:inputText id="usernameEdit" value="#{cc.attrs.userEdit.username}" required="true" autocomplete="off">
+		            	<p:watermark for="usernameEdit" value="Ingrese Username" />
+		            </p:inputText>
+		            <p:message for="usernameEdit" />  
+		            <p:outputLabel for="passwordEdit" value="Password" /> 
+					<p:password id="passwordEdit" value="#{userController.passwordEdit}"
+						promptLabel="Ingrese el Password" 
+						weakLabel="Debil" 
+						goodLabel="Normal" 
+						strongLabel="Fuerte" 
+						feedback="true" 
+						inline="true" 					
+						required="false" 						
+						match="password2Edit"
+						validatorMessage="El Password debe coincidir con Password 2"
+						redisplay="true" 
+						autocomplete="off">
+							<p:watermark for="passwordEdit" value="Ingrese Password" />
+						</p:password>
+					<p:message for="passwordEdit" />
+		            
+		            <p:outputLabel for="password2Edit" value="Password 2" /> 
+					<p:password id="password2Edit" value="#{userController.password2Edit}"
+						promptLabel="Repita el Password" 
+						weakLabel="Debil" 
+						goodLabel="Normal" 
+						strongLabel="Fuerte" 
+						feedback="true" 
+						inline="true" 					
+						required="false" 						
+						redisplay="true" 
+						autocomplete="off">
+							<p:watermark for="password2Edit" value="Repita Password" />
+						</p:password>
+					<p:message for="password2Edit" />		           
+		            <p:outputLabel for="emailEdit" value="Email" />     
+		            <p:inputText id="emailEdit" value="#{cc.attrs.userEdit.email}" required="true" autocomplete="off" validatorMessage="Email con formato no valido">
+		            	<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+		            	<p:watermark for="emailEdit" value="Ingrese Email" />
+		            </p:inputText>
+		            <p:message for="emailEdit" />
+		            <p:outputLabel for="roleEdit" value="Role" />
+					<p:selectOneMenu id="roleEdit" 
+							value="#{cc.attrs.userEdit.role.name}" 
+							required="true" 							
+							converter="#{entityConverter}">  
+                		<f:selectItem itemLabel="Seleccione Role" itemValue="#{null}" />  
+                		<f:selectItems value="#{roles}" var="role" itemLabel="#{role.value}" itemValue="#{role.value}"/>                 		         		               
+            		</p:selectOneMenu>
+				<p:message for="roleEdit" />
+				<p:outputLabel for="extensionEdit" value="Extension" />
+					<p:selectOneMenu id="extensionEdit" 
+							value="#{cc.attrs.userEdit.sipBuddies}" 
+							required="true" 							
+							converter="#{entityConverter}">  
+                		<f:selectItem itemLabel="Seleccione Extension" itemValue="#{null}" />  
+                		<f:selectItems value="#{sipBuddieses}" var="sipBuddies" itemLabel="#{sipBuddies.name}" itemValue="#{sipBuddies}"/>                 		         		               
+            		</p:selectOneMenu>
+				<p:message for="extensionEdit" />
+		            <p:outputLabel for="localeEdit" value="Locale" /> 
+					<p:selectOneMenu id="localeEdit"
+						value="#{cc.attrs.userEdit.locale}" 
+						required="true"
+						var="loc"
+						filter="true"
+						filterMatchMode="startsWith"
+						panelStyle="width:150px;"
+						panelStyleClass="localeSelect"						
+						converter="#{entityConverter}">
+						<f:selectItem itemLabel="Seleccione Locale" itemValue="" />
+						<f:selectItems var="locale" value="#{supportedLocales}" itemLabel="#{stringUtil.capitalize(locale.displayLanguage)}" itemValue="#{locale}" />
+						<p:column>
+		              		<p:graphicImage value="/resources/gfx/#{loc.toString()}.png" />
+			            </p:column>  
+			            <p:column>  
+			                #{stringUtil.capitalize(loc.displayLanguage)}  
+			            </p:column> 
+					</p:selectOneMenu>
+					<p:message for="localeEdit" />
+						<p:outputLabel for="themeEdit" value="Theme" />				
+				<p:selectOneMenu id="themeEdit"
+					value="#{cc.attrs.userEdit.theme}" 
+					required="true"
+					filter="true"
+					var="t"
+					filterMatchMode="startsWith"
+					panelStyle="width:150px;"				
+					panelStyleClass="localeSelect">
+					<f:selectItem itemLabel="Seleccione Theme" itemValue="" />					
+					<f:selectItems var="theme" value="#{themes}" itemLabel="#{theme.name}" itemValue="#{theme}"/>					
+					<p:column>		                            
+		               <p:graphicImage value="/resources/gfx/themes/#{t.image}" />
+		            </p:column>		                       
+		            <p:column>
+		                #{t.name}
+		            </p:column>
+				</p:selectOneMenu> 
+				<p:message for="themeEdit" />	            
+			
+			</h:panelGrid>
+		
+		</composite:implementation>
+</html>

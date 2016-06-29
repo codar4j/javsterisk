@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:composite="http://java.sun.com/jsf/composite"> 
+
+<!-- INTERFACE -->
+<composite:interface>
+   <composite:attribute name="extensions"/>   
+</composite:interface>
+
+<!-- IMPLEMENTATION -->
+<composite:implementation>
+   
+   <h:panelGrid columns="2" columnClasses="titleCell">
+   
+   	  <h:outputLabel for="id" value="Id: " styleClass="outputLabel" rendered="false"/>
+ 	  <h:outputText id="id" value="#{cc.attrs.extensions.id_1}" rendered="false"/>
+   
+ 	  <h:outputLabel for="context" value="Context: " styleClass="outputLabel"/>
+ 	  <h:outputText id="context" value="#{cc.attrs.extensions.id.context}" />
+ 	  
+ 	  <h:outputLabel for="exten" value="Exten: " styleClass="outputLabel"/>
+ 	  <h:outputText id="exten" value="#{cc.attrs.extensions.id.exten}" />
+ 	  
+ 	  <h:outputLabel for="priority" value="Priority: " styleClass="outputLabel"/>
+ 	  <h:outputText id="priority" value="#{cc.attrs.extensions.id.priority}" />
+ 	  
+ 	  <h:outputLabel for="app" value="App: " styleClass="outputLabel"/>
+ 	  <h:outputText id="app" value="#{cc.attrs.extensions.app}" />
+ 	  
+ 	  <h:outputLabel for="appdata" value="AppData: " styleClass="outputLabel"/>
+ 	  <h:outputText id="appdata" value="#{cc.attrs.extensions.appdata}" />
+ 	  
+   </h:panelGrid>
+  
+</composite:implementation>
+</html>

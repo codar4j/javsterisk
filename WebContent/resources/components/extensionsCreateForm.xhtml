@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"		
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:composite="http://java.sun.com/jsf/composite">
+
+		<!-- INTERFACE -->
+		<composite:interface>
+			<composite:attribute name="extensionsCreate" />
+		</composite:interface>
+
+		<!-- IMPLEMENTATION -->
+		<composite:implementation>
+		
+			<h:panelGrid columns="3" columnClasses="titleCell">
+				
+				<p:outputLabel for="contextCreate" value="Contexto" /> 
+				<p:inputText id="contextCreate"
+					value="#{cc.attrs.extensionsCreate.id.context}" required="true"
+					autocomplete="off" readonly="true">
+					<p:watermark for="contextCreate" value="Ingrese Contexto" />
+				</p:inputText>
+				<p:message for="contextCreate" />
+				
+				<p:outputLabel for="extenCreate" value="Exten" /> 
+				<p:inputText id="extenCreate"
+					value="#{cc.attrs.extensionsCreate.id.exten}" required="true"
+					autocomplete="off" >
+					<p:watermark for="extenCreate" value="Ingrese Exten" />
+				</p:inputText>
+				<p:message for="extenCreate" />
+				
+				<p:outputLabel for="priorityCreate" value="Priority" /> 
+				<p:inputText id="priorityCreate"
+					value="#{cc.attrs.extensionsCreate.id.priority}" required="true"
+					autocomplete="off" >
+					<p:watermark for="priorityCreate" value="Ingrese Priority" />
+				</p:inputText>
+				<p:message for="priorityCreate" />
+				
+				<p:outputLabel for="appCreate" value="App" /> 
+				<p:inputText id="appCreate"
+					value="#{cc.attrs.extensionsCreate.app}" required="true"
+					autocomplete="off" >
+					<p:watermark for="appCreate" value="Ingrese App" />
+				</p:inputText>
+				<p:message for="appCreate" />
+				
+				<p:outputLabel for="appDataCreate" value="AppData" /> 
+				<p:inputText id="appDataCreate"
+					value="#{cc.attrs.extensionsCreate.appdata}" required="true"
+					autocomplete="off" >
+					<p:watermark for="appDataCreate" value="Ingrese AppData" />
+				</p:inputText>
+				<p:message for="appDataCreate" />
+		        			
+			</h:panelGrid>
+
+</composite:implementation>
+</html>

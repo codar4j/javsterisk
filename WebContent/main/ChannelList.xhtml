@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+			    template="/WEB-INF/templates/template.xhtml"
+			    xmlns:c="http://java.sun.com/jsp/jstl/core"
+			    xmlns:my="http://java.sun.com/jsf/composite/components">
+ 
+ <ui:param name="title" value="asterisk4j - Channel" />
+ 
+ <ui:define name="body">
+ 
+		<h:form id="formList">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+
+					<p:separator />
+					
+					<p:commandButton global="false" title="Nuevo" icon="ui-icon-document" disabled="true"/>						
+					
+					<p:commandButton id="refreshToolBar" process="@this" title="Actualizar" actionListener="#{channelController.handleChannels()}" icon="ui-icon-refresh" update=":formList:channelPanel"/>
+					
+					<p:commandButton id="viewToolBar" global="false" process="@this,channelList" partialSubmit="true" title="Ver" icon="ui-icon-search" disabled="true" />
+
+					<p:separator />
+					
+					<p:commandButton id="editToolBar" global="false" process="@this,channelList" partialSubmit="true" title="Editar" icon="ui-icon ui-icon-pencil" disabled="true" >
+						<p:resetInput target=":formEdit:editPanel"/>
+					</p:commandButton>	
+
+					<p:separator />
+					
+					<p:commandButton id="deleteToolBar" global="false" process="@this,channelList" partialSubmit="true" title="Eliminar" icon="ui-icon-trash" disabled="true" />
+					
+					<p:commandButton id="reportToolBar" type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/channelList.rptdesign');" disabled="true"/>
+					
+					<p:separator />
+										
+					<p:commandButton id="helpToolBar" global="false" title="Ayuda" icon="ui-icon-help" process="@this" partialSubmit="true" update=":helpModalDialog" oncomplete="helpModal.show();"/>
+					
+				</p:toolbarGroup>
+
+				<p:toolbarGroup align="right">
+
+					<p:menuButton value="Exportar" disabled="true">
+						
+						<p:menuitem value="Exportar a XLS" ajax="false" icon="ui-icon-arrowthickstop-1-s">
+							<p:dataExporter target=":formList:channelList" type="xls" fileName="channelList"/>
+						</p:menuitem>						
+						<p:menuitem value="Exportar a PDF" ajax="false" icon="ui-icon-arrowthickstop-1-s">
+							<p:dataExporter target=":formList:channelList" type="pdf" fileName="channelList"/>
+						</p:menuitem>
+												
+					</p:menuButton>
+				</p:toolbarGroup>
+
+			</p:toolbar>
+		
+			<p:panel id="channelPanel">  
+
+				<p:dataGrid id="channelList" 
+					var="call" 
+					value="#{channelController.calls}" 
+					columns="3"
+					rows="12" 
+					paginator="true" 
+					paginatorTemplate="Showing {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Go to {JumpToPageDropdown}  Rows per Page {RowsPerPageDropdown}"
+        			rowsPerPageTemplate="10,20,30,50,100" 
+        			paginatorAlwaysVisible="false"
+        			paginatorPosition="bottom"
+        			widgetVar="channelTable">
+
+					<f:facet name="header">
+	                	<div align="left">
+	                		#{channelController.header}
+	                	</div>
+                	</f:facet>
+					
+					<p:panel header="#{call.active ? 'Activa' : 'No Activa'}" style="text-align:left">
+						<h:panelGrid columns="3" style="width:100%" bgcolor="#E9F9E3">
+							<p:graphicImage value="/resources/gfx/active_call.png" />
+							<h:panelGrid columns="2" style="width:100%" bgcolor="#D9FFD8">
+								<h:outputLabel for="sourceSource" value="Tipo: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="sourceSource" value="#{call.source.source ? 'Origen' : 'Destino'}"/>
+							
+								<h:outputLabel for="extensionSource" value="Extension: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="extensionSource" value="#{call.source.extensionSource}"/>
+							
+								<h:outputLabel for="channelSource" value="Channel: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="channelSource" value="#{call.source.channel}"/>
+ 	  							
+ 	  							<h:outputLabel for="locationSource" value="Location: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="locationSource" value="#{call.source.location}"/>
+ 	  							
+ 	  							<h:outputLabel for="stateSource" value="State: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="stateSource" value="#{call.source.state}"/>
+ 	  							
+ 	  							<h:outputLabel for="applicationSource" value="App Data: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="applicationSource" value="#{call.source.applicationData}"/>
+							</h:panelGrid>
+							<h:panelGrid columns="2" style="width:100%" bgcolor="#CADFF9">
+								<h:outputLabel for="targetTarget" value="Tipo: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="targetTarget" value="#{call.target.source ? 'Origen' : 'Destino'}"/>
+							
+								<h:outputLabel for="extensionTarget" value="Extension: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="extensionTarget" value="#{call.target.extensionSource}"/>
+							
+								<h:outputLabel for="channelTarget" value="Channel: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="channelTarget" value="#{call.target.channel}"/>
+ 	  							
+ 	  							<h:outputLabel for="locationTarget" value="Location: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="locationTarget" value="#{call.target.location}"/>
+ 	  							
+ 	  							<h:outputLabel for="stateTarget" value="State: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="stateTarget" value="#{call.target.state}"/>
+ 	  							
+ 	  							<h:outputLabel for="applicationTarget" value="App Data: " styleClass="outputLabel"/>
+ 	  							<h:outputText id="applicationTarget" value="#{call.target.applicationData}"/>
+							</h:panelGrid>
+						</h:panelGrid>
+					</p:panel>
+
+				</p:dataGrid>
+
+			</p:panel> 
+            
+            </h:form>
+           
+			
+			<p:dialog id="helpModalDialog" header="Ayuda" widgetVar="helpModal" modal="true"  
+					appendTo="@(body)"
+            		minimizable="false"
+            		maximizable="true"       
+            		closeOnEscape="true"              		 		
+            		showEffect="fade" hideEffect="explode">  
+            
+	            <h:panelGroup id="helpPanel">
+	                <b>Administracion de Usuario</b>
+	                <p>En esta pantalla ud podar ver el listado de las empresas registradas en el sistema</p>
+	                <p>Podra crear nuevas empresas</p>
+	            </h:panelGroup>
+				 
+			</p:dialog>
+        
+ </ui:define>
+</ui:composition>

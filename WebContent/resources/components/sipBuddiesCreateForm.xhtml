@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"		
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:composite="http://java.sun.com/jsf/composite">
+
+		<!-- INTERFACE -->
+		<composite:interface>
+			<composite:attribute name="sipBuddiesCreate" />
+		</composite:interface>
+
+		<!-- IMPLEMENTATION -->
+		<composite:implementation>
+		
+			<h:panelGrid columns="3" columnClasses="titleCell">
+				
+				<p:outputLabel for="nameCreate" value="Name" /> 
+				<p:inputText id="nameCreate"
+					value="#{cc.attrs.sipBuddiesCreate.name}" required="true"
+					autocomplete="off" >
+					<p:watermark for="nameCreate" value="Ingrese Name" />
+				</p:inputText>
+				<p:message for="nameCreate" />
+				
+				<p:outputLabel for="secretCreate" value="Secret" /> 
+				<p:password id="secretCreate"
+					value="#{cc.attrs.sipBuddiesCreate.secret}" required="true"
+					autocomplete="off" >
+					<p:watermark for="secretCreate" value="Ingrese Secret" />
+				</p:password>				
+				<p:message for="secretCreate" />
+				
+				<p:outputLabel for="hostCreate" value="Host" /> 
+				<p:inputText id="hostCreate"
+					value="#{cc.attrs.sipBuddiesCreate.host}" required="true"
+					autocomplete="off" >
+					<p:watermark for="hostCreate" value="Ingrese Host" />
+				</p:inputText>
+				<p:message for="hostCreate" />
+				
+				<p:outputLabel for="typeCreate" value="Type" />
+				<p:selectOneMenu id="typeCreate" 
+							value="#{cc.attrs.sipBuddiesCreate.type}" 
+							required="true">  
+                		<f:selectItem itemLabel="Seleccione Type" itemValue="#{null}"/>
+                		<f:selectItems value="#{sipBuddiesController.sipTypes}" var="sipType" itemLabel="#{sipType.value}" itemValue="#{sipType}"/>                   		                 		         		              
+            	</p:selectOneMenu>
+				<p:message for="typeCreate" />
+							
+			</h:panelGrid>
+
+</composite:implementation>
+</html>

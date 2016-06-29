@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:p="http://primefaces.org/ui">
+      
+<f:view locale="#{localeController.locale}" encoding="UTF-8" contentType="text/html">
+      
+<h:head>
+      <title>#{title}</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />      
+      <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>     
+      <h:outputStylesheet name="default.css" library="css"/>                    
+      <ui:insert name="head"/>
+</h:head>
+
+<h:body>
+      
+      <h:panelGrid columns="1" border="0" width="100%" cellpadding="0px">      
+      	<ui:include src="/layout/toolbar.xhtml"/>
+
+      		<h:panelGrid columns="1" border="0" width="100%" styleClass="body">
+	      		<p:messages
+			    id="messages"
+			    showDetail="true"
+			    showSummary="true"
+				closable="true"
+				globalOnly="true"
+				escape="true"		
+				redisplay="false"/>	
+							     
+		        <ui:insert name="body"/>
+		        
+      		</h:panelGrid>
+      		        
+      </h:panelGrid>
+      
+    <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>  
+                  
+    <p:dialog modal="true" widgetVar="statusDialog" header="#{msg['lbl.common.loading.title']}"   
+            draggable="false" closable="false">  
+            <h:panelGrid columns="2">
+        		<p:graphicImage value="/resources/gfx/waiting.gif" />
+        		<h:outputText value="#{msg['lbl.common.loading.text']}" />  
+        	</h:panelGrid>
+    </p:dialog> 
+    
+    <p:dialog modal="true" widgetVar="aboutDialog" header="Acerca de javsterisk"   
+            draggable="true" closable="true">  
+            
+        		<!-- <p:graphicImage value="/resources/gfx/logo-edimca.gif" /> -->
+        		<p>
+        			<strong>
+        				Open Source<br/><br/>
+	        			javsterisk<br/>
+	        			Version 1.0<br/>
+	        			CopyRigth 2016, codar4j
+        			</strong>	
+        		</p>  
+        	
+    </p:dialog>
+    
+    <pe:ajaxErrorHandler button="Close warning!" widgetVar="myAjaxErrorHandler">  
+    <div>  
+        <h2 class="ui-dialog-titlebar" style="border-bottom: 2px solid blue; border-top: 2px solid blue;padding: 15px; text-align:center;background:#ccc;">  
+            Error <span style="color: red;">{error-name}</span>  
+        </h2>  
+        <div class="ui-dialog-content">  
+            <p:panel header="Base information" toggleable="true">  
+                <h:panelGrid columns="2">  
+                    <h:outputLabel value="Error message:" />  
+                    <h:outputText value="{error-message}" style="font-size: 1.2em;color:navy;" />  
+  
+                    <h:outputLabel value="Server name:" />  
+                    <h:outputText value="{error-hostname}"  style="font-size: 1.2em;color:navy;"/>  
+                </h:panelGrid>  
+            </p:panel>  
+            <p:panel header="Exception details" toggleable="true">  
+                <div style="overflow: auto; height: 300px;">  
+                    {error-stacktrace}  
+                </div>  
+            </p:panel>  
+  
+            <div style="text-align  :center; padding: 5px;">  
+                <p:commandButton onclick="window.location.href=window.location.href; return false;" value="RELOAD"/>  
+                <p:commandButton onclick="myAjaxErrorHandler.hide(); return false;" value="CLOSE"/>  
+            </div>  
+        </div>  
+    </div>  
+</pe:ajaxErrorHandler>  
+    
+            
+</h:body>
+
+</f:view>
+
+</html>

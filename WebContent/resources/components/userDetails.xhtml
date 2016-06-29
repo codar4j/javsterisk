@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:composite="http://java.sun.com/jsf/composite"> 
+
+<!-- INTERFACE -->
+<composite:interface>
+   <composite:attribute name="user"/>   
+</composite:interface>
+
+<!-- IMPLEMENTATION -->
+<composite:implementation>
+   
+   
+   <h:panelGrid columns="2" columnClasses="titleCell">
+   
+ 	  <h:outputLabel for="id" value="Id: " styleClass="outputLabel" rendered="false"/>
+ 	  <h:outputText id="id" value="#{cc.attrs.user.id}" rendered="false"/>
+ 	  
+ 	  <h:outputLabel for="name" value="Name: " styleClass="outputLabel"/>
+ 	  <h:outputText id="name" value="#{cc.attrs.user.name}" />
+ 	  
+   	  <h:outputLabel for="username" value="Username: " styleClass="outputLabel"/>
+ 	  <h:outputText id="username" value="#{cc.attrs.user.username}" />     
+ 	  
+ 	  <h:outputLabel for="password" value="Password: " styleClass="outputLabel"/>
+ 	  <h:outputText id="password" value="******" />
+ 	  
+      <h:outputLabel for="email" value="Email: " styleClass="outputLabel"/>	
+      <h:outputText id="email" value="#{cc.attrs.user.email}" />
+      
+      <h:outputLabel for="role" value="Role: " styleClass="outputLabel"/>	
+      <h:outputText id="role" value="#{cc.attrs.user.role.name}" />
+      
+      <h:outputLabel for="extension" value="Extension: " styleClass="outputLabel"/>	
+      <h:outputText id="extension" value="#{cc.attrs.user.sipBuddies.name}" />
+      
+      <h:outputLabel for="locale" value="Locale: " styleClass="outputLabel"/>	
+      <h:outputText id="locale" value="#{stringUtil.capitalize(cc.attrs.user.locale.displayLanguage)}" />
+            
+	  <h:outputLabel for="theme" value="Theme: " styleClass="outputLabel"/>	
+      <h:outputText id="theme" value="#{cc.attrs.user.theme}" />
+      
+   </h:panelGrid>
+  
+</composite:implementation>
+</html>

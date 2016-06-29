@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"		
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:composite="http://java.sun.com/jsf/composite">
+
+		<!-- INTERFACE -->
+		<composite:interface>
+			<composite:attribute name="sipBuddiesEdit" />
+		</composite:interface>
+
+		<!-- IMPLEMENTATION -->
+		<composite:implementation>
+		
+			<h:panelGrid columns="3" columnClasses="titleCell">
+				
+				<p:outputLabel for="nameEdit" value="Name" /> 
+				<p:inputText id="nameEdit"
+					value="#{cc.attrs.sipBuddiesEdit.name}" required="true"
+					autocomplete="off" >
+					<p:watermark for="nameEdit" value="Ingrese Name" />
+				</p:inputText>
+				<p:message for="nameEdit" />
+				
+				<p:outputLabel for="secretEdit" value="Secret" /> 
+				<p:password id="secretEdit"
+					value="#{sipBuddiesController.secretEdit}" required="true"
+					autocomplete="off" >
+					<p:watermark for="secretEdit" value="Ingrese Secret" />
+				</p:password>				
+				<p:message for="secretEdit" />
+				
+				<p:outputLabel for="defaultuserEdit" value="Default User" /> 
+				<p:inputText id="defaultuserEdit"
+					value="#{cc.attrs.sipBuddiesEdit.defaultuser}" required="true"
+					autocomplete="off" >
+					<p:watermark for="defaultuserEdit" value="Ingrese Default User" />
+				</p:inputText>
+				<p:message for="defaultuserEdit" />
+				
+				<p:outputLabel for="hostEdit" value="Host" /> 
+				<p:inputText id="hostEdit"
+					value="#{cc.attrs.sipBuddiesEdit.host}" required="true"
+					autocomplete="off" >
+					<p:watermark for="hostEdit" value="Ingrese Host" />
+				</p:inputText>
+				<p:message for="hostEdit" />
+				
+				<p:outputLabel for="typeEdit" value="Type" />
+				<p:selectOneMenu id="typeEdit" 
+							value="#{cc.attrs.sipBuddiesEdit.type}" 
+							required="true">  
+                		<f:selectItem itemLabel="Seleccione Type" itemValue="#{null}"/>
+                		<f:selectItems value="#{sipBuddiesController.sipTypes}" var="sipType" itemLabel="#{sipType.value}" itemValue="#{sipType.value}"/>                   		                 		         		              
+            	</p:selectOneMenu>
+				<p:message for="typeEdit" />
+				
+				<p:outputLabel for="contextEdit" value="Context" /> 
+				<p:inputText id="contextEdit"
+					value="#{cc.attrs.sipBuddiesEdit.context}" required="true"
+					autocomplete="off" >
+					<p:watermark for="contextEdit" value="Ingrese Context" />
+				</p:inputText>
+				<p:message for="contextEdit" />
+				
+				<p:outputLabel for="qualifyEdit" value="Qualify" /> 
+				<p:inputText id="qualifyEdit"
+					value="#{cc.attrs.sipBuddiesEdit.qualify}" required="true"
+					autocomplete="off" >
+					<p:watermark for="qualifyEdit" value="Ingrese Qualify" />
+				</p:inputText>
+				<p:message for="qualifyEdit" />
+				
+				<p:outputLabel for="natEdit" value="Nat" /> 
+				<p:inputText id="natEdit"
+					value="#{cc.attrs.sipBuddiesEdit.nat}" required="true"
+					autocomplete="off" >
+					<p:watermark for="natEdit" value="Ingrese Nat" />
+				</p:inputText>
+				<p:message for="natEdit" />
+							
+			</h:panelGrid>
+
+</composite:implementation>
+</html>

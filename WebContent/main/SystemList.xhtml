@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+			    template="/WEB-INF/templates/template.xhtml">
+      
+ <ui:param name="title" value="asterisk4j - Mantenimiento del Sistema" />
+      
+ <ui:define name="body">
+  
+  <p:panel id="systemPanel" header="Mantenimiento del Sistema">
+  	
+  	<p:fieldset legend="Sistema Operativo">
+  	
+  	<h:form id="formSystem">    		 
+	    <h:panelGrid columns="3" columnClasses="titleCell">
+	    	<p:outputLabel for="osAction" value="Accion" />  
+	        <p:selectOneMenu id="osAction" value="#{systemController.osOption}">  
+	            <f:selectItem itemLabel="Seleccione Accion" itemValue="" />  
+	            <f:selectItem itemLabel="Apagar" itemValue="1" />  
+	            <f:selectItem itemLabel="Reiniciar" itemValue="2" />  	             
+        	</p:selectOneMenu>
+        	<p:message for="osAction" />
+        	<p:outputLabel for="osDate" value="Fecha y Hora" rendered="false"/>  
+	        <p:calendar id="osDate" value="#{systemController.dateHour}" showOn="button" effect="slideDown" pattern="yyyy-MM-dd HH:mm:ss" rendered="false">
+	        	<p:watermark for="osDate" value="Ingrese Fecha y Hora" />
+	        </p:calendar>  
+        	<p:message for="osDate" rendered="false"/>
+	    </h:panelGrid> 
+	    <p:separator/>
+            	
+				<p:commandButton id="osBtn" 					 			
+					 value="Aplicar"
+					 partialSubmit="true"
+					 process="@form"	
+					 ajax="true"
+					 icon="ui-icon-disk"					 					 				 		 
+					 actionListener="#{systemController.actionOS()}"
+					 update=":formSystem,:messages"/>
+	
+	</h:form>
+				 				
+	</p:fieldset>
+	
+	<br/>
+	
+	<p:fieldset legend="Servicio Asterisk">
+	
+	<h:form id="serviceSystem">
+	  
+	    <h:panelGrid columns="3" columnClasses="titleCell">  
+	        <p:outputLabel for="asteriskAction" value="Accion" />  
+	        <p:selectOneMenu id="asteriskAction" value="#{systemController.asteriskOption}">  
+	            <f:selectItem itemLabel="Seleccione Accion" itemValue="" />  
+	            <f:selectItem itemLabel="Iniciar" itemValue="1" />  
+	            <f:selectItem itemLabel="Parar" itemValue="2" />
+	            <f:selectItem itemLabel="Reiniciar" itemValue="3" />  	             
+        	</p:selectOneMenu>        	
+        	<p:message for="asteriskAction" />
+	    </h:panelGrid>
+	    <p:separator/>
+            	
+				<p:commandButton id="asteriskBtn" 					 			
+					 value="Aplicar"	
+					 partialSubmit="true"
+					 process="@form"
+					 ajax="true"
+					 icon="ui-icon-disk"					 					 				 		 
+					 actionListener="#{systemController.actionAsterisk()}"
+					 update=":serviceSystem,:messages"/>
+
+	</h:form>
+	      
+	</p:fieldset>
+	
+				<f:facet name="footer">				 						
+					<b>* campos requeridos</b>
+				</f:facet>	 
+  	
+  </p:panel>
+  
+     
+ </ui:define>
+</ui:composition>

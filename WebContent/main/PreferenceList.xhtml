@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+			    template="/WEB-INF/templates/template.xhtml">
+      
+ <ui:param name="title" value="asterisk4j - Preference" />
+      
+ <ui:define name="body">
+ 
+ <h:form id="formPreference">
+  
+  <p:panel header="Preferences" id="preferencePanel">
+  	
+  	<h:panelGrid columns="3" columnClasses="titleCell">
+				
+				<p:outputLabel for="localeCreate" value="Locale" rendered="false"/> 
+				<p:selectOneMenu id="localeCreate"
+					value="#{preferenceController.locale}" 
+					required="true"
+					filter="true"
+					var="loc"
+					filterMatchMode="startsWith"
+					panelStyle="width:150px;"				
+					panelStyleClass="localeSelect"
+					converter="#{entityConverter}"
+					rendered="false">
+					<f:selectItem itemLabel="Seleccione Locale" itemValue="" />
+					<f:selectItems var="locale" value="#{localeController.supportedLocales}" itemLabel="#{stringUtil.capitalize(locale.displayLanguage)}" itemValue="#{locale}"/>					
+					<p:column>
+		                <p:graphicImage value="/resources/gfx/#{loc.toString()}.png" />
+		            </p:column>  
+		            <p:column>  
+		                #{stringUtil.capitalize(loc.displayLanguage)}  
+		            </p:column> 
+				</p:selectOneMenu>
+				<p:message for="localeCreate" rendered="false"/>
+				<p:outputLabel for="themeCreate" value="Theme" />								 
+				<p:themeSwitcher id="themeCreate" 
+								value="#{preferenceController.theme}" 
+								style="margin-right:10px"
+								required="true" 
+								effect="fade" 
+								var="t">  
+					            <f:selectItem itemLabel="Seleccione Theme" itemValue="" />  					            		                       
+		                        <f:selectItems value="#{themeController.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>		                        
+		                       
+		                        <p:column>		                            
+		                            <p:graphicImage value="/resources/gfx/themes/#{t.image}" />
+		                        </p:column>		                       
+		                        <p:column>
+		                            #{t.name}
+		                        </p:column>
+					              	              
+				</p:themeSwitcher>	
+				<p:message for="themeCreate" />
+				
+			</h:panelGrid>
+			
+			<p:separator/>
+            	
+				<p:commandButton id="editBtn" 					 			
+					 value="Guardar"	
+					 icon="ui-icon-disk"					 					 				 		 
+					 action="#{preferenceController.modifier}"
+					 update="preferencePanel"/>
+				 
+				<f:facet name="footer">				 						
+					<b>* campos requeridos</b>
+				</f:facet>	
+  	
+  </p:panel>
+    
+   </h:form>
+     
+ </ui:define>
+</ui:composition>

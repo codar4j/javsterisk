@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Levels in order
+	Overview
+	=========
+
+Es importante tener en cuenta que el nivel de log de root es el mínimo para todo el sistema. 
+Es decir, si yo arriba cambio el nivel de root por error y el de model por trace tan solo 
+se mostrarán los mensajes de error, ya que el resto no se evaluarán.
+
+Error: Ocurrió un error en la aplicación.
+Warn: Se ha dado una circunstancia de posible error.
+Info: Información sobre la ejecución de la aplicación.
+Debug: Información importante para debuggear la aplicación.
+Trace: Información de traza sobre la ejecución de la aplicación (Show all).
+
+In logger
+additivity="false" to avoid duplicate messages in appenders
+ 
+ -->
+ 
+<Configuration status="TRACE" name="javsteriskLog4j2" monitorInterval="5">
+
+	<Properties>
+		<Property name="logPath">C:/Temp/javsterisk/log</Property>
+		<Property name="logFileName">javsterisk</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d %p [%t] %c:%M:%L - %m%n"/>
+		</Console>
+		<RollingFile name="rollingFile" fileName="${logPath}/${logFileName}.log" ignoreExceptions="false"
+			filePattern="${logPath}/$${date:yyyy-MM}/${logFileName}-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p [%t] %c:%M:%L - %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50" />
+		</RollingFile>	
+		<RollingFile name="rollingHtmlFile" fileName="${logPath}/html/${logFileName}.html" ignoreExceptions="false"
+			filePattern="${logPath}/html/$${date:yyyy-MM}/${logFileName}-%d{MM-dd-yyyy}-%i.html.gz">
+			<HTMLLayout charset="UTF-8" title="${logPath} log"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50" />
+		</RollingFile>
+		<RollingFile name="rollingSqlFile" fileName="${logPath}/sql/${logFileName}_sql.log" ignoreExceptions="false"
+			filePattern="${logPath}/sql/$${date:yyyy-MM}/${logFileName}_sql-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p [%t] %c:%M:%L - %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="50" />
+		</RollingFile>
+		
+		<JDBC name="DB" tableName="log">
+	      <DataSource jndiName="java:/comp/env/jdbc/javsteriskDS" />
+	      <Column name="eventDate" isEventTimestamp="true" />
+	      <Column name="level" pattern="%level" />
+	      <Column name="logger" pattern="%logger" />
+	      <Column name="message" pattern="%message" />
+	      <Column name="exception" pattern="%ex{full}" />
+	    </JDBC>
+		
+		<!-- crear appender de DB -->
+		<!-- 
+		<appender name="DB" class="com.web.asterisk4j.logback.appender.CustomDBAppender">
+	    	<connectionSource class="ch.qos.logback.core.db.JNDIConnectionSource"> 
+	      	<jndiLocation>java:jboss/datasources/javsteriskDS</jndiLocation>
+	    	</connectionSource>
+	    </appender>
+		 -->
+		 
+		<Async name="asyncRollingFile" ignoreExceptions="false">
+			<AppenderRef ref="rollingFile"/>
+			<AppenderRef ref="rollingHtmlFile"/>
+		</Async>
+		<Async name="asyncRollingSqlFile" ignoreExceptions="false">
+			<AppenderRef ref="rollingSqlFile"/>
+		</Async>
+		<!-- 
+		<Failover name="failOverFile" primary="asyncRollingFile" retryIntervalSeconds="60">
+			<Failovers>
+				<AppenderRef ref="console"/>
+			</Failovers>
+		</Failover>
+		 -->
+	</Appenders>
+	
+	<Loggers>	
+		<Root level="trace">
+			<AppenderRef ref="console" />			
+		</Root>			
+		<Logger name="com.web.javsterisk" level="trace" additivity="true">
+			<!-- 
+			<AppenderRef ref="failOverFile"/>
+			 -->
+			<AppenderRef ref="asyncRollingFile"/>
+			<!-- <AppenderRef ref="DB"/> -->
+		</Logger>	
+		<Logger name="org.apache.shiro" level="trace" additivity="true">
+			<!-- 
+			<AppenderRef ref="failOverFile"/>
+			 -->
+			<AppenderRef ref="asyncRollingFile"/>
+		</Logger>	
+		<!-- 
+		<Logger name="log4jdbc.log4j2" level="trace" additivity="false">  			 
+  			<MarkerFilter marker="LOG4JDBC_OTHER" onMatch="DENY" onMismatch="NEUTRAL"/>  			
+  			<appender-ref ref="asyncRollingSqlFile"/>
+		</Logger>
+		 -->	
+	</Loggers>
+	
+</Configuration>

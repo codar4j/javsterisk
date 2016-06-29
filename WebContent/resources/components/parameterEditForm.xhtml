@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:composite="http://java.sun.com/jsf/composite">
+
+		<!-- INTERFACE -->
+		<composite:interface>
+			<composite:attribute name="parameterEdit" />
+		</composite:interface>
+
+		<!-- IMPLEMENTATION -->	
+		<composite:implementation>
+
+				<h:panelGrid columns="3" columnClasses="titleCell">
+
+
+				<p:outputLabel for="nameEdit" value="Name" /> 
+				<p:inputText id="nameEdit"
+					value="#{cc.attrs.parameterEdit.name}" required="true"
+					autocomplete="off" readonly="true">
+					<p:watermark for="nameEdit" value="Ingrese Name" />
+				</p:inputText>
+				<p:message for="nameEdit" />
+				
+				<p:outputLabel for="valueEdit" value="Value" /> 
+				<p:inputText id="valueEdit"
+					value="#{cc.attrs.parameterEdit.value}" required="true"
+					autocomplete="off">
+					<p:watermark for="valueEdit" value="Ingrese Value" />
+				</p:inputText>
+				<p:message for="valueEdit" />
+				
+				<p:outputLabel for="descriptionEdit" value="Description" /> 
+				<p:inputText id="descriptionEdit"
+					value="#{cc.attrs.parameterEdit.description}" required="false"
+					autocomplete="off">
+					<p:watermark for="descriptionEdit" value="Ingrese Description" />
+				</p:inputText>
+				<p:message for="descriptionEdit" />
+	
+			</h:panelGrid>
+		
+		</composite:implementation>
+</html>

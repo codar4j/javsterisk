@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+			    template="/WEB-INF/templates/template.xhtml"
+			    xmlns:c="http://java.sun.com/jsp/jstl/core"
+			    xmlns:my="http://java.sun.com/jsf/composite/components">
+      
+ <ui:param name="title" value="asterisk4j - Login" />
+
+ <ui:define name="body">
+                
+        <h:form id="formLogin">
+         
+		<p:panel id="mainPanel" toggleable="true" header="#{msg['lbl.login.panel.title']}" toggleTitle="#{msg['lbl.login.panel.toggle']}">
+           
+           <p:focus context="mainPanel"/>
+           
+           <h:panelGroup id="loginPanel">
+           
+           		<h:panelGrid columns="3" columnClasses="titleCell">
+           	           			
+           			<p:outputLabel for="username" value="#{msg['lbl.login.form.username']}" />
+		            <p:inputText id="username" value="#{securityController.user.username}" required="true" autocomplete="off">
+		            	<p:watermark for="username" value="#{msg['lbl.login.form.username.watermark']}" />
+		            </p:inputText>		            
+		            <p:message for="username" />
+		             		            
+		            <p:outputLabel for="password" value="#{msg['lbl.login.form.password']}" />  		            		            
+		            <p:inputText id="password" type="password" value="#{securityController.user.password}" required="true" autocomplete="off">
+		            	<p:watermark for="password" value="#{msg['lbl.login.form.password.watermark']}" />
+		            </p:inputText>	            
+		            <p:message for="password" />
+		            		            
+		            <p:outputLabel for="rememberMe" value="#{msg['lbl.login.form.remember']}" />    
+		            <p:selectBooleanCheckbox id="rememberMe" value="#{securityController.rememberMe}" required="false" />
+		            <p:message for="rememberMe" />			            
+           	
+           		</h:panelGrid>
+           	
+           	</h:panelGroup>
+           	
+           	<p:separator/>
+           	
+           	<p:commandButton id="loginBtn"
+					 value="#{msg['lbl.login.form.submit']}"
+					 icon="ui-icon-key"
+					 action="#{securityController.login}"
+					 update="loginPanel"/>
+					 
+			<f:facet name="footer">				 						
+					<b><h:outputText value="#{msg['lbl.common.form.required']}" /></b>					
+			</f:facet>			 
+		   
+           </p:panel>         
+      
+      </h:form>   
+         
+</ui:define>
+
+</ui:composition>

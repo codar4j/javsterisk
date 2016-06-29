@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<h:form xmlns="http://www.w3c.org/1999/xhtml"
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"                                
+                xmlns:p="http://primefaces.org/ui"
+                rendered="#{securityController.authenticated}">
+
+	<p:menubar autoDisplay="true">
+
+		<p:menuitem value="Dashboard" icon="ui-icon-image" outcome="DashboardList" disabled="#{not securityController.administrator}"/>
+		
+		<p:submenu label="Administracion del Sistema" icon="ui-icon-wrench">
+			<p:submenu label="Seguridad" icon="ui-icon-key">
+				<p:menuitem value="Usuario" icon="ui-icon-person" outcome="UserList" disabled="#{not securityController.administrator}"/>				
+			</p:submenu>							
+			<p:separator/>				
+			<p:submenu label="Preferencias" icon="ui-icon-wrench">
+				<p:menuitem value="Preferencias" icon="ui-icon-bullet" outcome="PreferenceList"/>
+				<p:menuitem value="Parametros" icon="ui-icon-bullet" outcome="ParameterList" disabled="#{not securityController.administrator}"/>
+			</p:submenu>
+			<p:menuitem value="Sistema" icon="ui-icon-gear" outcome="SystemList" disabled="#{not securityController.administrator}"/>
+			<p:separator/>
+			<p:submenu label="Log" icon="ui-icon-note">
+				<p:menuitem value="log del sistema" icon="ui-icon-bullet" outcome="LoggingEventList" disabled="#{not securityController.administrator}"/>
+				<p:menuitem value="log de asterisk" icon="ui-icon-bullet" outcome="LogAsteriskList" disabled="#{not securityController.administrator}"/>
+			</p:submenu>			
+		</p:submenu>
+		
+		<p:submenu label="Asterisk" icon="ui-icon-gear">
+			<p:menuitem value="Cdr Reports" icon="ui-icon-calculator" outcome="CdrList"/>
+			<p:menuitem value="Cli Terminal" icon="ui-icon-calculator" outcome="CliAsteriskList" disabled="#{not securityController.administrator}"/>
+			<p:separator/>
+			<p:submenu label="Catalogos" icon="ui-icon-bullet">
+				<p:menuitem value="Extension" icon="ui-icon-calculator" outcome="SipBuddiesList" disabled="#{not securityController.administrator}"/>	
+				<p:menuitem value="Dial Plan" icon="ui-icon-calculator" outcome="ExtensionsList" disabled="#{not securityController.administrator}"/>				
+			</p:submenu>
+			<p:separator/>
+			<p:menuitem value="Channels Active" icon="ui-icon-calculator" outcome="ChannelList" disabled="#{not securityController.administrator}"/>
+			<p:menuitem value="Peers Monitor" icon="ui-icon-calculator" outcome="PeerList" disabled="#{not securityController.administrator}"/>									
+		</p:submenu>
+		
+		<p:submenu label="Help" icon="ui-icon-help">
+			<p:menuitem value="Acerca de" icon="ui-icon-info" global="false" onclick="aboutDialog.show();"/>								
+		</p:submenu>
+
+		<f:facet name="options">		
+			     
+					<p:menuButton value="Session">
+						<p:menuitem value="#{securityController.principal} is logged" url="#" icon="ui-icon-person"/>																																
+						<p:menuitem value="Logout" action="#{securityController.logout}" title="Click to Logout" ajax="false" icon="ui-icon-extlink" />																	
+					</p:menuButton>
+					 
+		</f:facet>
+
+	</p:menubar>
+    	
+</h:form>        

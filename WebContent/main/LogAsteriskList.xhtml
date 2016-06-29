@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+			    template="/WEB-INF/templates/template.xhtml"
+			    xmlns:c="http://java.sun.com/jsp/jstl/core"
+			    xmlns:my="http://java.sun.com/jsf/composite/components">
+      
+ <ui:param name="title" value="asterisk4j - log de asterisk" />
+       
+ <ui:define name="body">
+ 
+	<h:form id="formList">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+
+					<p:separator />
+					
+					<p:commandButton type="button" title="Nuevo" icon="ui-icon-document" disabled="true" />
+
+					<p:commandButton id="refreshToolBar" process="@this" title="Actualizar" actionListener="#{loggingEventController.searchByDate}" icon="ui-icon-refresh" disabled="true"/>
+					
+					<p:commandButton id="viewToolBar" type="button" title="Ver" icon="ui-icon-search" disabled="true" />
+
+					<p:separator />
+					
+					<p:commandButton id="editToolBar" type="button" title="Editar" icon="ui-icon ui-icon-pencil" disabled="true" />
+
+					<p:separator />
+					
+					<p:commandButton id="deleteToolBar" type="button" title="Eliminar" icon="ui-icon-trash" disabled="true" />
+					
+					<p:separator />
+					
+					<p:commandButton id="dateFilterToolBar" global="false" process="@this" title="Buscar por fecha" icon="ui-icon-calendar" oncomplete="$('.ui-state-error').removeClass('ui-state-error');searchModal.show();" disabled="true"/>									
+					
+					<p:commandButton type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/loggingEventList.rptdesign');" disabled="true"/>
+					
+					<p:separator />
+					
+					<p:commandButton type="button" title="Ayuda" icon="ui-icon-help" onclick="javascript:alert('En desarrollo')"/>
+					
+				</p:toolbarGroup>
+
+				<p:toolbarGroup align="right">
+
+					<p:menuButton value="Exportar" disabled="true">
+						
+						<p:menuitem value="Exportar a XLS" ajax="false" icon="ui-icon-arrowthickstop-1-s">
+							<p:dataExporter target=":formList:loggingEventList" type="xls" fileName="loggingEventList"/>
+						</p:menuitem>						
+						<p:menuitem value="Exportar a PDF" ajax="false" icon="ui-icon-arrowthickstop-1-s">
+							<p:dataExporter target=":formList:loggingEventList" type="pdf" fileName="loggingEventList"/>
+						</p:menuitem>
+												
+					</p:menuButton>
+				</p:toolbarGroup>
+
+			</p:toolbar>
+			
+			<p:panel>  
+
+			<p:dataList value="#{logAsteriskController.logURLs}" var="logURL" itemType="square">      				
+    				<h:outputLink value="#{logURL.url}" target="_blank">#{logURL.name}</h:outputLink>
+			</p:dataList> 			
+            
+            </p:panel> 
+            
+            </h:form>
+            
+        
+ </ui:define>
+</ui:composition>

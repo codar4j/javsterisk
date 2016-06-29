@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+			    template="/WEB-INF/templates/template.xhtml"
+			    xmlns:c="http://java.sun.com/jsp/jstl/core"
+			    xmlns:my="http://java.sun.com/jsf/composite/components">
+ 
+ <ui:param name="title" value="asterisk4j - Cdr" />
+ 
+ <ui:define name="body">
+
+		<h:form id="formList">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+
+					<p:separator />
+					
+					<p:commandButton global="false" title="Nuevo" icon="ui-icon-document" disabled="true">
+						<p:resetInput target=":formCreate:createPanel"/>
+					</p:commandButton>
+					
+					<p:commandButton id="refreshToolBar" process="@this" actionListener="#{cdrController.searchByDate()}" title="Actualizar" icon="ui-icon-refresh" update=":formList:cdrPanel"/>
+					
+					<p:commandButton id="viewToolBar" global="false" process="@this,cdrList" partialSubmit="true" title="Ver" icon="ui-icon-search" disabled="true" />
+
+					<p:separator />
+					
+					<p:commandButton id="editToolBar" global="false" process="@this,cdrList" partialSubmit="true" title="Editar" icon="ui-icon ui-icon-pencil" disabled="true" >
+						<p:resetInput target=":formEdit:editPanel"/>
+					</p:commandButton>	
+
+					<p:separator />
+					
+					<p:commandButton id="deleteToolBar" global="false" title="Eliminar" icon="ui-icon-trash" disabled="true" />
+					
+					<p:separator />
+					
+					<p:commandButton id="dateFilterToolBar" global="false" process="@this" title="Buscar por fecha" icon="ui-icon-calendar" update=":formSearch:searchModalDialog" oncomplete="$('.ui-state-error').removeClass('ui-state-error');searchModal.show();"/>
+					
+					<p:commandButton id="reportToolBar" type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/cdrList.rptdesign');" disabled="true" />
+					
+					<p:separator />
+										
+					<p:commandButton id="helpToolBar" global="false" title="Ayuda" icon="ui-icon-help" process="@this" partialSubmit="true" update=":helpModalDialog" oncomplete="helpModal.show();"/>
+					
+				</p:toolbarGroup>
+
+				<p:toolbarGroup align="right">
+
+					<p:menuButton value="Exportar">
+						
+						<p:menuitem value="Exportar a XLS" ajax="false" icon="ui-icon-arrowthickstop-1-s">
+							<p:dataExporter target=":formList:cdrList" type="xls" fileName="cdrList"/>
+						</p:menuitem>						
+						<p:menuitem value="Exportar a PDF" ajax="false" icon="ui-icon-arrowthickstop-1-s">
+							<p:dataExporter target=":formList:cdrList" type="pdf" fileName="cdrList"/>
+						</p:menuitem>
+												
+					</p:menuButton>
+				</p:toolbarGroup>
+
+			</p:toolbar>
+		
+			<p:panel id="cdrPanel">  
+
+			<p:dataTable id="cdrList" 
+        		var="cdr"         		
+        		value="#{cdrController.cdrs}" 
+        		rowKey="#{cdr.id}" 
+        		rows="13"         		
+        		paginator="true"
+        		paginatorTemplate="Showing {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Go to {JumpToPageDropdown}  Rows per Page {RowsPerPageDropdown}"
+        		rowsPerPageTemplate="10,20,30,50,100" 
+        		paginatorAlwaysVisible="false"
+        		paginatorPosition="bottom"
+        		resizableColumns="true"
+        		draggableColumns="false"        		
+                selection="#{cdrController.selectedCdrs}" 
+                filteredValue="#{cdrController.cdrsFiltered}"                                                        
+                widgetVar="cdrTable">
+                
+                <p:ajax event="sort" global="false"/>
+                <p:ajax event="filter" global="false"/>
+                
+                <f:facet name="header">
+                	<div align="left">
+                		Total de Cdrs Listadas : #{cdrController.cdrs.size() == 0 ? 0 : cdrController.cdrs.size()}
+                	</div>
+                </f:facet>
+                
+                <p:column selectionMode="multiple" style="width:3%" exportable="false"/>
+                
+                <p:column sortBy="#{cdr.calldate}" filterBy="#{cdr.calldate}" filterMatchMode="contains">  
+                	<f:facet name="header">  
+            			<h:outputText value="Fecha" />  
+        			</f:facet> 
+            		<h:outputText value="#{cdr.calldate}" />            		  
+        		</p:column>
+        		<p:column sortBy="#{cdr.src}" filterBy="#{cdr.src}" filterMatchMode="contains">
+        			<f:facet name="header">  
+            			<h:outputText value="Fuente" />  
+        			</f:facet>   
+            		<h:outputText value="#{cdr.src}" />  
+        		</p:column>
+        		<p:column sortBy="#{cdr.channel}" filterBy="#{cdr.channel}" filterMatchMode="contains" rendered="false">
+        			<f:facet name="header">  
+            			<h:outputText value="Canal de Origen" />  
+        			</f:facet>   
+            		<h:outputText value="#{cdr.channel}" />  
+        		</p:column>          
+        		<p:column sortBy="#{cdr.dstchannel}" filterBy="#{cdr.dstchannel}" filterMatchMode="contains" rendered="false">
+        			<f:facet name="header">  
+            			<h:outputText value="Canal de Destino" />  
+        			</f:facet>   
+            		<h:outputText value="#{cdr.dstchannel}" />  
+        		</p:column>
+        		<p:column sortBy="#{cdr.dst}" filterBy="#{cdr.dst}" filterMatchMode="contains" rendered="true">
+        			<f:facet name="header">  
+            			<h:outputText value="Destino" />  
+        			</f:facet>   
+            		<h:outputText value="#{cdr.dst}" />  
+        		</p:column>
+        		<p:column sortBy="#{cdr.disposition}" filterBy="#{cdr.disposition}" filterOptions="#{cdrController.cdrsFilter}" filterMatchMode="exact">
+        			<f:facet name="header">  
+            			<h:outputText value="Estado" />  
+        			</f:facet>   
+            		<h:outputText value="#{cdr.disposition}" />  
+        		</p:column>
+        		<p:column sortBy="#{cdr.lastapp}" filterBy="#{cdr.lastapp}" filterMatchMode="contains" rendered="true">
+        			<f:facet name="header">  
+            			<h:outputText value="Aplicacion" />  
+        			</f:facet>   
+            		<h:outputText value="#{cdr.lastapp}" />  
+        		</p:column>
+        		<p:column sortBy="#{cdr.durationTime}" filterBy="#{cdr.durationTime}" filterMatchMode="contains">
+        			<f:facet name="header">  
+            			<h:outputText value="Duracion" />  
+        			</f:facet>   
+            		<h:outputText value="#{cdr.durationTime}" />  
+        		</p:column>
+        		<p:column sortBy="#{cdr.recorder}" filterBy="#{cdr.recorder}" filterMatchMode="contains" exportable="false">
+        			<f:facet name="header">  
+            			<h:outputText value="Recorder" />  
+        			</f:facet>            		
+            		<h:outputLink value="#{cdr.recorder}" target="_blank">Escuchar</h:outputLink>  
+        		</p:column>
+        		
+            </p:dataTable>
+            
+            </p:panel> 
+            
+            </h:form>
+			
+			<h:form id="formSearch">
+            
+            <p:dialog id="searchModalDialog" header="Buscar Logs por fechas" 
+            		widgetVar="searchModal" 
+            		modal="true"            		
+            		appendToBody="false"
+            		minimizable="false"
+            		maximizable="true"
+            		closeOnEscape="true"     		            		
+            		showEffect="fade" hideEffect="explode">  
+           
+	            <h:panelGroup id="searchPanel">
+	               
+						<h:panelGrid columns="3" columnClasses="titleCell">
+			
+								<p:outputLabel for="since" value="Inicio" />   
+					            <p:calendar id="since" value="#{cdrController.since}" showOn="button" effect="slideDown" required="true" autocomplete="off">
+		            				<p:watermark for="since" value="Ingrese Fecha Inicio" />
+		            			</p:calendar>
+					            <p:message for="since" /> 
+					            <p:outputLabel for="to" value="Fin" />     					            
+					            <p:calendar id="to" value="#{cdrController.to}" showOn="button" effect="slideDown" required="true" autocomplete="off">
+		            				<p:watermark for="to" value="Ingrese Fecha Fin" />
+		            			</p:calendar> 
+					            <p:message for="to" />													
+					        
+						</h:panelGrid>
+						
+	            </h:panelGroup>	        	           
+            	
+				<p:commandButton id="searchBtn" 
+					 ajax="true"					 
+					 value="Buscar"					 				 
+					 update="searchModalDialog,:formList:cdrList,:messages"			 				 
+					 actionListener="#{cdrController.searchByDate}"					 				
+					 oncomplete="if(!args.validationFailed){searchModal.hide();}else{searchModal.show();}"/>
+			
+				<f:facet name="footer">
+						<b>* campos requeridos</b>
+				</f:facet>	
+				 
+			</p:dialog>
+			
+			</h:form>
+			
+			<p:dialog id="helpModalDialog" header="Ayuda" widgetVar="helpModal" modal="true"  
+					appendTo="@(body)"
+            		minimizable="false"
+            		maximizable="true"       
+            		closeOnEscape="true"              		 		
+            		showEffect="fade" hideEffect="explode">  
+            
+	            <h:panelGroup id="helpPanel">
+	                <b>Administracion de Usuario</b>
+	                <p>En esta pantalla ud podar ver el listado de las empresas registradas en el sistema</p>
+	                <p>Podra crear nuevas empresas</p>
+	            </h:panelGroup>
+				 
+			</p:dialog>
+        
+ </ui:define>
+</ui:composition>

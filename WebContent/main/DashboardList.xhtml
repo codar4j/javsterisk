@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+			    template="/WEB-INF/templates/template.xhtml">
+
+ <ui:param name="title" value="asterisk4j - Dashboard" />
+      
+ <ui:define name="body">
+  
+  <h:form id="formDashboard">
+  
+     <p:dashboard id="mainBoard" model="#{dashboardController.mainModel}">  
+        <p:ajax event="reorder" global="false" />  
+  
+  		<p:panel id="mysql">  
+        	<f:facet name="header">
+        		MySql
+        		<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" title="Refresh">  
+                	<h:outputText styleClass="ui-icon ui-icon-refresh" />
+                	<p:ajax event="click" partialSubmit="true" process="@this" update="mySqlList"/>  
+            	</h:commandLink>
+            	</f:facet>              
+            <p:dataTable id="mySqlList" 
+        		var="mysql"         		
+        		value="#{dashboardController.mysqls}"        		         		         		        	                                                                       
+                widgetVar="mysqlTable">
+                <p:column headerText="Pid">                  	        			
+            		<h:outputText value="#{mysql.pid}" />            		  
+        		</p:column>
+                <p:column headerText="Name">                  	        			
+            		<h:outputText value="#{mysql.procState.name}" />            		  
+        		</p:column>
+        		<p:column headerText="Threads">                  	        			
+            		<h:outputText value="#{mysql.procState.threads}" />            		  
+        		</p:column>        		
+        		<p:column headerText="Priority">                  	        			
+            		<h:outputText value="#{mysql.procState.priority}" />            		  
+        		</p:column>
+        		        	
+        		<p:column headerText="State" styleClass="#{mysql.running ? 'service-on' : 'service-off'}">  
+        			<strong>             			  			
+            			<h:outputText value="#{mysql.running ? 'ON' : 'OFF'}" />
+            		</strong>            		            		            		
+        		</p:column>
+        		
+            </p:dataTable>            
+        </p:panel> 
+        
+        <p:panel id="asterisk">  
+        	<f:facet name="header">
+        		Asterisk
+        		<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" title="Refresh">  
+                	<h:outputText styleClass="ui-icon ui-icon-refresh" />
+                	<p:ajax event="click" partialSubmit="true" process="@this" update="asteriskList"/>  
+            	</h:commandLink>
+            	</f:facet>              
+            <p:dataTable id="asteriskList" 
+        		var="asterisk"         		
+        		value="#{dashboardController.asterisks}"        		         		         		        	                                                                       
+                widgetVar="asteriskTable">
+                <p:column headerText="Pid">                  	        			
+            		<h:outputText value="#{asterisk.pid}" />            		  
+        		</p:column>
+                <p:column headerText="Name">                  	        			
+            		<h:outputText value="#{asterisk.procState.name}" />            		  
+        		</p:column>
+        		<p:column headerText="Threads">                  	        			
+            		<h:outputText value="#{asterisk.procState.threads}" />            		  
+        		</p:column>        		
+        		<p:column headerText="Priority">                  	        			
+            		<h:outputText value="#{asterisk.procState.priority}" />            		  
+        		</p:column>
+        		        	
+        		<p:column headerText="State" styleClass="#{asterisk.running ? 'service-on' : 'service-off'}">  
+        			<strong>             			  			
+            			<h:outputText value="#{asterisk.running ? 'ON' : 'OFF'}" />
+            		</strong>            		            		            		
+        		</p:column>
+        		
+            </p:dataTable>            
+        </p:panel> 
+  
+  		<p:panel id="jboss">  
+        	<f:facet name="header">
+        		Java
+        		<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" title="Refresh">  
+                	<h:outputText styleClass="ui-icon ui-icon-refresh" />
+                	<p:ajax event="click" partialSubmit="true" process="@this" update="jbossList"/>  
+            	</h:commandLink>
+            	</f:facet>              
+            <p:dataTable id="jbossList" 
+        		var="jboss"         		
+        		value="#{dashboardController.jbosses}"        		         		         		        	                                                                       
+                widgetVar="jbossTable">
+                <p:column headerText="Pid">                  	        			
+            		<h:outputText value="#{jboss.pid}" />            		  
+        		</p:column>
+                <p:column headerText="Name">                  	        			
+            		<h:outputText value="#{jboss.procState.name}" />            		  
+        		</p:column>
+        		<p:column headerText="Threads">                  	        			
+            		<h:outputText value="#{jboss.procState.threads}" />            		  
+        		</p:column>        		
+        		<p:column headerText="Priority">                  	        			
+            		<h:outputText value="#{jboss.procState.priority}" />            		  
+        		</p:column>
+        		        	
+        		<p:column headerText="State" styleClass="#{jboss.running ? 'service-on' : 'service-off'}">  
+        			<strong>             			  			
+            			<h:outputText value="#{jboss.running ? 'ON' : 'OFF'}" />
+            		</strong>            		            		            		
+        		</p:column>
+        		
+            </p:dataTable>            
+        </p:panel> 
+  
+        <p:panel id="cpu">  
+        	<f:facet name="header">
+        		CPU Chart
+        		<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" title="Refresh">  
+                	<h:outputText styleClass="ui-icon ui-icon-refresh" />
+                	<p:ajax event="click" partialSubmit="true" process="@this" update="cpuChart,cpuList"/>  
+            	</h:commandLink>
+            	</f:facet>  
+            <p:meterGaugeChart id="cpuChart" value="#{dashboardController.cpuGaugeModel}" style="width:400px" label="CPU" title="#{dashboardController.cpuInfo.vendor} #{dashboardController.cpuInfo.model}"
+            seriesColors="2a7ffc, 66cc66, 93b75f, E7E658, DF080F" labelHeightAdjust="110" showTickLabels="true" intervalOuterRadius="110"/>  
+            <p:separator/>
+            <p:dataTable id="cpuList" 
+        		var="cpu"         		
+        		value="#{dashboardController.cpus}"         		         		        	                                                                        
+                widgetVar="cpuTable">
+                <p:column headerText="User Time %">                  	        			
+            		<h:outputText value="#{cpu.userTime}" />            		  
+        		</p:column>
+        		<p:column headerText="Sys Time %">                  	        			
+            		<h:outputText value="#{cpu.sysTime}" />            		  
+        		</p:column>
+        		<p:column headerText="Idle Time %">                  	        			
+            		<h:outputText value="#{cpu.idleTime}" />            		  
+        		</p:column>
+        		<p:column headerText="Combined %">                  	        			
+            		<h:outputText value="#{cpu.combined}" />            		  
+        		</p:column>
+            </p:dataTable>            
+        </p:panel>  
+  
+        <p:panel id="ram">  
+        	<f:facet name="header">
+        		RAM Chart
+        		<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" title="Refresh">  
+                	<h:outputText styleClass="ui-icon ui-icon-refresh" />
+                	<p:ajax event="click" partialSubmit="true" process="@this" update="ramChart,ramList"/>  
+            	</h:commandLink>
+            	</f:facet>  
+            <p:meterGaugeChart id="ramChart" value="#{dashboardController.ramGaugeModel}" style="width:400px" label="RAM" title="Memoria Utilizada"
+            seriesColors="2a7ffc, 66cc66, 93b75f, E7E658, DF080F" labelHeightAdjust="110" showTickLabels="true" intervalOuterRadius="110"/>  
+            <p:separator/>
+            <p:dataTable id="ramList" 
+        		var="ram"         		
+        		value="#{dashboardController.rams}"         		         		        	                                                                        
+                widgetVar="ramTable">
+                <p:column headerText="Total MB">                  	        			
+            		<h:outputText value="#{ram.total}" />            		  
+        		</p:column>
+        		<p:column headerText="Used MB">                  	        			
+            		<h:outputText value="#{ram.used}" />            		  
+        		</p:column>
+        		<p:column headerText="%">                  	        			
+            		<h:outputText value="#{ram.usedPercent}" />            		  
+        		</p:column>
+        		<p:column headerText="Free MB">                  	        			
+            		<h:outputText value="#{ram.free}" />            		  
+        		</p:column>
+        		<p:column headerText="%">                  	        			
+            		<h:outputText value="#{ram.freePercent}" />            		  
+        		</p:column>
+            </p:dataTable>            
+        </p:panel>  
+  
+        <p:panel id="disk">
+        	<f:facet name="header">
+        		Disk Chart
+        		<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" title="Refresh">  
+                	<h:outputText styleClass="ui-icon ui-icon-refresh" />
+                	<p:ajax event="click" partialSubmit="true" process="@this" update="diskChart,diskList"/>  
+            	</h:commandLink>   
+        	</f:facet>  
+            <p:pieChart id="diskChart" value="#{dashboardController.diskModel}" legendPosition="e" fill="false" showDataLabels="true" title="Disco Utilizado"
+            style="width:400px" sliceMargin="5"/>
+            <p:separator/>
+            <p:dataTable id="diskList" 
+        		var="disk"         		
+        		value="#{dashboardController.disks}"         		         		        	                                                                        
+                widgetVar="diskTable">                
+        		<p:column headerText="Total GB">                  	        			
+            		<h:outputText value="#{disk.total}" />            		  
+        		</p:column>
+        		<p:column headerText="Used GB">                  	        			
+            		<h:outputText value="#{disk.used}" />            		  
+        		</p:column>
+        		<p:column headerText="%">                  	        			
+            		<h:outputText value="#{disk.usePct}" />            		  
+        		</p:column>
+        		<p:column headerText="Free GB">                  	        			
+            		<h:outputText value="#{disk.avail}" />            		  
+        		</p:column>        		         		        		
+            </p:dataTable>  
+        </p:panel>  
+        
+    </p:dashboard>
+    
+ </h:form>
+
+ </ui:define>
+</ui:composition>
