@@ -10,5 +10,6 @@ Developed using Java.
 - Portable
 - Easy to configure
 - Easy to use
+- Easy to work
 
 This application is oriented to asterisk administrators.
