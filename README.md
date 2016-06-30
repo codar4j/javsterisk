@@ -11,8 +11,4 @@ Developed using Java.
 - Easy to configure
 - Easy to use
 
-es una prueba de commit
-
 This application is oriented to asterisk administrators.
-
-otra prueba
