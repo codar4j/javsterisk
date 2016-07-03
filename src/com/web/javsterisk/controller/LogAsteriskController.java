@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +34,7 @@ public class LogAsteriskController extends BaseController implements Serializabl
 
 	private ParameterDAO parameterDAO;
 	
+	@ManagedProperty("#{securityController}")
 	private SecurityController securityController;
 	
 	private List<LogAsterisk> logURLs;		
@@ -69,6 +71,14 @@ public class LogAsteriskController extends BaseController implements Serializabl
 
 	public void setLogURLs(List<LogAsterisk> logURLs) {
 		this.logURLs = logURLs;
+	}
+
+	public SecurityController getSecurityController() {
+		return securityController;
+	}
+
+	public void setSecurityController(SecurityController securityController) {
+		this.securityController = securityController;
 	}
 	
 }

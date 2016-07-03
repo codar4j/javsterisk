@@ -22,7 +22,10 @@ additivity="false" to avoid duplicate messages in appenders
 <Configuration status="TRACE" name="javsteriskLog4j2" monitorInterval="5">
 
 	<Properties>
-		<Property name="logPath">C:/Temp/javsterisk/log</Property>
+		<!-- windows -->
+		<!-- <Property name="logPath">C:/Temp/javsterisk/log</Property> -->
+		<!-- linux -->
+		<Property name="logPath">/usr/JavaApps/javsterisk/log</Property>
 		<Property name="logFileName">javsterisk</Property>
 	</Properties>
 
