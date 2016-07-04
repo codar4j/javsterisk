@@ -65,6 +65,11 @@ additivity="false" to avoid duplicate messages in appenders
 			<DefaultRolloverStrategy max="50" />
 		</RollingFile>
 		
+		<Socket name="socket" host="localhost" port="9500">
+	      <!-- <SerializedLayout /> -->
+	      <XMLLayout />
+	    </Socket>
+		
 		<JDBC name="DB" tableName="log">
 	      <DataSource jndiName="java:/comp/env/jdbc/javsteriskDS" />
 	      <Column name="eventDate" isEventTimestamp="true" />
@@ -101,13 +106,15 @@ additivity="false" to avoid duplicate messages in appenders
 	
 	<Loggers>	
 		<Root level="trace">
-			<AppenderRef ref="console" />			
+			<AppenderRef ref="console" />		
+			<AppenderRef ref="socket" />	
 		</Root>			
 		<Logger name="com.web.javsterisk" level="trace" additivity="true">
 			<!-- 
 			<AppenderRef ref="failOverFile"/>
 			 -->
 			<AppenderRef ref="asyncRollingFile"/>
+			<AppenderRef ref="socket" />
 			<!-- <AppenderRef ref="DB"/> -->
 		</Logger>	
 		<Logger name="org.apache.shiro" level="trace" additivity="true">
@@ -115,6 +122,7 @@ additivity="false" to avoid duplicate messages in appenders
 			<AppenderRef ref="failOverFile"/>
 			 -->
 			<AppenderRef ref="asyncRollingFile"/>
+			<AppenderRef ref="socket" />
 		</Logger>	
 		<!-- 
 		<Logger name="log4jdbc.log4j2" level="trace" additivity="false">  			 

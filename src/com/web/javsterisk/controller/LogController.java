@@ -1,6 +1,10 @@
 package com.web.javsterisk.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.Socket;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -84,8 +88,40 @@ public class LogController extends BaseController implements Serializable{
 		log.debug("since : {}", since);
 		log.debug("to : {}", to);	
 //		loggingEvents = loggingEventDAO.findAllRecordsOrderedByTimestmp();
-		logs = logDAO.findAllRecordsFilteredByDate(since.getTime(), to.getTime());
+//		logs = logDAO.findAllRecordsFilteredByDate(since.getTime(), to.getTime());		
 		}
+		
+		try {
+			Socket s;
+			while (true) {
+				try {
+					s = new Socket("localhost", 9500);
+					break;
+				} catch (java.net.ConnectException e) { // Assume that the host
+														// isn't available yet,
+														// wait
+					Thread.currentThread();
+					// a moment, then try again.
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+
+			String line;
+
+			while ((line = in.readLine()) != null){
+				System.err.println(line);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		 
 	}
 	
 	public void searchByDate() {
