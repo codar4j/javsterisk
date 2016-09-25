@@ -4,6 +4,7 @@
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:p="http://primefaces.org/ui"
+		xmlns:c="http://java.sun.com/jsp/jstl/core"
 		xmlns:composite="http://java.sun.com/jsf/composite">
 
 		<!-- INTERFACE -->
@@ -26,11 +27,23 @@
 				<p:message for="nameEdit" />
 				
 				<p:outputLabel for="valueEdit" value="Value" /> 
-				<p:inputText id="valueEdit"
-					value="#{cc.attrs.parameterEdit.value}" required="true"
-					autocomplete="off">
-					<p:watermark for="valueEdit" value="Ingrese Value" />
-				</p:inputText>
+				<c:choose>
+					<c:when test="#{cc.attrs.parameterEdit.name == 'asterisk.host'}">
+						<p:password id="valueEdit"
+							value="#{cc.attrs.parameterEdit.value}" required="true" 
+							redisplay="true"
+							autocomplete="off">
+							<p:watermark for="valueEdit" value="Ingrese Value" />
+						</p:password>
+					</c:when>
+					<c:otherwise>
+						<p:inputText id="valueEdit"
+							value="#{cc.attrs.parameterEdit.value}" required="true"
+							autocomplete="off">
+							<p:watermark for="valueEdit" value="Ingrese Value" />
+						</p:inputText>
+					</c:otherwise>
+				</c:choose>							
 				<p:message for="valueEdit" />
 				
 				<p:outputLabel for="descriptionEdit" value="Description" /> 
