@@ -227,7 +227,7 @@
 			<h:form id="formDelete">
 			
 			<p:confirmDialog id="deleteModalDialog" 
-				message="#{userController.selectedUsersSize == 0 ? 'Debe de seleccionar al menos un usuario!' : 'Esta seguro de eliminar '.concat(userController.selectedUsersSize).concat(' usuarios?')}"
+				message="#{userController.selectedUsersSize == 0 ? 'Debe de seleccionar al menos un usuario!' : userController.selectedUsers[0].username == 'admin' ? 'No puede eliminar el Administrador!' : 'Esta seguro de eliminar '.concat(userController.selectedUsersSize).concat(' usuarios?')}"
 				header="Eliminacion" severity="alert"
 				closeOnEscape="true" showEffect="fade" hideEffect="explode"
 				widgetVar="deleteModal">
@@ -239,12 +239,13 @@
 					update="deleteModalDialog,:formList:userList,:messages"		  
 					actionListener="#{userController.deleter}"
 					oncomplete="if(!args.validationFailed){deleteModal.hide();}else{deleteModal.show();}"							
-					rendered="#{userController.selectedUsersSize != 0}"/>
-																
+					rendered="#{userController.selectedUsersSize != 0 and userController.selectedUsers[0].username != 'admin'}"/>
+				
+														
 				<p:commandButton id="decline" value="No"
 					icon="ui-icon-close"
 					onclick="deleteModal.hide()" type="button" 
-					rendered="#{userController.selectedUsersSize != 0}"/>
+					rendered="#{userController.selectedUsersSize != 0 and userController.selectedUsers[0].username != 'admin'}"/>
 
 			</p:confirmDialog>
 			
