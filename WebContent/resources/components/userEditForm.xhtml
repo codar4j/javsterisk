@@ -64,7 +64,7 @@
 							required="true" 							
 							converter="#{entityConverter}">  
                 		<f:selectItem itemLabel="Seleccione Role" itemValue="#{null}" />  
-                		<f:selectItems value="#{roles}" var="role" itemLabel="#{role.value}" itemValue="#{role.value}"/>                 		         		               
+                		<f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role.value}" itemValue="#{role.value}"/>                 		         		               
             		</p:selectOneMenu>
 				<p:message for="roleEdit" />
 				<p:outputLabel for="extensionEdit" value="Extension" />
@@ -73,7 +73,7 @@
 							required="true" 							
 							converter="#{entityConverter}">  
                 		<f:selectItem itemLabel="Seleccione Extension" itemValue="#{null}" />  
-                		<f:selectItems value="#{sipBuddieses}" var="sipBuddies" itemLabel="#{sipBuddies.name}" itemValue="#{sipBuddies}"/>                 		         		               
+                		<f:selectItems value="#{sipBuddiesController.sipBuddieses}" var="sipBuddies" itemLabel="#{sipBuddies.name}" itemValue="#{sipBuddies}"/>                 		         		               
             		</p:selectOneMenu>
 				<p:message for="extensionEdit" />
 		            <p:outputLabel for="localeEdit" value="Locale" /> 
@@ -87,7 +87,7 @@
 						panelStyleClass="localeSelect"						
 						converter="#{entityConverter}">
 						<f:selectItem itemLabel="Seleccione Locale" itemValue="" />
-						<f:selectItems var="locale" value="#{supportedLocales}" itemLabel="#{stringUtil.capitalize(locale.displayLanguage)}" itemValue="#{locale}" />
+						<f:selectItems var="locale" value="#{localeController.supportedLocales}" itemLabel="#{stringUtil.capitalize(locale.displayLanguage)}" itemValue="#{locale}" />
 						<p:column>
 		              		<p:graphicImage value="/resources/gfx/#{loc.toString()}.png" />
 			            </p:column>  
@@ -106,7 +106,7 @@
 					panelStyle="width:150px;"				
 					panelStyleClass="localeSelect">
 					<f:selectItem itemLabel="Seleccione Theme" itemValue="" />					
-					<f:selectItems var="theme" value="#{themes}" itemLabel="#{theme.name}" itemValue="#{theme}"/>					
+					<f:selectItems var="theme" value="#{themeController.themes}" itemLabel="#{theme.name}" itemValue="#{theme}"/>					
 					<p:column>		                            
 		               <p:graphicImage value="/resources/gfx/themes/#{t.image}" />
 		            </p:column>		                       
