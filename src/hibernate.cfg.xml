@@ -3,7 +3,7 @@
 	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-	<session-factory>
+	<session-factory name="javsteriskPersistenceUnit">
 		
 		<!-- Settings for database. -->           
         <!--         
@@ -12,7 +12,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/javsterisk</property>  
         <property name="hibernate.connection.username">javsterisk</property>  
         <property name="hibernate.connection.password">javsterisk</property>  
-  		 -->
+  		 -->  		 
   
   		<property name="hibernate.dialect">MySQL5InnoDB</property>
   		<!-- <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property> -->
@@ -53,12 +53,26 @@
 		<mapping class="com.web.javsterisk.entity.Permission"/>
 		<mapping class="com.web.javsterisk.entity.Parameter"/>
 		<mapping class="com.web.javsterisk.entity.Permission"/>
+					
+		<!--
+		<mapping class="com.web.javsterisk.entity.JpaLogEntity"/> 
 		<mapping class="com.web.javsterisk.entity.Log"/>
 		<mapping class="com.web.javsterisk.entity.LoggingEvent"/>
 		<mapping class="com.web.javsterisk.entity.LoggingEventException"/>
 		<mapping class="com.web.javsterisk.entity.LoggingEventProperty"/>
+		 -->
 		<mapping class="com.web.javsterisk.entity.Extensions"/>
 		<mapping class="com.web.javsterisk.entity.Cdr"/>
 		
+		<!-- 
+		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ContextMapAttributeConverter"/>
+		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ContextMapJsonAttributeConverter"/>
+		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ContextStackAttributeConverter"/>
+		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ContextStackJsonAttributeConverter"/>
+		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.MarkerAttributeConverter"/>
+		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.MessageAttributeConverter"/>
+		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.StackTraceElementAttributeConverter"/>
+		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ThrowableAttributeConverter"/>
+		 -->
 	</session-factory>
 </hibernate-configuration>

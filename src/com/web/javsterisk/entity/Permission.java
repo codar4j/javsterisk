@@ -15,15 +15,14 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * 
- * @author atorres
+ * @author Freddy Moran
  *
  */
-
 @Entity
 @Table(name = "permission", uniqueConstraints = @UniqueConstraint(columnNames = "role"))
 public class Permission implements Serializable {
 	
-	   /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;

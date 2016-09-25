@@ -23,9 +23,9 @@ additivity="false" to avoid duplicate messages in appenders
 
 	<Properties>
 		<!-- windows -->
-		<!-- <Property name="logPath">C:/Temp/javsterisk/log</Property> -->
+		<Property name="logPath">C:/Temp/javsterisk/log</Property>
 		<!-- linux -->
-		<Property name="logPath">/usr/JavaApps/javsterisk/log</Property>
+		<!-- <Property name="logPath">/usr/JavaApps/javsterisk/log</Property> -->
 		<Property name="logFileName">javsterisk</Property>
 	</Properties>
 
@@ -64,13 +64,14 @@ additivity="false" to avoid duplicate messages in appenders
 			</Policies>
 			<DefaultRolloverStrategy max="50" />
 		</RollingFile>
-		
+		<!-- 
 		<Socket name="socket" host="localhost" port="9500">
-	      <!-- <SerializedLayout /> -->
+	      <SerializedLayout />
 	      <XMLLayout />
 	    </Socket>
-		
-		<JDBC name="DB" tableName="log">
+	     -->
+		<!-- 
+		<JDBC name="jpa" tableName="log">
 	      <DataSource jndiName="java:/comp/env/jdbc/javsteriskDS" />
 	      <Column name="eventDate" isEventTimestamp="true" />
 	      <Column name="level" pattern="%level" />
@@ -78,7 +79,11 @@ additivity="false" to avoid duplicate messages in appenders
 	      <Column name="message" pattern="%message" />
 	      <Column name="exception" pattern="%ex{full}" />
 	    </JDBC>
-		
+		 -->
+		 <!-- 
+		<JPA name="jpa" persistenceUnitName="javsteriskPersistenceUnit"
+         entityClassName="com.web.javsterisk.JpaLogEntity" />
+		 -->
 		<!-- crear appender de DB -->
 		<!-- 
 		<appender name="DB" class="com.web.asterisk4j.logback.appender.CustomDBAppender">
@@ -87,14 +92,17 @@ additivity="false" to avoid duplicate messages in appenders
 	    	</connectionSource>
 	    </appender>
 		 -->
-		 
+		<!--  
 		<Async name="asyncRollingFile" ignoreExceptions="false">
 			<AppenderRef ref="rollingFile"/>
 			<AppenderRef ref="rollingHtmlFile"/>
 		</Async>
+		 -->
+		<!-- 
 		<Async name="asyncRollingSqlFile" ignoreExceptions="false">
 			<AppenderRef ref="rollingSqlFile"/>
 		</Async>
+		 -->
 		<!-- 
 		<Failover name="failOverFile" primary="asyncRollingFile" retryIntervalSeconds="60">
 			<Failovers>
@@ -107,27 +115,38 @@ additivity="false" to avoid duplicate messages in appenders
 	<Loggers>	
 		<Root level="trace">
 			<AppenderRef ref="console" />		
-			<AppenderRef ref="socket" />	
+			<!-- 
+			<AppenderRef ref="jpa" />
+			 -->	
 		</Root>			
 		<Logger name="com.web.javsterisk" level="trace" additivity="true">
 			<!-- 
 			<AppenderRef ref="failOverFile"/>
 			 -->
-			<AppenderRef ref="asyncRollingFile"/>
-			<AppenderRef ref="socket" />
-			<!-- <AppenderRef ref="DB"/> -->
+			<AppenderRef ref="rollingFile"/>
+			<!-- 
+			<AppenderRef ref="jpa" />
+			 -->
 		</Logger>	
 		<Logger name="org.apache.shiro" level="trace" additivity="true">
 			<!-- 
 			<AppenderRef ref="failOverFile"/>
 			 -->
-			<AppenderRef ref="asyncRollingFile"/>
-			<AppenderRef ref="socket" />
+			<AppenderRef ref="rollingFile"/>
+			<!-- 
+			<AppenderRef ref="jpa" />
+			 -->
 		</Logger>	
+		<Logger name="org.hibernate.SQL" level="trace" additivity="true">
+			<AppenderRef ref="rollingSqlFile"/>
+		</Logger>
+		<Logger name="org.hibernate.type" level="trace" additivity="true">
+			<AppenderRef ref="rollingSqlFile"/>
+		</Logger>
 		<!-- 
 		<Logger name="log4jdbc.log4j2" level="trace" additivity="false">  			 
   			<MarkerFilter marker="LOG4JDBC_OTHER" onMatch="DENY" onMismatch="NEUTRAL"/>  			
-  			<appender-ref ref="asyncRollingSqlFile"/>
+  			<appender-ref ref="rollingSqlFile"/>
 		</Logger>
 		 -->	
 	</Loggers>
