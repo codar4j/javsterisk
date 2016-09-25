@@ -39,10 +39,9 @@ public class Extensions implements java.io.Serializable {
 	@Column(name = "app", nullable = false, length = 20)
 	private String app = "";
 
-	@NotNull
 	@Size(max = 128)
-	@Column(name = "appdata", nullable = false, length = 128)
-	private String appdata = "";;
+	@Column(name = "appdata", nullable = true, length = 128)
+	private String appdata = "";
 
 	public Extensions() {
 	}
