@@ -19,7 +19,7 @@
 				<p:outputLabel for="nameEdit" value="Name" /> 
 				<p:inputText id="nameEdit"
 					value="#{cc.attrs.sipBuddiesEdit.name}" required="true"
-					autocomplete="off" >
+					autocomplete="off" readonly="true">
 					<p:watermark for="nameEdit" value="Ingrese Name" />
 				</p:inputText>
 				<p:message for="nameEdit" />
@@ -35,7 +35,7 @@
 				<p:outputLabel for="defaultuserEdit" value="Default User" /> 
 				<p:inputText id="defaultuserEdit"
 					value="#{cc.attrs.sipBuddiesEdit.defaultuser}" required="true"
-					autocomplete="off" >
+					autocomplete="off" readonly="true">
 					<p:watermark for="defaultuserEdit" value="Ingrese Default User" />
 				</p:inputText>
 				<p:message for="defaultuserEdit" />
