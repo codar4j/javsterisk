@@ -48,6 +48,14 @@
                 		<f:selectItems value="#{sipBuddiesController.sipTypes}" var="sipType" itemLabel="#{sipType.value}" itemValue="#{sipType}"/>                   		                 		         		              
             	</p:selectOneMenu>
 				<p:message for="typeCreate" />
+				
+				<p:outputLabel for="contextCreate" value="Context" /> 
+				<p:inputText id="contextCreate"
+					value="#{cc.attrs.sipBuddiesCreate.context}" required="true"
+					autocomplete="off" >
+					<p:watermark for="contextCreate" value="Ingrese Context" />
+				</p:inputText>
+				<p:message for="contextCreate" />
 							
 			</h:panelGrid>
 

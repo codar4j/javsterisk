@@ -60,9 +60,10 @@ public class SipBuddies implements java.io.Serializable {
 	@Column(name = "accountcode", length = 20)	
 	private String accountcode = null;
 	
+	@NotNull
 	@Size(max = 80)
-	@Column(name = "context", length = 80)	
-	private String context = "from-sip";
+	@Column(name = "context", nullable = false, length = 80)	
+	private String context = null;//"from-sip";
 	
 	@Size(max = 7)
 	@Column(name = "amaflags", length = 7)	
