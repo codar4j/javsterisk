@@ -55,6 +55,31 @@
 					<p:watermark for="appDataCreate" value="Ingrese AppData" />
 				</p:inputText>
 				<p:message for="appDataCreate" />
+				
+				
+				<p:outputLabel for="recordCreate" value="Record" /> 
+				<p:selectBooleanButton id="recordCreate" value="#{cc.attrs.extensionsCreate.record}" onLabel="Yes" 
+					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+					style="width:60px" required="false"/>            		        		
+				<p:message for="recordCreate" />
+				
+				<p:outputLabel for="limitCreate" value="Limit" /> 
+				<p:selectBooleanButton id="limitCreate" value="#{cc.attrs.extensionsCreate.limit}" onLabel="Yes" 
+					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+					style="width:60px" required="false"/>            		        		
+				<p:message for="limitCreate" />
+				
+				<p:outputLabel for="waitCreate" value="Wait" /> 
+				<p:selectBooleanButton id="waitCreate" value="#{cc.attrs.extensionsCreate.wait}" onLabel="Yes" 
+					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+					style="width:60px" required="false"/>            		        		
+				<p:message for="waitCreate" />
+				
+				<p:outputLabel for="transferCreate" value="Trannsfer" /> 
+				<p:selectBooleanButton id="transferCreate" value="#{cc.attrs.extensionsCreate.transfer}" onLabel="Yes" 
+					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+					style="width:60px" required="false"/>            		        		
+				<p:message for="transferCreate" />
 		        			
 			</h:panelGrid>
 
