@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import com.web.javsterisk.entity.LoggingEvent;
 import com.web.javsterisk.util.HibernateUtil;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,8 +35,6 @@ public class LoggingEventDAO {
 			HibernateUtil.openSessionAndBindToThread();
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			loggingEvent = session.get(LoggingEvent.class, id);
-			log.info("Getting LogginEventProperties by id : {} - size : {}", id, loggingEvent.getLoggingEventProperties().size());
-			log.info("Getting LogginEventExceptions by id : {} - size : {}", id, loggingEvent.getLoggingEventExceptions().size());
 		} finally {
 			HibernateUtil.closeSessionAndUnbindFromThread();	
 		}		
@@ -46,14 +45,18 @@ public class LoggingEventDAO {
 	 * List all records
 	 * @return List<LoggingEvent>
 	 */
-	public List<LoggingEvent> findAllRecordsOrderedByTimestmp() {
+	public List<LoggingEvent> findAllRecordsOrderedByTimestmp(boolean asc) {
 		log.info("Listing all");
 		List<LoggingEvent> list = null;
 		try {
 			HibernateUtil.openSessionAndBindToThread();
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			Criteria criteria = session.createCriteria(LoggingEvent.class);
-			criteria.addOrder(Order.desc("timestmp"));
+			if(asc) {
+				criteria.addOrder(Order.asc("date"));
+			} else {
+				criteria.addOrder(Order.desc("date"));
+			}			
 			list = criteria.list();
 		} finally {
 			HibernateUtil.closeSessionAndUnbindFromThread();	
@@ -67,15 +70,19 @@ public class LoggingEventDAO {
 	 * @param to
 	 * @return List<LoggingEvent>
 	 */
-	public List<LoggingEvent> findAllRecordsFilteredByDate(Long since, Long to) {
+	public List<LoggingEvent> findAllRecordsFilteredByDate(Date since, Date to, boolean asc) {
 		log.info("Listing all by date");
 		List<LoggingEvent> list = null;
 		try {
 			HibernateUtil.openSessionAndBindToThread();
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			Criteria criteria = session.createCriteria(LoggingEvent.class);
-			criteria.add(Restrictions.between("timestmp", since, to));
-			criteria.addOrder(Order.desc("timestmp"));
+			criteria.add(Restrictions.between("date", since, to));
+			if (asc) {
+				criteria.addOrder(Order.asc("date"));
+			} else {
+				criteria.addOrder(Order.desc("date"));
+			}
 			list = criteria.list();
 		} finally {
 			HibernateUtil.closeSessionAndUnbindFromThread();	

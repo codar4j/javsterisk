@@ -53,26 +53,9 @@
 		<mapping class="com.web.javsterisk.entity.Permission"/>
 		<mapping class="com.web.javsterisk.entity.Parameter"/>
 		<mapping class="com.web.javsterisk.entity.Permission"/>
-					
-		<!--
-		<mapping class="com.web.javsterisk.entity.JpaLogEntity"/> 
-		<mapping class="com.web.javsterisk.entity.Log"/>
 		<mapping class="com.web.javsterisk.entity.LoggingEvent"/>
-		<mapping class="com.web.javsterisk.entity.LoggingEventException"/>
-		<mapping class="com.web.javsterisk.entity.LoggingEventProperty"/>
-		 -->
 		<mapping class="com.web.javsterisk.entity.Extensions"/>
 		<mapping class="com.web.javsterisk.entity.Cdr"/>
 		
-		<!-- 
-		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ContextMapAttributeConverter"/>
-		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ContextMapJsonAttributeConverter"/>
-		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ContextStackAttributeConverter"/>
-		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ContextStackJsonAttributeConverter"/>
-		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.MarkerAttributeConverter"/>
-		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.MessageAttributeConverter"/>
-		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.StackTraceElementAttributeConverter"/>
-		<mapping class="org.apache.logging.log4j.core.appender.db.jpa.converter.ThrowableAttributeConverter"/>
-		 -->
 	</session-factory>
 </hibernate-configuration>

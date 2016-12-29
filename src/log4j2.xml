@@ -64,78 +64,34 @@ additivity="false" to avoid duplicate messages in appenders
 			</Policies>
 			<DefaultRolloverStrategy max="50" />
 		</RollingFile>
-		<!-- 
-		<Socket name="socket" host="localhost" port="9500">
-	      <SerializedLayout />
-	      <XMLLayout />
-	    </Socket>
-	     -->
-		<!-- 
-		<JDBC name="jpa" tableName="log">
+		<!-- <JPA name="db" persistenceUnitName="javsteriskPersistenceUnit"
+         entityClassName="com.web.javsterisk.entity.LoggingEvent" /> -->
+		<JDBC name="db" tableName="logging_event">
 	      <DataSource jndiName="java:/comp/env/jdbc/javsteriskDS" />
-	      <Column name="eventDate" isEventTimestamp="true" />
+	      <Column name="id" />
+	      <Column name="date" isEventTimestamp="true" />
 	      <Column name="level" pattern="%level" />
 	      <Column name="logger" pattern="%logger" />
+	      <Column name="line" pattern="%line" />
 	      <Column name="message" pattern="%message" />
 	      <Column name="exception" pattern="%ex{full}" />
 	    </JDBC>
-		 -->
-		 <!-- 
-		<JPA name="jpa" persistenceUnitName="javsteriskPersistenceUnit"
-         entityClassName="com.web.javsterisk.JpaLogEntity" />
-		 -->
-		<!-- crear appender de DB -->
-		<!-- 
-		<appender name="DB" class="com.web.asterisk4j.logback.appender.CustomDBAppender">
-	    	<connectionSource class="ch.qos.logback.core.db.JNDIConnectionSource"> 
-	      	<jndiLocation>java:jboss/datasources/javsteriskDS</jndiLocation>
-	    	</connectionSource>
-	    </appender>
-		 -->
-		<!--  
-		<Async name="asyncRollingFile" ignoreExceptions="false">
-			<AppenderRef ref="rollingFile"/>
-			<AppenderRef ref="rollingHtmlFile"/>
-		</Async>
-		 -->
-		<!-- 
-		<Async name="asyncRollingSqlFile" ignoreExceptions="false">
-			<AppenderRef ref="rollingSqlFile"/>
-		</Async>
-		 -->
-		<!-- 
-		<Failover name="failOverFile" primary="asyncRollingFile" retryIntervalSeconds="60">
-			<Failovers>
-				<AppenderRef ref="console"/>
-			</Failovers>
-		</Failover>
-		 -->
 	</Appenders>
 	
 	<Loggers>	
 		<Root level="trace">
 			<AppenderRef ref="console" />		
 			<!-- 
-			<AppenderRef ref="jpa" />
+			<AppenderRef ref="db" />
 			 -->	
 		</Root>			
 		<Logger name="com.web.javsterisk" level="trace" additivity="true">
-			<!-- 
-			<AppenderRef ref="failOverFile"/>
-			 -->
 			<AppenderRef ref="rollingFile"/>
-			<!-- 
-			<AppenderRef ref="jpa" />
-			 -->
+			<AppenderRef ref="db" />
 		</Logger>	
 		<Logger name="org.apache.shiro" level="trace" additivity="true">
-			<!-- 
-			<AppenderRef ref="failOverFile"/>
-			 -->
 			<AppenderRef ref="rollingFile"/>
-			<!-- 
-			<AppenderRef ref="jpa" />
-			 -->
+			<AppenderRef ref="db" />
 		</Logger>	
 		<Logger name="org.hibernate.SQL" level="trace" additivity="true">
 			<AppenderRef ref="rollingSqlFile"/>

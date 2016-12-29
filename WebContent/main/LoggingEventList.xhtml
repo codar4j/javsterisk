@@ -22,7 +22,7 @@
 					
 					<p:commandButton type="button" title="Nuevo" icon="ui-icon-document" disabled="true" />
 
-					<p:commandButton id="refreshToolBar" title="Actualizar" icon="ui-icon-refresh" disabled="true"/>
+					<p:commandButton id="refreshToolBar" process="@this" title="Actualizar" actionListener="#{loggingEventController.searchByDate}" icon="ui-icon-refresh" update=":formList:logList"/>
 					
 					<p:commandButton id="viewToolBar" type="button" title="Ver" icon="ui-icon-search" disabled="true" />
 
@@ -36,9 +36,9 @@
 					
 					<p:separator />
 					
-					<p:commandButton id="dateFilterToolBar" title="Buscar por fecha" icon="ui-icon-calendar" disabled="true"/>									
+					<p:commandButton id="dateFilterToolBar" global="false" process="@this" title="Buscar por fecha" icon="ui-icon-calendar" update=":formSearch:searchModalDialog" oncomplete="$('.ui-state-error').removeClass('ui-state-error');searchModal.show();"/>										
 					
-					<p:commandButton type="button" title="Reporte" icon="ui-icon-print" disabled="true"/>
+					<p:commandButton type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/logList.rptdesign');" />
 					
 					<p:separator />
 					
@@ -48,11 +48,13 @@
 
 				<p:toolbarGroup align="right">
 
-					<p:menuButton value="Exportar" disabled="true">
+					<p:menuButton value="Exportar">
 						
-						<p:menuitem value="Exportar a XLS" ajax="false" icon="ui-icon-arrowthickstop-1-s" disabled="true">
+						<p:menuitem value="Exportar a XLS" ajax="false" icon="ui-icon-arrowthickstop-1-s">
+							<p:dataExporter target=":formList:logList" type="xls" fileName="logList"/>
 						</p:menuitem>						
-						<p:menuitem value="Exportar a PDF" ajax="false" icon="ui-icon-arrowthickstop-1-s" disabled="true">
+						<p:menuitem value="Exportar a PDF" ajax="false" icon="ui-icon-arrowthickstop-1-s">
+							<p:dataExporter target=":formList:logList" type="pdf" fileName="logList"/>
 						</p:menuitem>
 												
 					</p:menuButton>
@@ -62,12 +64,124 @@
 			
 			<p:panel>  
 
-			<h:inputTextarea rows="30" style="width:100%"  value="#{loggingEventController.data}" />  	
+				<p:dataTable id="logList" 
+	        		var="log"         		
+	        		value="#{loggingEventController.loggingEvents}" 
+	        		rowKey="#{log.id}" 
+	        		scrollRows="16"    
+	        		scrollable="true"     		        		
+	        		scrollHeight="400"        		
+	        		resizableColumns="true"
+	        		draggableColumns="false"
+	        		rowStyleClass="#{log.level == 'WARN' ? 'logWarn' : (log.level == 'ERROR' ? 'logError' : null)}"                                    
+	                filteredValue="#{loggingEventController.loggingEventsFiltered}"                                                       
+	                widgetVar="logTable">
+	                
+	                <p:ajax event="sort" global="false"/>
+	                <p:ajax event="filter" global="false"/>
+	                
+	                <f:facet name="header">
+	                	<div align="left">
+	                		Total de Logging listados : #{loggingEventController.loggingEvents.size() == 0 ? 0 : loggingEventController.loggingEvents.size()}
+	                	</div>
+	                </f:facet>
+	                
+	                <p:column width="5%">  
+	                	<f:facet name="header">  
+	            			<h:outputText value="Id" />  
+	        			</f:facet> 
+	            		<h:outputText value="#{log.id}" />
+	        		</p:column>	                
+	                <p:column sortBy="#{log.date}" width="12%" filterBy="#{log.date}" filterMatchMode="contains">  
+	                	<f:facet name="header">  
+	            			<h:outputText value="Date" />  
+	        			</f:facet> 
+	            		<h:outputText value="#{log.date}" />
+	        		</p:column>        		
+	        		<p:column width="10%" filterBy="#{log.level}" filterOptions="#{loggingEventController.loggerLevelFilter}"  filterMatchMode="exact">
+	        			<f:facet name="header">  
+	            			<h:outputText value="Level" />  
+	        			</f:facet> 
+	        			<h:outputText style="float:left;" styleClass="#{log.level == 'INFO' ? 'ui-icon ui-icon-info' : (log.level == 'WARN' ? 'ui-icon ui-icon-alert' : (log.level == 'ERROR' ? 'ui-icon ui-icon-circle-minus' : 'ui-icon ui-icon-circle-zoomin'))}" />
+	        			<h:outputText value="#{log.level}"/>
+	        		</p:column>
+	        		<p:column filterBy="#{log.logger}" filterMatchMode="contains">
+	        			<f:facet name="header">  
+	            			<h:outputText value="Logger" />  
+	        			</f:facet>   
+	            		<h:outputText value="#{log.logger}" />  
+	        		</p:column>   
+	        		<p:column width="5%">
+	        			<f:facet name="header">  
+	            			<h:outputText value="Line" />  
+	        			</f:facet>   
+	            		<h:outputText value="#{log.line}" />  
+	        		</p:column>      		
+	        		<p:column filterBy="#{log.message}" filterMatchMode="contains">
+	        			<f:facet name="header">  
+	            			<h:outputText value="Message" />  
+	        			</f:facet>   
+	            		<h:outputText value="#{log.message}" />  
+	        		</p:column>
+	        		<p:column>
+	        			<f:facet name="header">  
+	            			<h:outputText value="Exception" />  
+	        			</f:facet>   
+	            		<h:outputText value="#{log.exception}" />  
+	        		</p:column>
+	        		
+	            </p:dataTable>
             
             </p:panel> 
             
            	 
             </h:form>
+            
+            <h:form id="formSearch">
+            
+            <p:dialog id="searchModalDialog" header="Buscar Logs por fechas" 
+            		widgetVar="searchModal" 
+            		modal="true"            		
+            		appendToBody="false"
+            		minimizable="false"
+            		maximizable="true"
+            		closeOnEscape="true"     		            		
+            		showEffect="fade" hideEffect="explode">  
+           
+	            <h:panelGroup id="searchPanel">
+	               
+						<h:panelGrid columns="3" columnClasses="titleCell">
+			
+								<p:outputLabel for="since" value="Inicio" />   
+					            <p:calendar id="since" value="#{loggingEventController.since}" showOn="button" effect="slideDown" required="true" autocomplete="off">
+		            				<p:watermark for="since" value="Ingrese Fecha Inicio" />
+		            			</p:calendar>
+					            <p:message for="since" /> 
+					            <p:outputLabel for="to" value="Fin" />     					            
+					            <p:calendar id="to" value="#{loggingEventController.to}" showOn="button" effect="slideDown" required="true" autocomplete="off">
+		            				<p:watermark for="to" value="Ingrese Fecha Fin" />
+		            			</p:calendar> 
+					            <p:message for="to" />													
+					        
+						</h:panelGrid>
+						
+	            </h:panelGroup>	        	           
+            	
+				<p:commandButton id="searchBtn" 
+					 ajax="true"					 
+					 value="Buscar"					 				 
+					 update="searchModalDialog,:formList:logList,:messages"					 				 
+					 actionListener="#{loggingEventController.searchByDate}"					 				
+					 oncomplete="if(!args.validationFailed){searchModal.hide();}else{searchModal.show();}"/>
+			
+				<f:facet name="footer">
+						<b>* campos requeridos</b>
+				</f:facet>	
+				 
+			</p:dialog>
+			
+	
+			</h:form>
             
  </ui:define>
 </ui:composition>
