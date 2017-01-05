@@ -40,3 +40,7 @@ insert into parameter (name, value, description) values('asterisk.recorder.url',
 insert into parameter (name, value, description) values('asterisk.recorder.path', '/usr/grabaciones/', 'Path de grabaciones de asterisk')
 insert into parameter (name, value, description) values('asterisk.recorder.ext', 'wav', 'Extension de grabaciones')
 --insert into parameter (name, value, description) values('state.name', 'State.Name.eq', 'Nombre de proceso de sistema operativo MySql')
+
+
+-- Context Table
+insert into context (name, detail) values('demo', 'es un contexto de prueba')
