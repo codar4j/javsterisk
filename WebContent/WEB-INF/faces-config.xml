@@ -33,6 +33,11 @@
    <redirect/>
   </navigation-case>
   <navigation-case>
+   <from-outcome>ContextList</from-outcome>
+   <to-view-id>/main/ContextList.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
    <from-outcome>SipBuddiesList</from-outcome>
    <to-view-id>/main/SipBuddiesList.xhtml</to-view-id>
    <redirect/>

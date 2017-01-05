@@ -32,6 +32,7 @@
 			<p:menuitem value="Cli Terminal" icon="ui-icon-calculator" outcome="CliAsteriskList" disabled="#{not securityController.administrator}"/>
 			<p:separator/>
 			<p:submenu label="Catalogos" icon="ui-icon-bullet">
+				<p:menuitem value="Context" icon="ui-icon-calculator" outcome="ContextList" disabled="#{not securityController.administrator}"/>
 				<p:menuitem value="Extension" icon="ui-icon-calculator" outcome="SipBuddiesList" disabled="#{not securityController.administrator}"/>	
 				<p:menuitem value="Dial Plan" icon="ui-icon-calculator" outcome="ExtensionsList" disabled="#{not securityController.administrator}"/>				
 			</p:submenu>

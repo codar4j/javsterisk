@@ -102,7 +102,7 @@
 	        			<f:facet name="header">  
 	            			<h:outputText value="Level" />  
 	        			</f:facet> 
-	        			<h:outputText style="float:left;" styleClass="#{log.level == 'INFO' ? 'ui-icon ui-icon-info' : (log.level == 'WARN' ? 'ui-icon ui-icon-alert' : (log.level == 'ERROR' ? 'ui-icon ui-icon-circle-minus' : 'ui-icon ui-icon-circle-zoomin'))}" />
+	        			<h:outputText style="float:left;" styleClass="#{log.level == 'INFO' ? 'ui-icon ui-icon-info' : (log.level == 'WARN' ? 'ui-icon ui-icon-alert' : (log.level == 'ERROR' ? 'ui-icon ui-icon-circle-close' : 'ui-icon ui-icon-circle-plus'))}" />
 	        			<h:outputText value="#{log.level}"/>
 	        		</p:column>
 	        		<p:column filterBy="#{log.logger}" filterMatchMode="contains">
