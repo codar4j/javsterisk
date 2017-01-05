@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"		
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:composite="http://java.sun.com/jsf/composite">
+
+		<!-- INTERFACE -->
+		<composite:interface>
+			<composite:attribute name="contextCreate" />
+		</composite:interface>
+
+		<!-- IMPLEMENTATION -->
+		<composite:implementation>
+		
+			<h:panelGrid columns="3" columnClasses="titleCell">
+				
+				<p:outputLabel for="nameCreate" value="Name" /> 
+				<p:inputText id="nameCreate"
+					value="#{cc.attrs.contextCreate.name}" required="true"
+					autocomplete="off" readonly="true">
+					<p:watermark for="nameCreate" value="Ingrese Name" />
+				</p:inputText>
+				<p:message for="nameCreate" />
+				
+				<p:outputLabel for="detailCreate" value="Detail" /> 
+				<p:inputText id="detailCreate"
+					value="#{cc.attrs.contextCreate.detail}" required="true"
+					autocomplete="off" readonly="true">
+					<p:watermark for="detailCreate" value="Ingrese Detail" />
+				</p:inputText>
+				<p:message for="detailCreate" />
+						        			
+			</h:panelGrid>
+
+</composite:implementation>
+</html>

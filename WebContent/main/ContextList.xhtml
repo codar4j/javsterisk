@@ -23,21 +23,21 @@
 						<p:resetInput target=":formCreate:createPanel"/>
 					</p:commandButton>
 					
-					<p:commandButton id="refreshToolBar" process="@this" title="Actualizar" icon="ui-icon-refresh" update=":formList:extensionsPanel"/>
+					<p:commandButton id="refreshToolBar" process="@this" title="Actualizar" icon="ui-icon-refresh" update=":formList:contextPanel"/>
 					
-					<p:commandButton id="viewToolBar" global="false" process="@this,extensionsList" partialSubmit="true" title="Ver" icon="ui-icon-search" update=":viewModalDialog" oncomplete="viewModal.show();" />
+					<p:commandButton id="viewToolBar" global="false" process="@this,contextList" partialSubmit="true" title="Ver" icon="ui-icon-search" update=":viewModalDialog" oncomplete="viewModal.show();" />
 
 					<p:separator />
 					
-					<p:commandButton id="editToolBar" global="false" process="@this,extensionsList" partialSubmit="true" title="Editar" icon="ui-icon ui-icon-pencil" update=":formEdit:editModalDialog" oncomplete="editModal.show();" >
+					<p:commandButton id="editToolBar" global="false" process="@this,contextList" partialSubmit="true" title="Editar" icon="ui-icon ui-icon-pencil" update=":formEdit:editModalDialog" oncomplete="editModal.show();" >
 						<p:resetInput target=":formEdit:editPanel"/>
 					</p:commandButton>	
 
 					<p:separator />
 					
-					<p:commandButton id="deleteToolBar" global="false" process="@this,extensionsList" partialSubmit="true" title="Eliminar" icon="ui-icon-trash" update=":formDelete:deleteModalDialog" oncomplete="deleteModal.show();" />
+					<p:commandButton id="deleteToolBar" global="false" process="@this,contextList" partialSubmit="true" title="Eliminar" icon="ui-icon-trash" update=":formDelete:deleteModalDialog" oncomplete="deleteModal.show();" />
 					
-					<p:commandButton id="reportToolBar" type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/extensionsList.rptdesign');" />
+					<p:commandButton id="reportToolBar" type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/contextList.rptdesign');" />
 					
 					<p:separator />
 										
@@ -50,10 +50,10 @@
 					<p:menuButton value="Exportar">
 						
 						<p:menuitem value="Exportar a XLS" ajax="false" icon="ui-icon-arrowthickstop-1-s">
-							<p:dataExporter target=":formList:extensionsList" type="xls" fileName="extensionsList"/>
+							<p:dataExporter target=":formList:contextList" type="xls" fileName="contextList"/>
 						</p:menuitem>						
 						<p:menuitem value="Exportar a PDF" ajax="false" icon="ui-icon-arrowthickstop-1-s">
-							<p:dataExporter target=":formList:extensionsList" type="pdf" fileName="extensionsList"/>
+							<p:dataExporter target=":formList:contextList" type="pdf" fileName="contextList"/>
 						</p:menuitem>
 												
 					</p:menuButton>
@@ -61,12 +61,12 @@
 
 			</p:toolbar>
 		
-			<p:panel id="extensionsPanel">  
+			<p:panel id="contextPanel">  
 
-			<p:dataTable id="extensionsList" 
-        		var="extensions"         		
-        		value="#{extensionsController.extensiones}" 
-        		rowKey="#{extensions.id}" 
+			<p:dataTable id="contextList" 
+        		var="context"         		
+        		value="#{contextController.contexts}" 
+        		rowKey="#{context.id}" 
         		rows="13"         		
         		paginator="true"
         		paginatorTemplate="Showing {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Go to {JumpToPageDropdown}  Rows per Page {RowsPerPageDropdown}"
@@ -75,61 +75,40 @@
         		paginatorPosition="bottom"
         		resizableColumns="true"
         		draggableColumns="false"        		
-                selection="#{extensionsController.selectedExtensiones}" 
-                filteredValue="#{extensionsController.extensionesFiltered}"                                                        
-                widgetVar="extensionsTable">
+                selection="#{contextController.selectedContexts}" 
+                filteredValue="#{contextController.contextsFiltered}"                                                        
+                widgetVar="contextTable">
                 
                 <p:ajax event="sort" global="false"/>
                 <p:ajax event="filter" global="false"/>
                 
                 <f:facet name="header">
                 	<div align="left">
-                		Total de Dial Plan Listadas : #{extensiones.size() == 0 ? 0 : extensiones.size()}
+                		Total de Contextos Listados : #{contexts.size() == 0 ? 0 : contexts.size()}
                 	</div>
                 </f:facet>
                 
                 <p:column selectionMode="multiple" style="width:3%" exportable="false"/>
                 
-                <p:column sortBy="#{extensions.id_1}" filterBy="#{extensions.id_1}" filterMatchMode="contains" rendered="false">  
+                <p:column sortBy="#{context.id}" filterBy="#{context.id}" filterMatchMode="contains" rendered="true">  
                 	<f:facet name="header">  
             			<h:outputText value="Id" />  
         			</f:facet> 
-            		<h:outputText value="#{extensions.id_1}" />            		  
+            		<h:outputText value="#{context.id}" />            		  
         		</p:column>
         		
-        		<p:column sortBy="#{extensions.id.context}" filterBy="#{extensions.id.context}" filterMatchMode="contains">  
+        		<p:column sortBy="#{context.name}" filterBy="#{context.name}" filterMatchMode="contains" rendered="true">  
                 	<f:facet name="header">  
-            			<h:outputText value="Context" />  
+            			<h:outputText value="Name" />  
         			</f:facet> 
-            		<h:outputText value="#{extensions.id.context}" />            		  
+            		<h:outputText value="#{context.name}" />            		  
         		</p:column>
         		
-        		<p:column sortBy="#{extensions.id.exten}" filterBy="#{extensions.id.exten}" filterMatchMode="contains">  
+        		<p:column sortBy="#{context.detail}" filterBy="#{context.detail}" filterMatchMode="contains" rendered="true">  
                 	<f:facet name="header">  
-            			<h:outputText value="Exten" />  
+            			<h:outputText value="Detail" />  
         			</f:facet> 
-            		<h:outputText value="#{extensions.id.exten}" />            		  
-        		</p:column>
-        		
-        		<p:column sortBy="#{extensions.id.priority}" filterBy="#{extensions.id.priority}" filterMatchMode="contains">  
-                	<f:facet name="header">  
-            			<h:outputText value="Priority" />  
-        			</f:facet> 
-            		<h:outputText value="#{extensions.id.priority}" />            		  
-        		</p:column>
-        		
-        		<p:column sortBy="#{extensions.app}" filterBy="#{extensions.app}" filterMatchMode="contains">  
-                	<f:facet name="header">  
-            			<h:outputText value="App" />  
-        			</f:facet> 
-            		<h:outputText value="#{extensions.app}" />            		  
-        		</p:column>
-        		
-        		<p:column sortBy="#{extensions.appdata}" filterBy="#{extensions.appdata}" filterMatchMode="contains">  
-                	<f:facet name="header">  
-            			<h:outputText value="AppData" />  
-        			</f:facet> 
-            		<h:outputText value="#{extensions.appdata}" />            		  
+            		<h:outputText value="#{context.detail}" />            		  
         		</p:column>
                 
             </p:dataTable>
@@ -140,7 +119,7 @@
             
             <h:form id="formCreate">
             
-            <p:dialog id="createModalDialog" header="Crear Dial Plan" 
+            <p:dialog id="createModalDialog" header="Crear Contexto" 
             		widgetVar="createModal" 
             		modal="true"            		            		
             		minimizable="false"
@@ -149,7 +128,7 @@
             		showEffect="fade" hideEffect="explode">  
            
                 <h:panelGroup id="createPanel">	            
-	                <my:extensionsCreateForm id="createComponent" extensionsCreate="#{extensionsController.newExtensions}"/>
+	                <my:contextCreateForm id="createComponent" contextCreate="#{contextController.newContext}"/>
 	            </h:panelGroup>	        	           
             	
             	<p:separator/>
@@ -158,8 +137,8 @@
 					 ajax="true"					 
 					 value="Guardar"	
 					 icon="ui-icon-disk"
-					 update="createModalDialog,:formList:extensionsList,:messages"					 				 		 
-					 actionListener="#{extensionsController.register}" 					
+					 update="createModalDialog,:formList:contextList,:messages"					 				 		 
+					 actionListener="#{contextController.register}" 					
 					 oncomplete="if(!args.validationFailed){createModal.hide();}else{createModal.show();}"/>
 				 
 				<f:facet name="footer">				 						
@@ -172,27 +151,27 @@
 			
 			<h:form id="formEdit">
 			
-			<p:dialog id="editModalDialog" header="Editar Dial Plan" widgetVar="editModal" modal="true"            		            		
+			<p:dialog id="editModalDialog" header="Editar Contexto" widgetVar="editModal" modal="true"            		            		
             		minimizable="false"
             		maximizable="true"
             		closeOnEscape="true"
             		showEffect="fade" hideEffect="explode">  
            
 	            <h:panelGroup id="editPanel">
-	               <my:extensionsEditForm id="editComponent" extensionsEdit="#{extensionsController.selectedExtensiones[0]}" rendered="#{extensionsController.selectedExtensionesSize == 1}"/>
-	               <h:outputText value="Debe de seleccionar un dial plan!" rendered="#{extensionsController.selectedExtensionesSize != 1}"/>
+	               <my:contextEditForm id="editComponent" contextEdit="#{contextController.selectedContexts[0]}" rendered="#{contextController.selectedContextsSize == 1}"/>
+	               <h:outputText value="Debe de seleccionar un contexto!" rendered="#{contextController.selectedContextsSize != 1}"/>
 	            </h:panelGroup>      
 	            
-	            <p:separator rendered="#{extensionsController.selectedExtensionesSize == 1}"/>	   	           
+	            <p:separator rendered="#{contextController.selectedContextsSize == 1}"/>	   	           
             	
 				<p:commandButton id="editBtn" 
 					 ajax="true"					 
 					 value="Guardar"	
 					 icon="ui-icon-disk"				 				 
-					 update="editModalDialog,:formList:extensionsList,:messages"				 
-					 actionListener="#{extensionsController.modifier}" 					
+					 update="editModalDialog,:formList:contextList,:messages"				 
+					 actionListener="#{contextController.modifier}" 					
 					 oncomplete="if(!args.validationFailed){editModal.hide();}else{editModal.show();}"
-					 rendered="#{extensionsController.selectedExtensionesSize == 1}"/>
+					 rendered="#{contextController.selectedContextsSize == 1}"/>
 			
 				<f:facet name="footer">				 	
 					<b>* campos requeridos</b>
@@ -202,7 +181,7 @@
 			
 			</h:form>			
 			
-			<p:dialog id="viewModalDialog" header="Ver Dial Plan" widgetVar="viewModal" modal="true"  
+			<p:dialog id="viewModalDialog" header="Ver Contexto" widgetVar="viewModal" modal="true"  
 					appendTo="@(body)"
             		minimizable="false"
             		maximizable="true"       
@@ -211,8 +190,8 @@
             		showEffect="fade" hideEffect="explode">  
                 
 	            <h:panelGroup id="viewPanel">
-	                <my:extensionsDetails id="viewComponent" extensions="#{extensionsController.selectedExtensiones[0]}" rendered="#{extensionsController.selectedExtensionesSize == 1}"/>	                
-	                <h:outputText value="Debe de seleccionar un dial plan!" rendered="#{extensionsController.selectedExtensionesSize != 1}"/>
+	                <my:contextDetails id="viewComponent" context="#{contextController.selectedContexts[0]}" rendered="#{contextController.selectedContextsSize == 1}"/>	                
+	                <h:outputText value="Debe de seleccionar un contexto!" rendered="#{contextController.selectedContextsSize != 1}"/>
 	            </h:panelGroup>
 				 
 			</p:dialog>
@@ -220,7 +199,7 @@
 			<h:form id="formDelete">
 			
 			<p:confirmDialog id="deleteModalDialog" 
-				message="#{extensionsController.selectedExtensionesSize == 0 ? 'Debe de seleccionar al menos un dial plan!' : 'Esta seguro de eliminar '.concat(extensionsController.selectedExtensionesSize).concat(' dial plans?')}"
+				message="#{contextController.selectedContextsSize == 0 ? 'Debe de seleccionar al menos un contexto!' : 'Esta seguro de eliminar '.concat(contextController.selectedContextsSize).concat(' contexts?')}"
 				header="Eliminacion" severity="alert"
 				closeOnEscape="true" showEffect="fade" hideEffect="explode"
 				widgetVar="deleteModal">
@@ -229,15 +208,15 @@
 					ajax="true" 			
 					value="Si"
 					icon="ui-icon-check"
-					update="deleteModalDialog,:formList:extensionsList,:messages"		  
-					actionListener="#{extensionsController.deleter}"
+					update="deleteModalDialog,:formList:contextList,:messages"		  
+					actionListener="#{contextController.deleter}"
 					oncomplete="if(!args.validationFailed){deleteModal.hide();}else{deleteModal.show();}"							
-					rendered="#{extensionsController.selectedExtensionesSize != 0}"/>
+					rendered="#{contextController.selectedContextsSize != 0}"/>
 																
 				<p:commandButton id="decline" value="No"
 					icon="ui-icon-close"
 					onclick="deleteModal.hide()" type="button" 
-					rendered="#{extensionsController.selectedExtensionesSize != 0}"/>
+					rendered="#{contextController.selectedContextsSize != 0}"/>
 
 			</p:confirmDialog>
 			

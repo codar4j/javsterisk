@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:composite="http://java.sun.com/jsf/composite">
+
+		<!-- INTERFACE -->
+		<composite:interface>
+			<composite:attribute name="contextEdit" />
+		</composite:interface>
+
+		<!-- IMPLEMENTATION -->	
+		<composite:implementation>
+
+				<h:panelGrid columns="3" columnClasses="titleCell">
+
+				<p:outputLabel for="nameEdit" value="Name" /> 
+				<p:inputText id="nameEdit"
+					value="#{cc.attrs.contextEdit.name}" required="true"
+					autocomplete="off" readonly="true">
+					<p:watermark for="nameEdit" value="Ingrese Name" />
+				</p:inputText>
+				<p:message for="nameEdit" />
+				
+				<p:outputLabel for="detailEdit" value="Detail" /> 
+				<p:inputText id="detailEdit"
+					value="#{cc.attrs.contextEdit.detail}" required="true"
+					autocomplete="off" readonly="true">
+					<p:watermark for="detailEdit" value="Ingrese Detail" />
+				</p:inputText>
+				<p:message for="detailEdit" />
+				
+			</h:panelGrid>
+		
+		</composite:implementation>
+</html>
