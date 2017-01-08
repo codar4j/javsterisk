@@ -48,7 +48,7 @@ public class Extensions implements java.io.Serializable {
 	private boolean record;
 	
 	@NotNull
-	@Column(name = "limit", nullable = false)
+	@Column(name = "limite", nullable = false)
 	private boolean limit;
 	
 	@NotNull

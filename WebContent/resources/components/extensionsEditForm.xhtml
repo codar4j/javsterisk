@@ -18,11 +18,12 @@
 
 
 				<p:outputLabel for="contextEdit" value="Contexto" /> 
-				<p:inputText id="contextEdit"
-					value="#{cc.attrs.extensionsEdit.id.context}" required="true"
-					autocomplete="off" readonly="true">
-					<p:watermark for="contextEdit" value="Ingrese Contexto" />
-				</p:inputText>
+				<p:selectOneMenu id="contextEdit" 
+							value="#{cc.attrs.extensionsEdit.id.context}" 
+							required="true">  
+                		<f:selectItem itemLabel="Seleccione Context" itemValue="#{null}"/>
+                		<f:selectItems value="#{contextController.contexts}" var="context" itemLabel="#{context.name}" itemValue="#{context.name}"/>                   		                 		         		              
+            	</p:selectOneMenu>				
 				<p:message for="contextEdit" />
 				
 				<p:outputLabel for="extenEdit" value="Exten" /> 
@@ -56,6 +57,30 @@
 					<p:watermark for="appDataEdit" value="Ingrese AppData" />
 				</p:inputText>
 				<p:message for="appDataEdit" />
+
+				<p:outputLabel for="recordEdit" value="Record" /> 
+				<p:selectBooleanButton id="recordEdit" value="#{cc.attrs.extensionsEdit.record}" onLabel="Yes" 
+					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+					style="width:60px" required="false"/>            		        		
+				<p:message for="recordEdit" />
+				
+				<p:outputLabel for="limitEdit" value="Limit" /> 
+				<p:selectBooleanButton id="limitEdit" value="#{cc.attrs.extensionsEdit.limit}" onLabel="Yes" 
+					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+					style="width:60px" required="false"/>            		        		
+				<p:message for="limitEdit" />
+				
+				<p:outputLabel for="waitEdit" value="Wait" /> 
+				<p:selectBooleanButton id="waitEdit" value="#{cc.attrs.extensionsEdit.wait}" onLabel="Yes" 
+					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+					style="width:60px" required="false"/>            		        		
+				<p:message for="waitEdit" />
+				
+				<p:outputLabel for="transferEdit" value="Transfer" /> 
+				<p:selectBooleanButton id="transferEdit" value="#{cc.attrs.extensionsEdit.transfer}" onLabel="Yes" 
+					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+					style="width:60px" required="false"/>            		        		
+				<p:message for="transferEdit" />
 
 	
 			</h:panelGrid>

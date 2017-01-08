@@ -24,6 +24,11 @@ import com.web.javsterisk.entity.ExtensionsId;
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 
+/**
+ * 
+ * @author Freddy Moran
+ *
+ */
 @ManagedBean
 @ViewScoped
 public class ExtensionsController extends BaseController implements Serializable{
