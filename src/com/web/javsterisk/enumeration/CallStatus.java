@@ -2,7 +2,7 @@ package com.web.javsterisk.enumeration;
 
 public enum CallStatus {
 
-	ANSWERED("ANSWERED"), NOANSWER("NO ANSWER");
+	ANSWERED("ANSWERED"), NOANSWER("NO ANSWER"), BUSY("BUSY");
 	
 	private String value;
 
