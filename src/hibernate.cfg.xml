@@ -55,6 +55,7 @@
 		<mapping class="com.web.javsterisk.entity.Permission"/>
 		<mapping class="com.web.javsterisk.entity.LoggingEvent"/>
 		<mapping class="com.web.javsterisk.entity.Extensions"/>
+		<mapping class="com.web.javsterisk.entity.ExtensionsWizzard"/>
 		<mapping class="com.web.javsterisk.entity.Cdr"/>
 		<mapping class="com.web.javsterisk.entity.Context"/>
 		

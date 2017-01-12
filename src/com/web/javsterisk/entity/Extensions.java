@@ -7,6 +7,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -42,23 +44,10 @@ public class Extensions implements java.io.Serializable {
 	@Size(max = 128)
 	@Column(name = "appdata", nullable = true, length = 128)
 	private String appdata = "";
-		
-	@NotNull
-	@Column(name = "record", nullable = false)
-	private boolean record;
 	
-	@NotNull
-	@Column(name = "limite", nullable = false)
-	private boolean limit;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "extensions")
+	private ExtensionsWizzard extensionsWizzard;
 	
-	@NotNull
-	@Column(name = "wait", nullable = false)
-	private boolean wait;
-	
-	@NotNull
-	@Column(name = "transfer", nullable = false)
-	private boolean transfer;
-
 	public Extensions() {
 	}
 
@@ -101,36 +90,12 @@ public class Extensions implements java.io.Serializable {
 		this.appdata = appdata;
 	}
 
-	public boolean isRecord() {
-		return record;
+	public ExtensionsWizzard getExtensionsWizzard() {
+		return extensionsWizzard;
 	}
 
-	public void setRecord(boolean record) {
-		this.record = record;
-	}
-
-	public boolean isLimit() {
-		return limit;
-	}
-
-	public void setLimit(boolean limit) {
-		this.limit = limit;
-	}
-
-	public boolean isWait() {
-		return wait;
-	}
-
-	public void setWait(boolean wait) {
-		this.wait = wait;
-	}
-
-	public boolean isTransfer() {
-		return transfer;
-	}
-
-	public void setTransfer(boolean transfer) {
-		this.transfer = transfer;
+	public void setExtensionsWizzard(ExtensionsWizzard extensionsWizzard) {
+		this.extensionsWizzard = extensionsWizzard;
 	}
 
 }
