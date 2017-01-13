@@ -17,66 +17,68 @@
 			<h:panelGrid columns="3" columnClasses="titleCell">
 				
 				<p:outputLabel for="contextCreate" value="Contexto" /> 
-				<p:selectOneMenu id="contextCreate" 
-							value="#{cc.attrs.extensionsCreate.id.context}" 
-							required="true">  
-                		<f:selectItem itemLabel="Seleccione Context" itemValue="#{null}"/>
-                		<f:selectItems value="#{contextController.contexts}" var="context" itemLabel="#{context.name}" itemValue="#{context.name}"/>                   		                 		         		              
-            	</p:selectOneMenu>				
+				<p:selectOneMenu id="contextCreate" value="#{cc.attrs.extensionsCreate.id.context}" 						 
+                        effect="fade" filter="true" filterMatchMode="startsWith">
+		 			<f:selectItem itemLabel="Seleccione Context" itemValue="#{null}"/>
+                	<f:selectItems value="#{contextController.contexts}" var="context" itemLabel="#{context.name}" itemValue="#{context.name}"/>
+		        </p:selectOneMenu>
 				<p:message for="contextCreate" />
 				
-				<p:outputLabel for="extenCreate" value="Exten" /> 
-				<p:inputText id="extenCreate"
-					value="#{cc.attrs.extensionsCreate.id.exten}" required="true"
-					autocomplete="off" >
-					<p:watermark for="extenCreate" value="Ingrese Exten" />
-				</p:inputText>
-				<p:message for="extenCreate" />
+				<p:outputLabel for="digitoCreate" value="Digito" /> 
+				<p:selectOneMenu id="digitoCreate" 
+							value="#{cc.attrs.extensionsCreate.extensionsWizzard.digito}" 
+							required="true">  
+                		<f:selectItem itemLabel="Seleccione Digito" itemValue="#{null}"/>
+                		<f:selectItem itemLabel="0" itemValue="0"/>
+                		<f:selectItem itemLabel="1" itemValue="1"/>
+                		<f:selectItem itemLabel="2" itemValue="2"/>
+                		<f:selectItem itemLabel="3" itemValue="3"/>
+                		<f:selectItem itemLabel="4" itemValue="4"/>
+                		<f:selectItem itemLabel="5" itemValue="5"/>
+                		<f:selectItem itemLabel="6" itemValue="6"/>
+                		<f:selectItem itemLabel="7" itemValue="7"/>
+                		<f:selectItem itemLabel="8" itemValue="8"/>
+                		<f:selectItem itemLabel="9" itemValue="9"/>                   		                 		         		              
+            	</p:selectOneMenu>	
+				<p:message for="digitoCreate" />
 				
-				<p:outputLabel for="priorityCreate" value="Priority" /> 
-				<p:inputText id="priorityCreate"
-					value="#{cc.attrs.extensionsCreate.id.priority}" required="true"
-					autocomplete="off" >
-					<p:watermark for="priorityCreate" value="Ingrese Priority" />
-				</p:inputText>
-				<p:message for="priorityCreate" />
-				
-				<p:outputLabel for="appCreate" value="App" /> 
-				<p:inputText id="appCreate"
-					value="#{cc.attrs.extensionsCreate.app}" required="true"
-					autocomplete="off" >
-					<p:watermark for="appCreate" value="Ingrese App" />
-				</p:inputText>
-				<p:message for="appCreate" />
-				
-				<p:outputLabel for="appDataCreate" value="AppData" /> 
-				<p:inputText id="appDataCreate"
-					value="#{cc.attrs.extensionsCreate.appdata}" required="false"
-					autocomplete="off" >
-					<p:watermark for="appDataCreate" value="Ingrese AppData" />
-				</p:inputText>
-				<p:message for="appDataCreate" />
+				<p:outputLabel for="longitudCreate" value="Longitud" /> 
+				<p:selectOneMenu id="longitudCreate" 
+							value="#{cc.attrs.extensionsCreate.extensionsWizzard.longitud}" 
+							required="true">  
+                		<f:selectItem itemLabel="Seleccione Longitud" itemValue="#{null}"/>
+                		<f:selectItem itemLabel="1" itemValue="1"/>
+                		<f:selectItem itemLabel="2" itemValue="2"/>
+                		<f:selectItem itemLabel="3" itemValue="3"/>
+                		<f:selectItem itemLabel="4" itemValue="4"/>
+                		<f:selectItem itemLabel="5" itemValue="5"/>
+                		<f:selectItem itemLabel="6" itemValue="6"/>
+                		<f:selectItem itemLabel="7" itemValue="7"/>
+                		<f:selectItem itemLabel="8" itemValue="8"/>
+                		<f:selectItem itemLabel="9" itemValue="9"/>                   		                 		         		              
+            	</p:selectOneMenu>	
+				<p:message for="longitudCreate" />
 				
 				<p:outputLabel for="recordCreate" value="Record" /> 
-				<p:selectBooleanButton id="recordCreate" value="#{cc.attrs.extensionsCreate.record}" onLabel="Yes" 
+				<p:selectBooleanButton id="recordCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.record}" onLabel="Yes" 
 					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
 					style="width:60px" required="false"/>            		        		
 				<p:message for="recordCreate" />
 				
 				<p:outputLabel for="limitCreate" value="Limit" /> 
-				<p:selectBooleanButton id="limitCreate" value="#{cc.attrs.extensionsCreate.limit}" onLabel="Yes" 
+				<p:selectBooleanButton id="limitCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.limit}" onLabel="Yes" 
 					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
 					style="width:60px" required="false"/>            		        		
 				<p:message for="limitCreate" />
 				
 				<p:outputLabel for="waitCreate" value="Wait" /> 
-				<p:selectBooleanButton id="waitCreate" value="#{cc.attrs.extensionsCreate.wait}" onLabel="Yes" 
+				<p:selectBooleanButton id="waitCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.wait}" onLabel="Yes" 
 					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
 					style="width:60px" required="false"/>            		        		
 				<p:message for="waitCreate" />
 				
 				<p:outputLabel for="transferCreate" value="Transfer" /> 
-				<p:selectBooleanButton id="transferCreate" value="#{cc.attrs.extensionsCreate.transfer}" onLabel="Yes" 
+				<p:selectBooleanButton id="transferCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.transfer}" onLabel="Yes" 
 					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
 					style="width:60px" required="false"/>            		        		
 				<p:message for="transferCreate" />
