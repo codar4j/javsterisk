@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
@@ -18,6 +19,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import com.web.javsterisk.dao.ExtensionsDAO;
 import com.web.javsterisk.entity.Extensions;
 import com.web.javsterisk.entity.ExtensionsId;
+import com.web.javsterisk.entity.ExtensionsWizzard;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -39,6 +41,10 @@ public class ExtensionsController extends BaseController implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	private static final Logger log = LogManager.getLogger(ExtensionsController.class);
+	
+	private final String EXT_PREFIX = "_";
+	
+	private final String EXT_CHAR = "X";
 
 	private ExtensionsDAO extensionsDAO;
 	
@@ -62,6 +68,10 @@ public class ExtensionsController extends BaseController implements Serializable
 		ExtensionsId eid = new ExtensionsId();
 		newExtensions = new Extensions();	
 		newExtensions.setId(eid);
+		
+		ExtensionsWizzard wizzard = new ExtensionsWizzard();
+		newExtensions.setExtensionsWizzard(wizzard);
+		
 		extensiones = extensionsDAO.findAllOrderedById();
 		}
 	}
@@ -72,8 +82,47 @@ public class ExtensionsController extends BaseController implements Serializable
 //		log.info("Permission module is in list ToDo : {}", permission);
 		if ( securityController.isAdministrator() ) {		
 			try {
+				
 				newExtensions.setId_1(extensionsDAO.findAllOrderedById().size() + 1);
-				extensionsDAO.register(newExtensions);
+				
+				String extension = EXT_PREFIX + newExtensions.getExtensionsWizzard().getDigito();
+				extension = StringUtils.rightPad(extension, newExtensions.getExtensionsWizzard().getLongitud() + 1, EXT_CHAR);
+				
+				if(!newExtensions.getExtensionsWizzard().isRecord() && !newExtensions.getExtensionsWizzard().isLimit() &&
+						!newExtensions.getExtensionsWizzard().isTransfer() && !newExtensions.getExtensionsWizzard().isWait()) {
+					
+					newExtensions.getId().setExten(extension);
+					
+					Extensions[] extens = new Extensions[3];
+					
+					extens[0] = new Extensions();
+					extens[0].setId(new ExtensionsId());
+					extens[0].getId().setContext(newExtensions.getId().getContext());
+					extens[0].getId().setExten(newExtensions.getId().getExten());
+					extens[0].getId().setPriority((byte)1);
+					extens[0].setApp("Answer");
+					
+					extens[1] = new Extensions();
+					extens[1].setId(new ExtensionsId());
+					extens[1].getId().setContext(newExtensions.getId().getContext());
+					extens[1].getId().setExten(newExtensions.getId().getExten());
+					extens[1].getId().setPriority((byte)2);
+					extens[1].setApp("Dial");
+					extens[1].setAppdata("SIP/${EXTEN}");
+					
+					extens[2] = new Extensions();
+					extens[2].setId(new ExtensionsId());
+					extens[2].getId().setContext(newExtensions.getId().getContext());
+					extens[2].getId().setExten(newExtensions.getId().getExten());
+					extens[2].getId().setPriority((byte)3);
+					extens[2].setApp("Hangup");
+					
+					for(int i = 0 ; i < extens.length; i ++) {
+						extensionsDAO.register(extens[i]);
+					}
+					
+				}
+				
 				log.info("Registration successful");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));			
 				initNewUser();

@@ -78,6 +78,22 @@ public class ExtensionsWizzard implements java.io.Serializable {
 		this.extensions = extensions;
 	}
 
+	public String getDigito() {
+		return digito;
+	}
+
+	public void setDigito(String digito) {
+		this.digito = digito;
+	}
+
+	public int getLongitud() {
+		return longitud;
+	}
+
+	public void setLongitud(int longitud) {
+		this.longitud = longitud;
+	}
+
 	public boolean isRecord() {
 		return record;
 	}
