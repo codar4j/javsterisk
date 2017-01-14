@@ -85,42 +85,10 @@ public class ExtensionsController extends BaseController implements Serializable
 				
 				newExtensions.setId_1(extensionsDAO.findAllOrderedById().size() + 1);
 				
-				String extension = EXT_PREFIX + newExtensions.getExtensionsWizzard().getDigito();
-				extension = StringUtils.rightPad(extension, newExtensions.getExtensionsWizzard().getLongitud() + 1, EXT_CHAR);
-				
-				if(!newExtensions.getExtensionsWizzard().isRecord() && !newExtensions.getExtensionsWizzard().isLimit() &&
-						!newExtensions.getExtensionsWizzard().isTransfer() && !newExtensions.getExtensionsWizzard().isWait()) {
-					
-					newExtensions.getId().setExten(extension);
-					
-					Extensions[] extens = new Extensions[3];
-					
-					extens[0] = new Extensions();
-					extens[0].setId(new ExtensionsId());
-					extens[0].getId().setContext(newExtensions.getId().getContext());
-					extens[0].getId().setExten(newExtensions.getId().getExten());
-					extens[0].getId().setPriority((byte)1);
-					extens[0].setApp("Answer");
-					
-					extens[1] = new Extensions();
-					extens[1].setId(new ExtensionsId());
-					extens[1].getId().setContext(newExtensions.getId().getContext());
-					extens[1].getId().setExten(newExtensions.getId().getExten());
-					extens[1].getId().setPriority((byte)2);
-					extens[1].setApp("Dial");
-					extens[1].setAppdata("SIP/${EXTEN}");
-					
-					extens[2] = new Extensions();
-					extens[2].setId(new ExtensionsId());
-					extens[2].getId().setContext(newExtensions.getId().getContext());
-					extens[2].getId().setExten(newExtensions.getId().getExten());
-					extens[2].getId().setPriority((byte)3);
-					extens[2].setApp("Hangup");
-					
-					for(int i = 0 ; i < extens.length; i ++) {
-						extensionsDAO.register(extens[i]);
-					}
-					
+				Extensions[] extensions = makeExtensions();
+			
+				for(int i = 0 ; i < extensions.length; i ++) {
+					extensionsDAO.register(extensions[i]);
 				}
 				
 				log.info("Registration successful");
@@ -137,6 +105,73 @@ public class ExtensionsController extends BaseController implements Serializable
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authorization!", "No tiene privilegios para esta accion"));
 		}		
+	}
+
+	private Extensions[] makeExtensions() {
+		
+		Extensions[] extensions = null;
+		
+		String extension = StringUtils.rightPad(EXT_PREFIX + newExtensions.getExtensionsWizzard().getDigito(), newExtensions.getExtensionsWizzard().getLongitud() + 1, EXT_CHAR);
+		
+		if(!newExtensions.getExtensionsWizzard().isRecord() && !newExtensions.getExtensionsWizzard().isLimit() &&
+				!newExtensions.getExtensionsWizzard().isTransfer() && !newExtensions.getExtensionsWizzard().isWait()) {
+			
+			newExtensions.getId().setExten(extension);
+			
+			extensions = new Extensions[3];
+			
+			extensions[0] = new Extensions();
+			extensions[0].setId(new ExtensionsId());
+			extensions[0].getId().setContext(newExtensions.getId().getContext());
+			extensions[0].getId().setExten(newExtensions.getId().getExten());
+			extensions[0].getId().setPriority((byte)1);
+			extensions[0].setApp("Answer");
+			extensions[0].setId_1(newExtensions.getId_1());
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)2);
+			extensions[1].setApp("Dial");
+			extensions[1].setAppdata("SIP/${EXTEN}");
+			extensions[1].setId_1(newExtensions.getId_1() + 1);
+			
+			extensions[2] = new Extensions();
+			extensions[2].setId(new ExtensionsId());
+			extensions[2].getId().setContext(newExtensions.getId().getContext());
+			extensions[2].getId().setExten(newExtensions.getId().getExten());
+			extensions[2].getId().setPriority((byte)3);
+			extensions[2].setApp("Hangup");
+			extensions[2].setId_1(newExtensions.getId_1() + 2);
+			
+		} else if (newExtensions.getExtensionsWizzard().isRecord() && !newExtensions.getExtensionsWizzard().isLimit() &&
+				!newExtensions.getExtensionsWizzard().isTransfer() && !newExtensions.getExtensionsWizzard().isWait()) {
+			
+			extensions = new Extensions[5];
+			
+			extensions[0] = new Extensions();
+			extensions[0].setId(new ExtensionsId());
+			extensions[0].getId().setContext(newExtensions.getId().getContext());
+			extensions[0].getId().setExten(newExtensions.getId().getExten());
+			extensions[0].getId().setPriority((byte)1);
+			extensions[0].setApp("Answer");
+			extensions[0].setId_1(newExtensions.getId_1());
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)2);
+			extensions[1].setApp("Set");
+			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%-%H%M%S)}-${CALLERID(num)}");
+			extensions[1].setId_1(newExtensions.getId_1() + 1);
+			
+		}
+		
+		extension = null;
+		
+		return extensions;
 	}
 
 	public void modifier() throws Exception { 
