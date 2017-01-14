@@ -4,6 +4,7 @@ Web enable
 Java - JSF application
 Version free
 Nueva Otro
+nuevo mas
 
 This is a web console to administrate asterisk servers. 
 Developed using Java.
