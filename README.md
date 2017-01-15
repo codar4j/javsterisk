@@ -2,7 +2,7 @@
 Web application to admin asterisk implementations
 Web enable
 Java - JSF application
-Version free
+Version free de linux
 
 This is a web console to administrate asterisk servers. 
 Developed using Java.
