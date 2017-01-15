@@ -29,7 +29,7 @@ import com.web.javsterisk.entity.ExtensionsWizzard;
 /**
  * 
  * @author Freddy Moran
- *
+ * @version 1.0
  */
 @ManagedBean
 @ViewScoped
