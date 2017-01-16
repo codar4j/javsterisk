@@ -23,7 +23,7 @@ additivity="false" to avoid duplicate messages in appenders
 
 	<Properties>
 		<!-- windows -->
-		<Property name="logPath">C:/Temp/javsterisk/log</Property>
+		<Property name="logPath">/usr/JavaApps/logs/javsterisk</Property>
 		<!-- linux -->
 		<!-- <Property name="logPath">/usr/JavaApps/javsterisk/log</Property> -->
 		<Property name="logFileName">javsterisk</Property>
