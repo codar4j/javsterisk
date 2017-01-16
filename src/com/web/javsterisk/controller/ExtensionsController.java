@@ -17,9 +17,11 @@ import org.hibernate.exception.ConstraintViolationException;
 
 //import com.web.asterisk4j.enumeration.RoleType;
 import com.web.javsterisk.dao.ExtensionsDAO;
+import com.web.javsterisk.dao.ParameterDAO;
 import com.web.javsterisk.entity.Extensions;
 import com.web.javsterisk.entity.ExtensionsId;
 import com.web.javsterisk.entity.ExtensionsWizzard;
+import com.web.javsterisk.entity.Parameter;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -45,8 +47,22 @@ public class ExtensionsController extends BaseController implements Serializable
 	private final String EXT_PREFIX = "_";
 	
 	private final String EXT_CHAR = "X";
-
+	
+	private final String APP_ANSWER = "Answer";
+	
+	private final String APP_SET = "Set";
+	
+	private final String APP_MIX_MONITOR = "MixMonitor";
+	
+	private final String APP_DIAL = "Dial";
+	
+	private final String APP_HANGUP = "Hangup";
+	
 	private ExtensionsDAO extensionsDAO;
+	
+	private ParameterDAO parameterDAO;
+	
+	Parameter param_record_path;
 	
 	@ManagedProperty("#{securityController}")
 	private SecurityController securityController;
@@ -62,17 +78,21 @@ public class ExtensionsController extends BaseController implements Serializable
 	private List<Extensions> extensiones;
 	
 	@PostConstruct
-	public void initNewUser() {
+	public void initNewExtensions() {
+		parameterDAO = new ParameterDAO();		
 		extensionsDAO = new ExtensionsDAO();
+		log.info("@PostConstruct Extensions");
 		if(securityController.isAuthenticated()){
-		ExtensionsId eid = new ExtensionsId();
-		newExtensions = new Extensions();	
-		newExtensions.setId(eid);
-		
-		ExtensionsWizzard wizzard = new ExtensionsWizzard();
-		newExtensions.setExtensionsWizzard(wizzard);
-		
-		extensiones = extensionsDAO.findAllOrderedById();
+			param_record_path = parameterDAO.findByName("asterisk.recorder.path");
+			
+			ExtensionsId eid = new ExtensionsId();
+			newExtensions = new Extensions();	
+			newExtensions.setId(eid);
+			
+			ExtensionsWizzard wizzard = new ExtensionsWizzard();
+			newExtensions.setExtensionsWizzard(wizzard);
+			
+			extensiones = extensionsDAO.findAllOrderedById();
 		}
 	}
 	
@@ -93,7 +113,7 @@ public class ExtensionsController extends BaseController implements Serializable
 				
 				log.info("Registration successful");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));			
-				initNewUser();
+				initNewExtensions();
 			} catch (Exception e) {				
 				if(e.getCause().getCause().getCause() instanceof ConstraintViolationException){
 					log.error("ConstraintViolationException", e);
@@ -125,7 +145,7 @@ public class ExtensionsController extends BaseController implements Serializable
 			extensions[0].getId().setContext(newExtensions.getId().getContext());
 			extensions[0].getId().setExten(newExtensions.getId().getExten());
 			extensions[0].getId().setPriority((byte)1);
-			extensions[0].setApp("Answer");
+			extensions[0].setApp(APP_ANSWER);
 			extensions[0].setId_1(newExtensions.getId_1());
 			
 			extensions[1] = new Extensions();
@@ -133,7 +153,7 @@ public class ExtensionsController extends BaseController implements Serializable
 			extensions[1].getId().setContext(newExtensions.getId().getContext());
 			extensions[1].getId().setExten(newExtensions.getId().getExten());
 			extensions[1].getId().setPriority((byte)2);
-			extensions[1].setApp("Dial");
+			extensions[1].setApp(APP_DIAL);
 			extensions[1].setAppdata("SIP/${EXTEN}");
 			extensions[1].setId_1(newExtensions.getId_1() + 1);
 			
@@ -142,7 +162,7 @@ public class ExtensionsController extends BaseController implements Serializable
 			extensions[2].getId().setContext(newExtensions.getId().getContext());
 			extensions[2].getId().setExten(newExtensions.getId().getExten());
 			extensions[2].getId().setPriority((byte)3);
-			extensions[2].setApp("Hangup");
+			extensions[2].setApp(APP_HANGUP);
 			extensions[2].setId_1(newExtensions.getId_1() + 2);
 			
 		} else if (newExtensions.getExtensionsWizzard().isRecord() && !newExtensions.getExtensionsWizzard().isLimit() &&
@@ -155,7 +175,7 @@ public class ExtensionsController extends BaseController implements Serializable
 			extensions[0].getId().setContext(newExtensions.getId().getContext());
 			extensions[0].getId().setExten(newExtensions.getId().getExten());
 			extensions[0].getId().setPriority((byte)1);
-			extensions[0].setApp("Answer");
+			extensions[0].setApp(APP_ANSWER);
 			extensions[0].setId_1(newExtensions.getId_1());
 			
 			extensions[1] = new Extensions();
@@ -163,9 +183,179 @@ public class ExtensionsController extends BaseController implements Serializable
 			extensions[1].getId().setContext(newExtensions.getId().getContext());
 			extensions[1].getId().setExten(newExtensions.getId().getExten());
 			extensions[1].getId().setPriority((byte)2);
-			extensions[1].setApp("Set");
+			extensions[1].setApp(APP_SET);
 			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%-%H%M%S)}-${CALLERID(num)}");
 			extensions[1].setId_1(newExtensions.getId_1() + 1);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)3);
+			extensions[1].setApp(APP_MIX_MONITOR);
+			extensions[1].setAppdata(param_record_path.getValue() +" ​${MONITOR_FILENAME}.wav,b");
+			extensions[1].setId_1(newExtensions.getId_1() + 2);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)4);
+			extensions[1].setApp(APP_DIAL);
+			extensions[1].setAppdata("SIP/${EXTEN}");
+			extensions[1].setId_1(newExtensions.getId_1() + 3);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)5);
+			extensions[1].setApp(APP_HANGUP);
+			extensions[1].setId_1(newExtensions.getId_1() + 4);
+			
+		} else if (newExtensions.getExtensionsWizzard().isRecord() && newExtensions.getExtensionsWizzard().isLimit() &&
+				!newExtensions.getExtensionsWizzard().isTransfer() && !newExtensions.getExtensionsWizzard().isWait()) {
+			
+			extensions = new Extensions[5];
+			
+			extensions[0] = new Extensions();
+			extensions[0].setId(new ExtensionsId());
+			extensions[0].getId().setContext(newExtensions.getId().getContext());
+			extensions[0].getId().setExten(newExtensions.getId().getExten());
+			extensions[0].getId().setPriority((byte)1);
+			extensions[0].setApp(APP_ANSWER);
+			extensions[0].setId_1(newExtensions.getId_1());
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)2);
+			extensions[1].setApp(APP_SET);
+			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%d-%H%M%S)}-${CALLERID(num)}");
+			extensions[1].setId_1(newExtensions.getId_1() + 1);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)3);
+			extensions[1].setApp(APP_MIX_MONITOR);
+			extensions[1].setAppdata(param_record_path.getValue() +" ${MONITOR_FILENAME}.wav,b");
+			extensions[1].setId_1(newExtensions.getId_1() + 2);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)4);
+			extensions[1].setApp(APP_DIAL);
+			extensions[1].setAppdata("SIP/${EXTEN},,L(120000:30000:10000)");
+			extensions[1].setId_1(newExtensions.getId_1() + 3);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)5);
+			extensions[1].setApp(APP_HANGUP);
+			extensions[1].setId_1(newExtensions.getId_1() + 4);
+			
+		} else if (newExtensions.getExtensionsWizzard().isRecord() && newExtensions.getExtensionsWizzard().isLimit() &&
+				!newExtensions.getExtensionsWizzard().isTransfer() && newExtensions.getExtensionsWizzard().isWait()) {
+			
+			extensions = new Extensions[5];
+			
+			extensions[0] = new Extensions();
+			extensions[0].setId(new ExtensionsId());
+			extensions[0].getId().setContext(newExtensions.getId().getContext());
+			extensions[0].getId().setExten(newExtensions.getId().getExten());
+			extensions[0].getId().setPriority((byte)1);
+			extensions[0].setApp(APP_ANSWER);
+			extensions[0].setId_1(newExtensions.getId_1());
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)2);
+			extensions[1].setApp(APP_SET);
+			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%d-%H%M%S)}-${CALLERID(num)}");
+			extensions[1].setId_1(newExtensions.getId_1() + 1);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)3);
+			extensions[1].setApp(APP_MIX_MONITOR);
+			extensions[1].setAppdata(param_record_path.getValue() +" ${MONITOR_FILENAME}.wav,b");
+			extensions[1].setId_1(newExtensions.getId_1() + 2);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)4);
+			extensions[1].setApp(APP_DIAL);
+			extensions[1].setAppdata("SIP/${EXTEN},15,L(120000:30000:10000)");
+			extensions[1].setId_1(newExtensions.getId_1() + 3);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)5);
+			extensions[1].setApp(APP_HANGUP);
+			extensions[1].setId_1(newExtensions.getId_1() + 4);
+			
+		} else if (newExtensions.getExtensionsWizzard().isRecord() && newExtensions.getExtensionsWizzard().isLimit() &&
+				newExtensions.getExtensionsWizzard().isTransfer() && newExtensions.getExtensionsWizzard().isWait()) {
+			
+			extensions = new Extensions[5];
+			
+			extensions[0] = new Extensions();
+			extensions[0].setId(new ExtensionsId());
+			extensions[0].getId().setContext(newExtensions.getId().getContext());
+			extensions[0].getId().setExten(newExtensions.getId().getExten());
+			extensions[0].getId().setPriority((byte)1);
+			extensions[0].setApp(APP_ANSWER);
+			extensions[0].setId_1(newExtensions.getId_1());
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)2);
+			extensions[1].setApp(APP_SET);
+			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%d-%H%M%S)}-${CALLERID(num)}");
+			extensions[1].setId_1(newExtensions.getId_1() + 1);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)3);
+			extensions[1].setApp(APP_MIX_MONITOR);
+			extensions[1].setAppdata(param_record_path.getValue() +" ${MONITOR_FILENAME}.wav,b");
+			extensions[1].setId_1(newExtensions.getId_1() + 2);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)4);
+			extensions[1].setApp(APP_DIAL);
+			extensions[1].setAppdata("SIP/103&SIP/104,15,L(120000:30000:10000)");
+			extensions[1].setId_1(newExtensions.getId_1() + 3);
+			
+			extensions[1] = new Extensions();
+			extensions[1].setId(new ExtensionsId());
+			extensions[1].getId().setContext(newExtensions.getId().getContext());
+			extensions[1].getId().setExten(newExtensions.getId().getExten());
+			extensions[1].getId().setPriority((byte)5);
+			extensions[1].setApp(APP_HANGUP);
+			extensions[1].setId_1(newExtensions.getId_1() + 4);
 			
 		}
 		
@@ -181,7 +371,7 @@ public class ExtensionsController extends BaseController implements Serializable
 			extensionsDAO.modifier(selectedExtensions);
 			log.info("Modification successful");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Modified!", "Modification successful"));
-			initNewUser();
+			initNewExtensions();
 		} else {
 //			log.error("You have not privileges for this ACL {}", permission);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authorization!", "No tiene privilegios para esta accion"));
@@ -197,7 +387,7 @@ public class ExtensionsController extends BaseController implements Serializable
 				log.info("Eliminacion exitosa del usuario : {}", selectedExtensions.getId_1());
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado!", "Eliminacion exitosa del usuario : " + selectedExtensions.getId_1()));
 			}
-			initNewUser();      
+			initNewExtensions();      
 		} else {			
 //			log.error("You have not privileges for this ACL {}", permission);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authorization!", "No tiene privilegios para esta accion"));
