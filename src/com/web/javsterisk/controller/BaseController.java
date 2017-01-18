@@ -1,5 +1,6 @@
 package com.web.javsterisk.controller;
 
+import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -7,8 +8,6 @@ import javax.faces.bean.ManagedProperty;
 
 import org.hyperic.sigar.SigarException;
 import org.hyperic.sigar.cmd.SigarCommandBase;
-
-import com.ibm.icu.text.MessageFormat;
 
 /**
  * 
