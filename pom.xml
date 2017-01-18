@@ -2,7 +2,7 @@
 
 <project>
 
-	<modelVersion>1.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.web.ctee</groupId>
   	<artifactId>cteeWeb</artifactId>
   	<packaging>war</packaging>
