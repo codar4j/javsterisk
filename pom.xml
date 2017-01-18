@@ -107,9 +107,9 @@
 		<dependency>
 		  <groupId>org.asteriskjava</groupId>
 		  <artifactId>asterisk-java</artifactId>  
-		  <version></version>
+		  <version>1.0.0</version>
 		  <scope>system</scope>
-		  <systemPath>${project.basedir}/WebContent/WEB-INF/lib/asterisk-java.jar</systemPath>
+		  <systemPath>${project.basedir}/WebContent/WEB-INF/lib/asterisk-java-1.0.0.jar</systemPath>
 		</dependency>	
 	</dependencies>
 
