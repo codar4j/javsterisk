@@ -6,7 +6,7 @@ stages:
 - deploy
 
 before_script:
-  - mkdir dist
+  - mkdir target
 
 build:
   stage: build
@@ -14,13 +14,15 @@ build:
   - echo "==============================="
   - echo "Start building war package..."
   - echo "==============================="
-  - mvn install -B
+  - mvn package -U
   - echo "==============================="
   - echo "Finish building war package."
   - echo "==============================="
   artifacts:
     paths:
-      - dist
+      - target/*.war
+      - when: on_success
+      - expire_in: 1 week
 
 deploy_staging:
   stage: build

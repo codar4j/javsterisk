@@ -18,7 +18,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-				    <!-- <include>WebContent/WEB-INF/lib/*.jar</include> -->
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
@@ -26,8 +25,7 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.0.0</version>
-				<configuration>
-					<webappDirectory>/dist</webappDirectory>
+				<configuration>					
 					<warSourceDirectory>WebContent</warSourceDirectory>
 					<packagingIncludes>WEB-INF/lib/*.*</packagingIncludes>                
 					<failOnMissingWebXml>false</failOnMissingWebXml>
