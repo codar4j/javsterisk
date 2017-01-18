@@ -18,7 +18,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-				    <include>WebContent/WEB-INF/lib/*.jar</include>
+				    <!-- <include>WebContent/WEB-INF/lib/*.jar</include> -->
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
@@ -29,7 +29,7 @@
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 					<packagingIncludes>WEB-INF/lib/*.*</packagingIncludes>                
-					<failOnMissingWebXml>true</failOnMissingWebXml>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -37,9 +37,11 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
+		    <groupId>com.sun.faces</groupId>
+		    <artifactId>javax.faces</artifactId>
+		    <version>2.2.8</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/WebContent/WEB-INF/lib/javax.faces-2.2.8.jar</systemPath>
 		</dependency>			
 	</dependencies>
 
