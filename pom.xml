@@ -52,8 +52,8 @@
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang</artifactId>
-		    <version>3.3.1</version>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.1</version>
 		    <scope>system</scope>
 		    <systemPath>${project.basedir}/WebContent/WEB-INF/lib/commons-lang3.3.1.jar</systemPath>
 		</dependency>	
