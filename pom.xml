@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.web.javsterisk</groupId>
-  	<artifactId>javsterisk</artifactId>
+  	<artifactId>javsterisk-free</artifactId>
   	<packaging>war</packaging>
   	<version>1.0-SNAPSHOT</version>
   	<name>javsterisk free Project</name>

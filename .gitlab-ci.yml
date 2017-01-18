@@ -9,4 +9,5 @@ build:
   stage: build
   script: 
   - echo "Building war package..."
+  - echo ${project.basedir}
   - mvn install -B
