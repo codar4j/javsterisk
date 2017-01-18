@@ -5,6 +5,9 @@ stages:
 - test
 - deploy
 
+before_script:
+  - mkdir target
+
 build:
   stage: build
   script: 
@@ -15,6 +18,9 @@ build:
   - echo "==============================="
   - echo "Finish building war package."
   - echo "==============================="
+  artifacts:
+    paths:
+      - target
 
 deploy_staging:
   stage: build
