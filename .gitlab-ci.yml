@@ -11,7 +11,7 @@ build:
   - echo "==============================="
   - echo "Start building war package..."
   - echo "==============================="
-  - mvn package -U
+  - mvn install -B
   - echo "==============================="
   - echo "Finish building war package."
   - echo "==============================="
