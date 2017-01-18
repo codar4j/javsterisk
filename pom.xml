@@ -9,19 +9,7 @@
   	<version>1.0-SNAPSHOT</version>
   	<name>javsterisk free Project</name>
   	<url>http://www.javsterisk.org</url>
-  	
-  	<repository>
-	    <id>repo</id>
-	    <releases>
-	        <enabled>true</enabled>
-	        <checksumPolicy>ignore</checksumPolicy>
-	    </releases>
-	    <snapshots>
-	        <enabled>false</enabled>
-	    </snapshots>
-	    <url>file://${project.basedir}/repo</url>
-	</repository>
-  	
+  
   	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
