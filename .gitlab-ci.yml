@@ -19,7 +19,7 @@ build:
 deploy_staging:
   stage: build
   script:
-    - echo "Deployinf to staging server : build"
+    - echo "Deployinf to staging server build"
   environment:
     name: build
     url: https://build.javsterisk.com
