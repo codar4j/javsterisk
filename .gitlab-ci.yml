@@ -15,3 +15,13 @@ build:
   - echo "==============================="
   - echo "Finish building war package."
   - echo "==============================="
+
+deploy_staging:
+  stage: build
+  script:
+    - echo "Deployinf to staging server : build"
+  environment:
+    name: build
+    url: https://build.javsterisk.com
+  only:
+  - master
