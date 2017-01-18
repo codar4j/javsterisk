@@ -88,7 +88,7 @@
 		    <artifactId>hibernate-core</artifactId>
 		    <version>5.1.0.Final</version>
 		    <scope>system</scope>
-		    <systemPath>${project.basedir}/WebContent/WEB-INF/lib/hibernate-core-5.1.0.jar</systemPath>
+		    <systemPath>${project.basedir}/WebContent/WEB-INF/lib/hibernate-core-5.1.0.Final.jar</systemPath>
 		</dependency>
 		<dependency>
 		  <groupId>org.hyperic</groupId>
