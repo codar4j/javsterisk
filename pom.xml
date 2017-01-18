@@ -77,11 +77,11 @@
 		    <systemPath>${project.basedir}/WebContent/WEB-INF/lib/log4j-api-2.1.jar</systemPath>
 		</dependency>		
 		<dependency>
-		  <groupId>org.hyperic</groupId>
-		  <artifactId>sigar</artifactId>  
-		  <version>1.6.4</version>
-		  <systemPath>${project.basedir}/WebContent/WEB-INF/lib/sigar-1.6.4.jar</systemPath>
-		</dependency>			
+		  <groupId>javax.persistence</groupId>
+		  <artifactId>hibernate-jpa-2.1-api</artifactId>  
+		  <version>1.0.0.Final</version>
+		  <systemPath>${project.basedir}/WebContent/WEB-INF/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar</systemPath>
+		</dependency>		
 	</dependencies>
 
 </project>
