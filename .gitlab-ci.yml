@@ -19,6 +19,7 @@ build:
   - echo "Finish building war package."
   - echo "==============================="
   artifacts:
+    name: "$CI_BUILD_NAME"
     paths:
       - target/*.war
     when: on_success
