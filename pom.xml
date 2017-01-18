@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+<groupId>com.web.ctee</groupId>
+  <artifactId>cteeWeb</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Documented Project</name>
+  <url>http://ctee.com</url>
+
+</project>
