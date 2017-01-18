@@ -3,5 +3,6 @@
 /.classpath
 /.project
 /.tern-project
+/.faces-config.xml.jsfdia
 /.gitlab-ci.yml
 /.settings/
