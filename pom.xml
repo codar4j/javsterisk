@@ -77,7 +77,7 @@
 		    <systemPath>${project.basedir}/WebContent/WEB-INF/lib/log4j-api-2.1.jar</systemPath>
 		</dependency>		
 		<dependency>
-		  <groupId>org.hyperic.sigar</groupId>
+		  <groupId>org.hyperic</groupId>
 		  <artifactId>sigar</artifactId>  
 		  <version>1.6.4</version>
 		  <systemPath>${project.basedir}/WebContent/WEB-INF/lib/sigar-1.6.4.jar</systemPath>
