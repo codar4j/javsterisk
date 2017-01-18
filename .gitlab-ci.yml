@@ -8,5 +8,10 @@ stages:
 build:
   stage: build
   script: 
-  - echo "Building war package..."
+  - echo "==============================="
+  - echo "Start building war package..."
+  - echo "==============================="
   - mvn install -B
+  - echo "==============================="
+  - echo "Finish building war package."
+  - echo "==============================="
