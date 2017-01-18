@@ -1,4 +1,12 @@
 image: maven:3-jdk-7
 
+stages:
+- build
+- test
+- deploy
+
 build:
-  script: "mvn install -B"
+  stage: build
+  script: 
+  - echo "Building war package..."
+  - mvn install -B
