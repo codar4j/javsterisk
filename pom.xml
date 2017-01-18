@@ -78,20 +78,24 @@
 		</dependency>		
 		<dependency>
 		   <groupId>javax.persistence</groupId>
-		   <artifactId>persistence-api</artifactId>
-		   <version>1.0.2</version>
-		   <scope>provided</scope>
+		   <artifactId>hibernate-jpa-2.1-api</artifactId>
+		   <version>1.0.0.Final</version>
+		   <scope>system</scope>
+		   <systemPath>${project.basedir}/WebContent/WEB-INF/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar</systemPath>
 		</dependency>	
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>
 		    <version>5.1.0.Final</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/WebContent/WEB-INF/lib/hibernate-core-5.1.0.jar</systemPath>
 		</dependency>
 		<dependency>
-		    <groupId>org.hyperic</groupId>
-		    <artifactId>sigar</artifactId>
-		    <version>1.6.4</version>
-		</dependency>
+		  <groupId>org.hyperic</groupId>
+		  <artifactId>sigar</artifactId>  
+		  <scope>system</scope>
+		  <systemPath>${project.basedir}/WebContent/WEB-INF/lib/sigar-1.6.4.jar</systemPath>
+		</dependency>	
 	</dependencies>
 
 </project>
