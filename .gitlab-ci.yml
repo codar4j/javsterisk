@@ -21,8 +21,8 @@ build:
   artifacts:
     paths:
       - target/*.war
-      - when: on_success
-      - expire_in: 1 week
+    when: on_success
+    expire_in: 1 week
 
 deploy_staging:
   stage: build
