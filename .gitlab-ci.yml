@@ -24,13 +24,3 @@ build:
       - target/*.war
     when: on_success
     expire_in: 1 week
-
-deploy_staging:
-  stage: build
-  script:
-    - echo "Deploying to staging server build"
-  environment:
-    name: build
-    url: https://build.javsterisk.com
-  only:
-  - master
