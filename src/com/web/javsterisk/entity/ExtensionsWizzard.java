@@ -51,17 +51,35 @@ public class ExtensionsWizzard implements java.io.Serializable {
 	@Column(name = "limite", nullable = false)
 	private boolean limit;
 	
+	@Column(name = "timeLimit")
+	private String timeLimit;
+
+	@Column(name = "firstAlert")
+	private String firstAlert;
+	
+	@Column(name = "secondAlert")
+	private String secondAlert;
+	
 	@NotNull
 	@Column(name = "wait", nullable = false)
 	private boolean wait;
 	
+	@Column(name = "timeWait")
+	private String timeWait;
+	
 	@NotNull
 	@Column(name = "transfer", nullable = false)
 	private boolean transfer;
+	
+	@Column(name = "firstExtension")
+	private String firstExtension;
+	
+	@Column(name = "secondExtension")
+	private String secondExtension;
 
 	public ExtensionsWizzard() {
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -110,6 +128,30 @@ public class ExtensionsWizzard implements java.io.Serializable {
 		this.limit = limit;
 	}
 
+	public String getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(String timeLimit) {
+		this.timeLimit = timeLimit;
+	}
+
+	public String getFirstAlert() {
+		return firstAlert;
+	}
+
+	public void setFirstAlert(String firstAlert) {
+		this.firstAlert = firstAlert;
+	}
+
+	public String getSecondAlert() {
+		return secondAlert;
+	}
+
+	public void setSecondAlert(String secondAlert) {
+		this.secondAlert = secondAlert;
+	}
+
 	public boolean isWait() {
 		return wait;
 	}
@@ -118,12 +160,36 @@ public class ExtensionsWizzard implements java.io.Serializable {
 		this.wait = wait;
 	}
 
+	public String getTimeWait() {
+		return timeWait;
+	}
+
+	public void setTimeWait(String timeWait) {
+		this.timeWait = timeWait;
+	}
+
 	public boolean isTransfer() {
 		return transfer;
 	}
 
 	public void setTransfer(boolean transfer) {
 		this.transfer = transfer;
+	}
+
+	public String getFirstExtension() {
+		return firstExtension;
+	}
+
+	public void setFirstExtension(String firstExtension) {
+		this.firstExtension = firstExtension;
+	}
+
+	public String getSecondExtension() {
+		return secondExtension;
+	}
+
+	public void setSecondExtension(String secondExtension) {
+		this.secondExtension = secondExtension;
 	}
 
 	@Override
@@ -154,8 +220,10 @@ public class ExtensionsWizzard implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "ExtensionsWizzard [id=" + id + ", extensions=" + extensions + ", digito=" + digito + ", longitud="
-				+ longitud + ", record=" + record + ", limit=" + limit + ", wait=" + wait + ", transfer=" + transfer
-				+ "]";
+				+ longitud + ", record=" + record + ", limit=" + limit + ", timeLimit=" + timeLimit + ", firstAlert="
+				+ firstAlert + ", secondAlert=" + secondAlert + ", wait=" + wait + ", timeWait=" + timeWait
+				+ ", transfer=" + transfer + ", firstExtension=" + firstExtension + ", secondExtension="
+				+ secondExtension + "]";
 	}
 	
 }

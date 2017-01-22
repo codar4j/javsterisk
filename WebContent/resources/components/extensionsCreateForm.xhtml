@@ -14,7 +14,9 @@
 		<!-- IMPLEMENTATION -->
 		<composite:implementation>
 		
-			<h:panelGrid columns="3" columnClasses="titleCell">
+			<h:panelGrid columns="1" columnClasses="titleCell" border="0">
+			
+				<h:panelGrid columns="3" columnClasses="titleCell" border="0">
 				
 				<p:outputLabel for="contextCreate" value="Contexto" /> 
 				<p:selectOneMenu id="contextCreate" value="#{cc.attrs.extensionsCreate.id.context}" 						 
@@ -59,29 +61,109 @@
             	</p:selectOneMenu>	
 				<p:message for="longitudCreate" />
 				
-				<p:outputLabel for="recordCreate" value="Record" /> 
-				<p:selectBooleanButton id="recordCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.record}" onLabel="Yes" 
-					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
-					style="width:60px" required="false"/>            		        		
-				<p:message for="recordCreate" />
+				</h:panelGrid>
 				
-				<p:outputLabel for="limitCreate" value="Limit" /> 
-				<p:selectBooleanButton id="limitCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.limit}" onLabel="Yes" 
-					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
-					style="width:60px" required="false"/>            		        		
-				<p:message for="limitCreate" />
+				<p:fieldset>
 				
-				<p:outputLabel for="waitCreate" value="Wait" /> 
-				<p:selectBooleanButton id="waitCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.wait}" onLabel="Yes" 
-					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
-					style="width:60px" required="false"/>            		        		
-				<p:message for="waitCreate" />
+					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
+					
+						<p:outputLabel for="recordCreate" value="Record" /> 
+						<p:selectBooleanButton id="recordCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.record}" onLabel="Yes" 
+							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+							style="width:60px" required="false"/>            		        		
+						<p:message for="recordCreate" />
 				
-				<p:outputLabel for="transferCreate" value="Transfer" /> 
-				<p:selectBooleanButton id="transferCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.transfer}" onLabel="Yes" 
-					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
-					style="width:60px" required="false"/>            		        		
-				<p:message for="transferCreate" />
+					</h:panelGrid>
+				
+				</p:fieldset>
+				
+				
+				<p:fieldset>
+				
+					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
+						
+						<p:outputLabel for="limitCreate" value="Limit" /> 
+						<p:selectBooleanButton id="limitCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.limit}" onLabel="Yes" 
+							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+							style="width:60px" required="false"/>            		        		
+						<p:message for="limitCreate" />
+						
+						<p:outputLabel for="timeLimitCreate" value="Time Limit" /> 
+						<p:inputText id="timeLimitCreate"
+							value="#{cc.attrs.extensionsCreate.extensionsWizzard.timeLimit}" required="false"
+							autocomplete="off" >
+							<p:watermark for="timeLimitCreate" value="Ingrese Time Limit milliseconds" />
+						</p:inputText>
+						<p:message for="timeLimitCreate" />
+						
+						<p:outputLabel for="firstAlertCreate" value="First Alert" /> 
+						<p:inputText id="firstAlertCreate"
+							value="#{cc.attrs.extensionsCreate.extensionsWizzard.firstAlert}" required="false"
+							autocomplete="off" >
+							<p:watermark for="firstAlertCreate" value="Ingrese first alert" />
+						</p:inputText>
+						<p:message for="firstAlertCreate" />
+						
+						<p:outputLabel for="secondAlertCreate" value="Second Alert" /> 
+						<p:inputText id="secondAlertCreate"
+							value="#{cc.attrs.extensionsCreate.extensionsWizzard.secondAlert}" required="false"
+							autocomplete="off" >
+							<p:watermark for="secondAlertCreate" value="Ingrese second alert" />
+						</p:inputText>
+						<p:message for="secondAlertCreate" />
+						
+					</h:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset>
+				
+					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
+						
+						<p:outputLabel for="waitCreate" value="Wait" /> 
+						<p:selectBooleanButton id="waitCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.wait}" onLabel="Yes" 
+							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+							style="width:60px" required="false"/>            		        		
+						<p:message for="waitCreate" />
+						
+						<p:outputLabel for="timeWaitCreate" value="Time wait" /> 
+						<p:inputText id="timeWaitCreate"
+							value="#{cc.attrs.extensionsCreate.extensionsWizzard.timeWait}" required="false"
+							autocomplete="off" >
+							<p:watermark for="timeWaitCreate" value="Ingrese time wait" />
+						</p:inputText>
+						<p:message for="timeWaitCreate" />
+						
+					</h:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset>
+				
+					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
+						
+						<p:outputLabel for="transferCreate" value="Transfer" /> 
+						<p:selectBooleanButton id="transferCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.transfer}" onLabel="Yes" 
+							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+							style="width:60px" required="false"/>            		        		
+						<p:message for="transferCreate" />
+						
+						<p:outputLabel for="firstExtensionCreate" value="First extension" /> 
+						<p:inputText id="firstExtensionCreate"
+							value="#{cc.attrs.extensionsCreate.extensionsWizzard.firstExtension}" required="false"
+							autocomplete="off" >
+							<p:watermark for="firstExtensionCreate" value="Ingrese first extension" />
+						</p:inputText>
+						<p:message for="firstExtensionCreate" />
+						
+						<p:outputLabel for="secondExtensionCreate" value="Second extension" /> 
+						<p:inputText id="secondExtensionCreate"
+							value="#{cc.attrs.extensionsCreate.extensionsWizzard.secondExtension}" required="false"
+							autocomplete="off" >
+							<p:watermark for="secondExtensionCreate" value="Ingrese second extension" />
+						</p:inputText>
+						<p:message for="secondExtensionCreate" />
+						
+					</h:panelGrid>
+				</p:fieldset>
 		        			
 			</h:panelGrid>
 

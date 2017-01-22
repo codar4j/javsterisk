@@ -133,231 +133,141 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		String extension = StringUtils.rightPad(EXT_PREFIX + newExtensions.getExtensionsWizzard().getDigito(), newExtensions.getExtensionsWizzard().getLongitud() + 1, EXT_CHAR);
 		
-		if(!newExtensions.getExtensionsWizzard().isRecord() && !newExtensions.getExtensionsWizzard().isLimit() &&
-				!newExtensions.getExtensionsWizzard().isTransfer() && !newExtensions.getExtensionsWizzard().isWait()) {
+		Extensions answer = new Extensions();
+		answer.setId(new ExtensionsId());
+		answer.getId().setContext(newExtensions.getId().getContext());
+		answer.getId().setExten(newExtensions.getId().getExten());
+		answer.getId().setPriority((byte)1);
+		answer.setApp(APP_ANSWER);
+		answer.setId_1(newExtensions.getId_1());
+		
+		Extensions set = new Extensions();
+		set.setId(new ExtensionsId());
+		set.getId().setContext(newExtensions.getId().getContext());
+		set.getId().setExten(newExtensions.getId().getExten());
+		set.getId().setPriority((byte)2);
+		set.setApp(APP_SET);
+		set.setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%-%H%M%S)}-${CALLERID(num)}");
+		
+		Extensions monitor = new Extensions();
+		monitor.setId(new ExtensionsId());
+		monitor.getId().setContext(newExtensions.getId().getContext());
+		monitor.getId().setExten(newExtensions.getId().getExten());
+		monitor.getId().setPriority((byte)3);
+		monitor.setApp(APP_MIX_MONITOR);
+		monitor.setAppdata(param_record_path.getValue() +" ​${MONITOR_FILENAME}.wav,b");
+		
+		Extensions dial = new Extensions();
+		dial.setId(new ExtensionsId());
+		dial.getId().setContext(newExtensions.getId().getContext());
+		dial.getId().setExten(newExtensions.getId().getExten());
+		dial.getId().setPriority((byte)2);
+		dial.setApp(APP_DIAL);
+		
+		Extensions hangup = new Extensions();
+		hangup.setId(new ExtensionsId());
+		hangup.getId().setContext(newExtensions.getId().getContext());
+		hangup.getId().setExten(newExtensions.getId().getExten());
+		hangup.getId().setPriority((byte)3);
+		hangup.setApp(APP_HANGUP);		
+		
+		
+		
+		String limit = "";
+		
+		if(newExtensions.getExtensionsWizzard().isLimit()) {
+			
+			limit = ",L(" + newExtensions.getExtensionsWizzard().getTimeLimit() + "::)";
+			
+			if(!"".equals(newExtensions.getExtensionsWizzard().getFirstAlert().trim()) 
+					&& "".equals(newExtensions.getExtensionsWizzard().getSecondAlert().trim())) {
+				limit = ",L(" + newExtensions.getExtensionsWizzard().getTimeLimit() + ":" 
+					+ newExtensions.getExtensionsWizzard().getFirstAlert() + ":)";
+			}
+			
+			if(!"".equals(newExtensions.getExtensionsWizzard().getFirstAlert().trim()) 
+					&& !"".equals(newExtensions.getExtensionsWizzard().getSecondAlert().trim())) {
+				limit = ",L(" + newExtensions.getExtensionsWizzard().getTimeLimit() + ":" 
+						+ newExtensions.getExtensionsWizzard().getFirstAlert() + ":" + newExtensions.getExtensionsWizzard().getSecondAlert() + ")";
+			} 
+			
+		}
+
+		String wait = "";
+		
+		if(newExtensions.getExtensionsWizzard().isLimit()) {
+			
+			wait = "," + newExtensions.getExtensionsWizzard().getTimeWait();				
+			
+		}
+
+		String app_dial = "SIP/${EXTEN}";
+		
+		if(newExtensions.getExtensionsWizzard().isTransfer()) {				
+			
+			if(!"".equals(newExtensions.getExtensionsWizzard().getFirstExtension().trim()) 
+					&& "".equals(newExtensions.getExtensionsWizzard().getSecondExtension().trim())) {
+				app_dial = "SIP/" + newExtensions.getExtensionsWizzard().getFirstExtension();
+			}
+			
+			if(!"".equals(newExtensions.getExtensionsWizzard().getFirstExtension().trim()) 
+					&& !"".equals(newExtensions.getExtensionsWizzard().getSecondExtension().trim())) {
+				app_dial = "SIP/" + newExtensions.getExtensionsWizzard().getFirstExtension() + "&" +
+					newExtensions.getExtensionsWizzard().getSecondExtension();
+			}
+			
+		}
+		
+		app_dial += wait + limit;
+		
+		log.info("app_dial : {}", app_dial);
+		
+		
+		if(!newExtensions.getExtensionsWizzard().isRecord() ) {
 			
 			newExtensions.getId().setExten(extension);
 			
 			extensions = new Extensions[3];
 			
-			extensions[0] = new Extensions();
-			extensions[0].setId(new ExtensionsId());
-			extensions[0].getId().setContext(newExtensions.getId().getContext());
-			extensions[0].getId().setExten(newExtensions.getId().getExten());
-			extensions[0].getId().setPriority((byte)1);
-			extensions[0].setApp(APP_ANSWER);
-			extensions[0].setId_1(newExtensions.getId_1());
+			extensions[0] = answer;
 			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)2);
-			extensions[1].setApp(APP_DIAL);
-			extensions[1].setAppdata("SIP/${EXTEN}");
-			extensions[1].setId_1(newExtensions.getId_1() + 1);
+			dial.setAppdata(app_dial);
+			dial.setId_1(extensions[0].getId_1() + 1);
+			extensions[1] = dial;
 			
-			extensions[2] = new Extensions();
-			extensions[2].setId(new ExtensionsId());
-			extensions[2].getId().setContext(newExtensions.getId().getContext());
-			extensions[2].getId().setExten(newExtensions.getId().getExten());
-			extensions[2].getId().setPriority((byte)3);
-			extensions[2].setApp(APP_HANGUP);
-			extensions[2].setId_1(newExtensions.getId_1() + 2);
+			hangup.setId_1(extensions[1].getId_1() + 1);
+			extensions[2] = hangup;
 			
-		} else if (newExtensions.getExtensionsWizzard().isRecord() && !newExtensions.getExtensionsWizzard().isLimit() &&
-				!newExtensions.getExtensionsWizzard().isTransfer() && !newExtensions.getExtensionsWizzard().isWait()) {
+		} else {
 			
 			extensions = new Extensions[5];
 			
-			extensions[0] = new Extensions();
-			extensions[0].setId(new ExtensionsId());
-			extensions[0].getId().setContext(newExtensions.getId().getContext());
-			extensions[0].getId().setExten(newExtensions.getId().getExten());
-			extensions[0].getId().setPriority((byte)1);
-			extensions[0].setApp(APP_ANSWER);
-			extensions[0].setId_1(newExtensions.getId_1());
+			extensions[0] = answer;
 			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)2);
-			extensions[1].setApp(APP_SET);
-			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%-%H%M%S)}-${CALLERID(num)}");
-			extensions[1].setId_1(newExtensions.getId_1() + 1);
+			set.setId_1(extensions[0].getId_1() + 1);
+			extensions[1] = set;
 			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)3);
-			extensions[1].setApp(APP_MIX_MONITOR);
-			extensions[1].setAppdata(param_record_path.getValue() +" ​${MONITOR_FILENAME}.wav,b");
-			extensions[1].setId_1(newExtensions.getId_1() + 2);
+			monitor.setId_1(extensions[1].getId_1() + 1);
+			extensions[2] = monitor;
 			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)4);
-			extensions[1].setApp(APP_DIAL);
-			extensions[1].setAppdata("SIP/${EXTEN}");
-			extensions[1].setId_1(newExtensions.getId_1() + 3);
+			dial.setAppdata(app_dial);
+			dial.setId_1(extensions[2].getId_1() + 1);
+			extensions[3] = dial;
 			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)5);
-			extensions[1].setApp(APP_HANGUP);
-			extensions[1].setId_1(newExtensions.getId_1() + 4);
-			
-		} else if (newExtensions.getExtensionsWizzard().isRecord() && newExtensions.getExtensionsWizzard().isLimit() &&
-				!newExtensions.getExtensionsWizzard().isTransfer() && !newExtensions.getExtensionsWizzard().isWait()) {
-			
-			extensions = new Extensions[5];
-			
-			extensions[0] = new Extensions();
-			extensions[0].setId(new ExtensionsId());
-			extensions[0].getId().setContext(newExtensions.getId().getContext());
-			extensions[0].getId().setExten(newExtensions.getId().getExten());
-			extensions[0].getId().setPriority((byte)1);
-			extensions[0].setApp(APP_ANSWER);
-			extensions[0].setId_1(newExtensions.getId_1());
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)2);
-			extensions[1].setApp(APP_SET);
-			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%d-%H%M%S)}-${CALLERID(num)}");
-			extensions[1].setId_1(newExtensions.getId_1() + 1);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)3);
-			extensions[1].setApp(APP_MIX_MONITOR);
-			extensions[1].setAppdata(param_record_path.getValue() +" ${MONITOR_FILENAME}.wav,b");
-			extensions[1].setId_1(newExtensions.getId_1() + 2);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)4);
-			extensions[1].setApp(APP_DIAL);
-			extensions[1].setAppdata("SIP/${EXTEN},,L(120000:30000:10000)");
-			extensions[1].setId_1(newExtensions.getId_1() + 3);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)5);
-			extensions[1].setApp(APP_HANGUP);
-			extensions[1].setId_1(newExtensions.getId_1() + 4);
-			
-		} else if (newExtensions.getExtensionsWizzard().isRecord() && newExtensions.getExtensionsWizzard().isLimit() &&
-				!newExtensions.getExtensionsWizzard().isTransfer() && newExtensions.getExtensionsWizzard().isWait()) {
-			
-			extensions = new Extensions[5];
-			
-			extensions[0] = new Extensions();
-			extensions[0].setId(new ExtensionsId());
-			extensions[0].getId().setContext(newExtensions.getId().getContext());
-			extensions[0].getId().setExten(newExtensions.getId().getExten());
-			extensions[0].getId().setPriority((byte)1);
-			extensions[0].setApp(APP_ANSWER);
-			extensions[0].setId_1(newExtensions.getId_1());
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)2);
-			extensions[1].setApp(APP_SET);
-			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%d-%H%M%S)}-${CALLERID(num)}");
-			extensions[1].setId_1(newExtensions.getId_1() + 1);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)3);
-			extensions[1].setApp(APP_MIX_MONITOR);
-			extensions[1].setAppdata(param_record_path.getValue() +" ${MONITOR_FILENAME}.wav,b");
-			extensions[1].setId_1(newExtensions.getId_1() + 2);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)4);
-			extensions[1].setApp(APP_DIAL);
-			extensions[1].setAppdata("SIP/${EXTEN},15,L(120000:30000:10000)");
-			extensions[1].setId_1(newExtensions.getId_1() + 3);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)5);
-			extensions[1].setApp(APP_HANGUP);
-			extensions[1].setId_1(newExtensions.getId_1() + 4);
-			
-		} else if (newExtensions.getExtensionsWizzard().isRecord() && newExtensions.getExtensionsWizzard().isLimit() &&
-				newExtensions.getExtensionsWizzard().isTransfer() && newExtensions.getExtensionsWizzard().isWait()) {
-			
-			extensions = new Extensions[5];
-			
-			extensions[0] = new Extensions();
-			extensions[0].setId(new ExtensionsId());
-			extensions[0].getId().setContext(newExtensions.getId().getContext());
-			extensions[0].getId().setExten(newExtensions.getId().getExten());
-			extensions[0].getId().setPriority((byte)1);
-			extensions[0].setApp(APP_ANSWER);
-			extensions[0].setId_1(newExtensions.getId_1());
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)2);
-			extensions[1].setApp(APP_SET);
-			extensions[1].setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%d-%H%M%S)}-${CALLERID(num)}");
-			extensions[1].setId_1(newExtensions.getId_1() + 1);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)3);
-			extensions[1].setApp(APP_MIX_MONITOR);
-			extensions[1].setAppdata(param_record_path.getValue() +" ${MONITOR_FILENAME}.wav,b");
-			extensions[1].setId_1(newExtensions.getId_1() + 2);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)4);
-			extensions[1].setApp(APP_DIAL);
-			extensions[1].setAppdata("SIP/103&SIP/104,15,L(120000:30000:10000)");
-			extensions[1].setId_1(newExtensions.getId_1() + 3);
-			
-			extensions[1] = new Extensions();
-			extensions[1].setId(new ExtensionsId());
-			extensions[1].getId().setContext(newExtensions.getId().getContext());
-			extensions[1].getId().setExten(newExtensions.getId().getExten());
-			extensions[1].getId().setPriority((byte)5);
-			extensions[1].setApp(APP_HANGUP);
-			extensions[1].setId_1(newExtensions.getId_1() + 4);
+			hangup.setId_1(extensions[3].getId_1() + 1);
+			extensions[4] = hangup;
 			
 		}
+			
+		limit = null;
+		wait = null;
+		app_dial = null;
+		
+		answer = null;
+		set = null;
+		monitor = null;
+		dial = null;
+		hangup = null;
 		
 		extension = null;
 		
