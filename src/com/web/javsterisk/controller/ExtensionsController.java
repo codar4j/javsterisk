@@ -17,6 +17,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 //import com.web.asterisk4j.enumeration.RoleType;
 import com.web.javsterisk.dao.ExtensionsDAO;
+import com.web.javsterisk.dao.ExtensionsWizzardDAO;
 import com.web.javsterisk.dao.ParameterDAO;
 import com.web.javsterisk.entity.Extensions;
 import com.web.javsterisk.entity.ExtensionsId;
@@ -60,6 +61,8 @@ public class ExtensionsController extends BaseController implements Serializable
 	
 	private ExtensionsDAO extensionsDAO;
 	
+	private ExtensionsWizzardDAO extensionsWizzardDAO;
+	
 	private ParameterDAO parameterDAO;
 	
 	Parameter param_record_path;
@@ -81,6 +84,7 @@ public class ExtensionsController extends BaseController implements Serializable
 	public void initNewExtensions() {
 		parameterDAO = new ParameterDAO();		
 		extensionsDAO = new ExtensionsDAO();
+		extensionsWizzardDAO = new ExtensionsWizzardDAO();
 		log.info("@PostConstruct Extensions");
 		if(securityController.isAuthenticated()){
 			param_record_path = parameterDAO.findByName("asterisk.recorder.path");
@@ -108,7 +112,14 @@ public class ExtensionsController extends BaseController implements Serializable
 				Extensions[] extensions = makeExtensions();
 			
 				for(int i = 0 ; i < extensions.length; i ++) {
-					extensionsDAO.register(extensions[i]);
+					
+//					ExtensionsWizzard wizzard =  extensions[i].getExtensionsWizzard();
+//					wizzard.setExtensions(extensions[i]);
+//					extensionsWizzardDAO.register(wizzard);
+					
+					extensionsDAO.register(extensions[i]);		
+					
+//					wizzard = null;
 				}
 				
 				log.info("Registration successful");
@@ -131,18 +142,24 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		Extensions[] extensions = null;
 		
-		String extension = StringUtils.rightPad(EXT_PREFIX + newExtensions.getExtensionsWizzard().getDigito(), newExtensions.getExtensionsWizzard().getLongitud() + 1, EXT_CHAR);
+		ExtensionsWizzard wizzard = newExtensions.getExtensionsWizzard();
+		
+		String extension = StringUtils.rightPad(EXT_PREFIX + wizzard.getDigito(), wizzard.getLongitud() + 1, EXT_CHAR);
+		
+		newExtensions.getId().setExten(extension);
 		
 		Extensions answer = new Extensions();
 		answer.setId(new ExtensionsId());
+		answer.setExtensionsWizzard(wizzard);		
 		answer.getId().setContext(newExtensions.getId().getContext());
 		answer.getId().setExten(newExtensions.getId().getExten());
 		answer.getId().setPriority((byte)1);
 		answer.setApp(APP_ANSWER);
-		answer.setId_1(newExtensions.getId_1());
+		answer.setId_1(newExtensions.getId_1());		
 		
 		Extensions set = new Extensions();
 		set.setId(new ExtensionsId());
+		set.setExtensionsWizzard(wizzard);
 		set.getId().setContext(newExtensions.getId().getContext());
 		set.getId().setExten(newExtensions.getId().getExten());
 		set.getId().setPriority((byte)2);
@@ -151,6 +168,7 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		Extensions monitor = new Extensions();
 		monitor.setId(new ExtensionsId());
+		monitor.setExtensionsWizzard(wizzard);
 		monitor.getId().setContext(newExtensions.getId().getContext());
 		monitor.getId().setExten(newExtensions.getId().getExten());
 		monitor.getId().setPriority((byte)3);
@@ -159,6 +177,7 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		Extensions dial = new Extensions();
 		dial.setId(new ExtensionsId());
+		dial.setExtensionsWizzard(wizzard);
 		dial.getId().setContext(newExtensions.getId().getContext());
 		dial.getId().setExten(newExtensions.getId().getExten());
 		dial.getId().setPriority((byte)2);
@@ -166,6 +185,7 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		Extensions hangup = new Extensions();
 		hangup.setId(new ExtensionsId());
+		hangup.setExtensionsWizzard(wizzard);
 		hangup.getId().setContext(newExtensions.getId().getContext());
 		hangup.getId().setExten(newExtensions.getId().getExten());
 		hangup.getId().setPriority((byte)3);
@@ -175,45 +195,45 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		String limit = "";
 		
-		if(newExtensions.getExtensionsWizzard().isLimit()) {
+		if(wizzard.isLimit()) {
 			
-			limit = ",L(" + newExtensions.getExtensionsWizzard().getTimeLimit() + "::)";
+			limit = ",L(" + wizzard.getTimeLimit() + "::)";
 			
-			if(!"".equals(newExtensions.getExtensionsWizzard().getFirstAlert().trim()) 
-					&& "".equals(newExtensions.getExtensionsWizzard().getSecondAlert().trim())) {
-				limit = ",L(" + newExtensions.getExtensionsWizzard().getTimeLimit() + ":" 
-					+ newExtensions.getExtensionsWizzard().getFirstAlert() + ":)";
+			if(!"".equals(wizzard.getFirstAlert().trim()) 
+					&& "".equals(wizzard.getSecondAlert().trim())) {
+				limit = ",L(" + wizzard.getTimeLimit() + ":" 
+					+ wizzard.getFirstAlert() + ":)";
 			}
 			
-			if(!"".equals(newExtensions.getExtensionsWizzard().getFirstAlert().trim()) 
-					&& !"".equals(newExtensions.getExtensionsWizzard().getSecondAlert().trim())) {
-				limit = ",L(" + newExtensions.getExtensionsWizzard().getTimeLimit() + ":" 
-						+ newExtensions.getExtensionsWizzard().getFirstAlert() + ":" + newExtensions.getExtensionsWizzard().getSecondAlert() + ")";
+			if(!"".equals(wizzard.getFirstAlert().trim()) 
+					&& !"".equals(wizzard.getSecondAlert().trim())) {
+				limit = ",L(" + wizzard.getTimeLimit() + ":" 
+						+ wizzard.getFirstAlert() + ":" + wizzard.getSecondAlert() + ")";
 			} 
 			
 		}
 
 		String wait = "";
 		
-		if(newExtensions.getExtensionsWizzard().isLimit()) {
+		if(wizzard.isLimit()) {
 			
-			wait = "," + newExtensions.getExtensionsWizzard().getTimeWait();				
+			wait = "," + wizzard.getTimeWait();				
 			
 		}
 
 		String app_dial = "SIP/${EXTEN}";
 		
-		if(newExtensions.getExtensionsWizzard().isTransfer()) {				
+		if(wizzard.isTransfer()) {				
 			
-			if(!"".equals(newExtensions.getExtensionsWizzard().getFirstExtension().trim()) 
-					&& "".equals(newExtensions.getExtensionsWizzard().getSecondExtension().trim())) {
-				app_dial = "SIP/" + newExtensions.getExtensionsWizzard().getFirstExtension();
+			if(!"".equals(wizzard.getFirstExtension().trim()) 
+					&& "".equals(wizzard.getSecondExtension().trim())) {
+				app_dial = "SIP/" + wizzard.getFirstExtension();
 			}
 			
-			if(!"".equals(newExtensions.getExtensionsWizzard().getFirstExtension().trim()) 
-					&& !"".equals(newExtensions.getExtensionsWizzard().getSecondExtension().trim())) {
-				app_dial = "SIP/" + newExtensions.getExtensionsWizzard().getFirstExtension() + "&" +
-					newExtensions.getExtensionsWizzard().getSecondExtension();
+			if(!"".equals(wizzard.getFirstExtension().trim()) 
+					&& !"".equals(wizzard.getSecondExtension().trim())) {
+				app_dial = "SIP/" + wizzard.getFirstExtension() + "&" +
+						wizzard.getSecondExtension();
 			}
 			
 		}
@@ -223,9 +243,7 @@ public class ExtensionsController extends BaseController implements Serializable
 		log.info("app_dial : {}", app_dial);
 		
 		
-		if(!newExtensions.getExtensionsWizzard().isRecord() ) {
-			
-			newExtensions.getId().setExten(extension);
+		if(!wizzard.isRecord() ) {
 			
 			extensions = new Extensions[3];
 			
@@ -269,6 +287,7 @@ public class ExtensionsController extends BaseController implements Serializable
 		dial = null;
 		hangup = null;
 		
+		wizzard = null;
 		extension = null;
 		
 		return extensions;

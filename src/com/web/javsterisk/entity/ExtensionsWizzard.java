@@ -1,5 +1,9 @@
 package com.web.javsterisk.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+
 // Generated 07-03-2014 02:28:25 PM by Hibernate Tools 3.4.0.CR1
 
 //import javax.persistence.AttributeOverride;
@@ -10,9 +14,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.IndexColumn;
 
 /**
  * 
@@ -32,8 +40,9 @@ public class ExtensionsWizzard implements java.io.Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	private Extensions extensions;
+	@OneToMany(cascade= CascadeType.ALL)
+	@JoinColumn(name="IdProfesor")
+	private List<Extensions> extensions;
 	
 	@NotNull
 	@Column(name = "digito", nullable = false)
@@ -88,11 +97,11 @@ public class ExtensionsWizzard implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Extensions getExtensions() {
+	public List<Extensions> getExtensions() {
 		return extensions;
 	}
 
-	public void setExtensions(Extensions extensions) {
+	public void setExtensions(List<Extensions> extensions) {
 		this.extensions = extensions;
 	}
 
