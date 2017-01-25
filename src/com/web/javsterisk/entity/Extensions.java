@@ -50,7 +50,6 @@ public class Extensions implements java.io.Serializable {
 	private String appdata = "";
 	
 	@ManyToOne
-	@JoinColumn(name="IdProfesor")
 	private ExtensionsWizzard extensionsWizzard;
 	
 	public Extensions() {
