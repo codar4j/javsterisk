@@ -111,7 +111,7 @@
             		<h:outputText value="#{extensions.id.exten}" />            		  
         		</p:column>
         		
-        		<p:column sortBy="#{extensions.id.priority}" filterBy="#{extensions.id.priority}" filterMatchMode="contains">  
+        		<p:column>  
                 	<f:facet name="header">  
             			<h:outputText value="Priority" />  
         			</f:facet> 
@@ -149,7 +149,7 @@
             		showEffect="fade" hideEffect="explode">  
            
                 <h:panelGroup id="createPanel">	            
-	                <my:extensionsCreateForm id="createComponent" extensionsCreate="#{extensionsController.newExtensions}"/>
+	                <my:extensionsCreateForm id="createComponent" extensionsWizzardCreate="#{extensionsController.newExtensionsWizzard}"/>
 	            </h:panelGroup>	        	           
             	
             	<p:separator/>

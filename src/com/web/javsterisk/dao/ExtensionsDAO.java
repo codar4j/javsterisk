@@ -50,7 +50,7 @@ public class ExtensionsDAO {
 			HibernateUtil.openSessionAndBindToThread();
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			Criteria criteria = session.createCriteria(Extensions.class);
-			criteria.addOrder(Order.asc("id"));
+			criteria.addOrder(Order.asc("id_1"));
 			list = criteria.list();
 		} finally {
 			HibernateUtil.closeSessionAndUnbindFromThread();	

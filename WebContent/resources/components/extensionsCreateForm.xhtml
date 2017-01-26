@@ -8,7 +8,7 @@
 
 		<!-- INTERFACE -->
 		<composite:interface>
-			<composite:attribute name="extensionsCreate" />
+			<composite:attribute name="extensionsWizzardCreate" />
 		</composite:interface>
 
 		<!-- IMPLEMENTATION -->
@@ -19,7 +19,7 @@
 				<h:panelGrid columns="3" columnClasses="titleCell" border="0">
 				
 				<p:outputLabel for="contextCreate" value="Contexto" /> 
-				<p:selectOneMenu id="contextCreate" value="#{cc.attrs.extensionsCreate.id.context}" 						 
+				<p:selectOneMenu id="contextCreate" value="#{extensionsController.context}" 						 
                         effect="fade" filter="true" filterMatchMode="startsWith">
 		 			<f:selectItem itemLabel="Seleccione Context" itemValue="#{null}"/>
                 	<f:selectItems value="#{contextController.contexts}" var="context" itemLabel="#{context.name}" itemValue="#{context.name}"/>
@@ -28,7 +28,7 @@
 				
 				<p:outputLabel for="digitoCreate" value="Digito" /> 
 				<p:selectOneMenu id="digitoCreate" 
-							value="#{cc.attrs.extensionsCreate.extensionsWizzard.digito}" 
+							value="#{cc.attrs.extensionsWizzardCreate.digito}" 
 							required="true">  
                 		<f:selectItem itemLabel="Seleccione Digito" itemValue="#{null}"/>
                 		<f:selectItem itemLabel="0" itemValue="0"/>
@@ -46,7 +46,7 @@
 				
 				<p:outputLabel for="longitudCreate" value="Longitud" /> 
 				<p:selectOneMenu id="longitudCreate" 
-							value="#{cc.attrs.extensionsCreate.extensionsWizzard.longitud}" 
+							value="#{cc.attrs.extensionsWizzardCreate.longitud}" 
 							required="true">  
                 		<f:selectItem itemLabel="Seleccione Longitud" itemValue="#{null}"/>
                 		<f:selectItem itemLabel="1" itemValue="1"/>
@@ -68,7 +68,7 @@
 					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
 					
 						<p:outputLabel for="recordCreate" value="Record" /> 
-						<p:selectBooleanButton id="recordCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.record}" onLabel="Yes" 
+						<p:selectBooleanButton id="recordCreate" value="#{cc.attrs.extensionsWizzardCreate.record}" onLabel="Yes" 
 							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
 							style="width:60px" required="false"/>            		        		
 						<p:message for="recordCreate" />
@@ -83,14 +83,14 @@
 					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
 						
 						<p:outputLabel for="limitCreate" value="Limit" /> 
-						<p:selectBooleanButton id="limitCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.limit}" onLabel="Yes" 
+						<p:selectBooleanButton id="limitCreate" value="#{cc.attrs.extensionsWizzardCreate.limit}" onLabel="Yes" 
 							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
 							style="width:60px" required="false"/>            		        		
 						<p:message for="limitCreate" />
 						
 						<p:outputLabel for="timeLimitCreate" value="Time Limit" /> 
 						<p:inputText id="timeLimitCreate"
-							value="#{cc.attrs.extensionsCreate.extensionsWizzard.timeLimit}" required="false"
+							value="#{cc.attrs.extensionsWizzardCreate.timeLimit}" required="false"
 							autocomplete="off" >
 							<p:watermark for="timeLimitCreate" value="Ingrese Time Limit milliseconds" />
 						</p:inputText>
@@ -98,7 +98,7 @@
 						
 						<p:outputLabel for="firstAlertCreate" value="First Alert" /> 
 						<p:inputText id="firstAlertCreate"
-							value="#{cc.attrs.extensionsCreate.extensionsWizzard.firstAlert}" required="false"
+							value="#{cc.attrs.extensionsWizzardCreate.firstAlert}" required="false"
 							autocomplete="off" >
 							<p:watermark for="firstAlertCreate" value="Ingrese first alert" />
 						</p:inputText>
@@ -106,7 +106,7 @@
 						
 						<p:outputLabel for="secondAlertCreate" value="Second Alert" /> 
 						<p:inputText id="secondAlertCreate"
-							value="#{cc.attrs.extensionsCreate.extensionsWizzard.secondAlert}" required="false"
+							value="#{cc.attrs.extensionsWizzardCreate.secondAlert}" required="false"
 							autocomplete="off" >
 							<p:watermark for="secondAlertCreate" value="Ingrese second alert" />
 						</p:inputText>
@@ -120,14 +120,14 @@
 					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
 						
 						<p:outputLabel for="waitCreate" value="Wait" /> 
-						<p:selectBooleanButton id="waitCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.wait}" onLabel="Yes" 
+						<p:selectBooleanButton id="waitCreate" value="#{cc.attrs.extensionsWizzardCreate.wait}" onLabel="Yes" 
 							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
 							style="width:60px" required="false"/>            		        		
 						<p:message for="waitCreate" />
 						
 						<p:outputLabel for="timeWaitCreate" value="Time wait" /> 
 						<p:inputText id="timeWaitCreate"
-							value="#{cc.attrs.extensionsCreate.extensionsWizzard.timeWait}" required="false"
+							value="#{cc.attrs.extensionsWizzardCreate.timeWait}" required="false"
 							autocomplete="off" >
 							<p:watermark for="timeWaitCreate" value="Ingrese time wait" />
 						</p:inputText>
@@ -141,14 +141,14 @@
 					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
 						
 						<p:outputLabel for="transferCreate" value="Transfer" /> 
-						<p:selectBooleanButton id="transferCreate" value="#{cc.attrs.extensionsCreate.extensionsWizzard.transfer}" onLabel="Yes" 
+						<p:selectBooleanButton id="transferCreate" value="#{cc.attrs.extensionsWizzardCreate.transfer}" onLabel="Yes" 
 							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
 							style="width:60px" required="false"/>            		        		
 						<p:message for="transferCreate" />
 						
 						<p:outputLabel for="firstExtensionCreate" value="First extension" /> 
 						<p:inputText id="firstExtensionCreate"
-							value="#{cc.attrs.extensionsCreate.extensionsWizzard.firstExtension}" required="false"
+							value="#{cc.attrs.extensionsWizzardCreate.firstExtension}" required="false"
 							autocomplete="off" >
 							<p:watermark for="firstExtensionCreate" value="Ingrese first extension" />
 						</p:inputText>
@@ -156,7 +156,7 @@
 						
 						<p:outputLabel for="secondExtensionCreate" value="Second extension" /> 
 						<p:inputText id="secondExtensionCreate"
-							value="#{cc.attrs.extensionsCreate.extensionsWizzard.secondExtension}" required="false"
+							value="#{cc.attrs.extensionsWizzardCreate.secondExtension}" required="false"
 							autocomplete="off" >
 							<p:watermark for="secondExtensionCreate" value="Ingrese second extension" />
 						</p:inputText>

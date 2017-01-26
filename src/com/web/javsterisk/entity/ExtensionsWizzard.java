@@ -3,11 +3,6 @@ package com.web.javsterisk.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-
-// Generated 07-03-2014 02:28:25 PM by Hibernate Tools 3.4.0.CR1
-
-//import javax.persistence.AttributeOverride;
-//import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,12 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.IndexColumn;
 
 /**
  * 
@@ -40,9 +33,12 @@ public class ExtensionsWizzard implements java.io.Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToMany(cascade= CascadeType.ALL)
-	@JoinColumn(name="IdProfesor")
-	private List<Extensions> extensions;
+//	@EmbeddedId
+//	@AttributeOverrides({
+//			@AttributeOverride(name = "context", column = @Column(name = "context", nullable = false, length = 20)),
+//			@AttributeOverride(name = "exten", column = @Column(name = "exten", nullable = false, length = 20)),
+//			@AttributeOverride(name = "priority", column = @Column(name = "priority", nullable = false)) })
+//	private ExtensionsId id;
 	
 	@NotNull
 	@Column(name = "digito", nullable = false)
@@ -85,6 +81,15 @@ public class ExtensionsWizzard implements java.io.Serializable {
 	
 	@Column(name = "secondExtension")
 	private String secondExtension;
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name="wizzard_extensions", 
+				joinColumns={@JoinColumn(name ="wizzardId", referencedColumnName ="id")},
+				inverseJoinColumns={@JoinColumn(name ="context", referencedColumnName ="context"),
+									@JoinColumn(name ="exten", referencedColumnName ="exten"),
+									@JoinColumn(name ="priority", referencedColumnName ="priority")}
+			)
+	private List<Extensions> extensions;
 
 	public ExtensionsWizzard() {
 	}
@@ -95,14 +100,6 @@ public class ExtensionsWizzard implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public List<Extensions> getExtensions() {
-		return extensions;
-	}
-
-	public void setExtensions(List<Extensions> extensions) {
-		this.extensions = extensions;
 	}
 
 	public String getDigito() {
@@ -201,6 +198,14 @@ public class ExtensionsWizzard implements java.io.Serializable {
 		this.secondExtension = secondExtension;
 	}
 
+	public List<Extensions> getExtensions() {
+		return extensions;
+	}
+
+	public void setExtensions(List<Extensions> extensions) {
+		this.extensions = extensions;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -228,7 +233,7 @@ public class ExtensionsWizzard implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "ExtensionsWizzard [id=" + id + ", extensions=" + extensions + ", digito=" + digito + ", longitud="
+		return "ExtensionsWizzard [id=" + id + ", digito=" + digito + ", longitud="
 				+ longitud + ", record=" + record + ", limit=" + limit + ", timeLimit=" + timeLimit + ", firstAlert="
 				+ firstAlert + ", secondAlert=" + secondAlert + ", wait=" + wait + ", timeWait=" + timeWait
 				+ ", transfer=" + transfer + ", firstExtension=" + firstExtension + ", secondExtension="
