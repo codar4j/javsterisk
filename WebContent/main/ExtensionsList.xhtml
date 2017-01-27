@@ -75,7 +75,7 @@
         		paginatorPosition="bottom"
         		resizableColumns="true"
         		draggableColumns="false"        		
-                selection="#{extensionsController.selectedExtensiones}" 
+                selection="#{extensionsController.selectedExtension}" 
                 filteredValue="#{extensionsController.extensionesFiltered}"                                                        
                 widgetVar="extensionsTable">
                 
@@ -88,7 +88,7 @@
                 	</div>
                 </f:facet>
                 
-                <p:column selectionMode="multiple" style="width:3%" exportable="false"/>
+                <p:column selectionMode="single" style="width:3%" exportable="false"/>
                 
                 <p:column sortBy="#{extensions.id_1}" filterBy="#{extensions.id_1}" filterMatchMode="contains" rendered="false">  
                 	<f:facet name="header">  
@@ -211,8 +211,8 @@
             		showEffect="fade" hideEffect="explode">  
                 
 	            <h:panelGroup id="viewPanel">
-	                <my:extensionsDetails id="viewComponent" extensions="#{extensionsController.selectedExtensiones[0]}" rendered="#{extensionsController.selectedExtensionesSize == 1}"/>	                
-	                <h:outputText value="Debe de seleccionar un dial plan!" rendered="#{extensionsController.selectedExtensionesSize != 1}"/>
+	                <my:extensionsDetails id="viewComponent" extensionsWizzard="#{extensionsController.selectedExtension.extensionsWizzard}" rendered="#{extensionsController.selectedExtension != null}"/>	                
+	                <h:outputText value="Debe de seleccionar un dial plan!" rendered="#{extensionsController.selectedExtension == null}"/>
 	            </h:panelGroup>
 				 
 			</p:dialog>
@@ -220,7 +220,7 @@
 			<h:form id="formDelete">
 			
 			<p:confirmDialog id="deleteModalDialog" 
-				message="#{extensionsController.selectedExtensionesSize == 0 ? 'Debe de seleccionar al menos un dial plan!' : 'Esta seguro de eliminar '.concat(extensionsController.selectedExtensionesSize).concat(' dial plans?')}"
+				message="#{extensionsController.selectedExtension == null ? 'Debe de seleccionar al menos un dial plan!' : 'Esta seguro de eliminar '}"
 				header="Eliminacion" severity="alert"
 				closeOnEscape="true" showEffect="fade" hideEffect="explode"
 				widgetVar="deleteModal">
@@ -232,12 +232,12 @@
 					update="deleteModalDialog,:formList:extensionsList,:messages"		  
 					actionListener="#{extensionsController.deleter}"
 					oncomplete="if(!args.validationFailed){deleteModal.hide();}else{deleteModal.show();}"							
-					rendered="#{extensionsController.selectedExtensionesSize != 0}"/>
+					rendered="#{extensionsController.selectedExtension != null}"/>
 																
 				<p:commandButton id="decline" value="No"
 					icon="ui-icon-close"
 					onclick="deleteModal.hide()" type="button" 
-					rendered="#{extensionsController.selectedExtensionesSize != 0}"/>
+					rendered="#{extensionsController.selectedExtension != null}"/>
 
 			</p:confirmDialog>
 			

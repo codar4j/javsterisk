@@ -75,6 +75,8 @@ public class ExtensionsController extends BaseController implements Serializable
 				
 	private Extensions[] selectedExtensiones;
 	
+	private Extensions selectedExtension;
+	
 	private int selectedExtensionesSize;
 	
 	private List<Extensions> extensiones;
@@ -279,12 +281,10 @@ public class ExtensionsController extends BaseController implements Serializable
 	public void deleter() throws Exception { 
 		log.info("Start deleter()");
 //		String permission = formatPermission(new StringBuilder(this.getClass().getSimpleName()), Thread.currentThread().getStackTrace(), 2);	    
-		if ( securityController.isAdministrator() ) {		
-			for(Extensions selectedExtensions : selectedExtensiones){				
-				extensionsDAO.deleter(selectedExtensions);
-				log.info("Eliminacion exitosa del usuario : {}", selectedExtensions.getId_1());
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado!", "Eliminacion exitosa del usuario : " + selectedExtensions.getId_1()));
-			}
+		if ( securityController.isAdministrator() ) {
+			extensionsWizzardDAO.deleter(selectedExtension.getExtensionsWizzard());
+			log.info("Eliminacion exitosa de extension : {}", selectedExtension.getExtensionsWizzard().getId());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado!", "Eliminacion exitosa del usuario : " + selectedExtension.getExtensionsWizzard().getId()));
 			initNewExtensions();      
 		} else {			
 //			log.error("You have not privileges for this ACL {}", permission);
@@ -323,6 +323,14 @@ public class ExtensionsController extends BaseController implements Serializable
 
 	public void setSelectedExtensiones(Extensions[] selectedExtensiones) {
 		this.selectedExtensiones = selectedExtensiones;
+	}
+
+	public Extensions getSelectedExtension() {
+		return selectedExtension;
+	}
+
+	public void setSelectedExtension(Extensions selectedExtension) {
+		this.selectedExtension = selectedExtension;
 	}
 
 	public int getSelectedExtensionesSize() {
