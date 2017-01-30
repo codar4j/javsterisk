@@ -1,13 +1,15 @@
 package com.web.javsterisk.entity;
 
-// Generated 07-03-2014 02:28:25 PM by Hibernate Tools 3.4.0.CR1
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -47,7 +49,19 @@ public class Extensions implements java.io.Serializable {
 	@Column(name = "appdata", nullable = true, length = 128)
 	private String appdata = "";
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "extensions")
+//	@OneToOne(cascade = CascadeType.ALL)
+//	@JoinColumns({
+//	      @JoinColumn(name="context", referencedColumnName="context"),
+//	      @JoinColumn(name="exten", referencedColumnName="exten"),
+//	      @JoinColumn(name="priority", referencedColumnName="priority")
+//	   })
+	@ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)  
+	@JoinTable(name="wizzard_extensions", 
+				joinColumns={@JoinColumn(name ="context", referencedColumnName ="context"),
+						@JoinColumn(name ="exten", referencedColumnName ="exten"),
+						@JoinColumn(name ="priority", referencedColumnName ="priority")},
+				inverseJoinColumns={@JoinColumn(name ="wizzardId", referencedColumnName ="id")}
+			)
 	private ExtensionsWizzard extensionsWizzard;
 	
 	public Extensions() {
