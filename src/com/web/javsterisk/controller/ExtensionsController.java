@@ -140,9 +140,11 @@ public class ExtensionsController extends BaseController implements Serializable
 		set.setApp(APP_SET);
 		set.setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%-%H%M%S)}-${CALLERID(num)}");
 		
+//		char c  = (char) 43;
+		
 		Extensions monitor = new Extensions();
 		monitor.setApp(APP_MIX_MONITOR);
-		monitor.setAppdata(param_record_path.getValue() +" ​${MONITOR_FILENAME}.wav,b");
+		monitor.setAppdata(param_record_path.getValue() + " + ​${MONITOR_FILENAME}.wav,b");		
 		
 		Extensions dial = new Extensions();
 		dial.setApp(APP_DIAL);
@@ -172,7 +174,7 @@ public class ExtensionsController extends BaseController implements Serializable
 
 		String wait = "";
 		
-		if(newExtensionsWizzard.isLimit()) {
+		if(newExtensionsWizzard.isWait()) {
 			
 			wait = "," + newExtensionsWizzard.getTimeWait();				
 			
