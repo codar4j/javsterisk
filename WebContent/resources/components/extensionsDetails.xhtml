@@ -16,8 +16,14 @@
    
    <h:panelGrid columns="2" columnClasses="titleCell">
    
-   	  <h:outputLabel for="id" value="Id: " styleClass="outputLabel" rendered="false"/>
- 	  <h:outputText id="id" value="#{cc.attrs.extensionsWizzard.id}" rendered="false"/>
+   	  <h:outputLabel for="context" value="Context: " styleClass="outputLabel"/>
+ 	  <h:outputText id="context" value="#{cc.attrs.extensionsWizzard.extensions.get(0).id.context}"/>
+ 	  
+   	  <h:outputLabel for="digit" value="Digito: " styleClass="outputLabel"/>
+ 	  <h:outputText id="digit" value="#{cc.attrs.extensionsWizzard.digito}"/>
+      
+      <h:outputLabel for="longitud" value="Longitud: " styleClass="outputLabel"/>
+ 	  <h:outputText id="longitud" value="#{cc.attrs.extensionsWizzard.longitud}"/>
       
  	  <h:outputLabel for="record" value="Record: " styleClass="outputLabel"/>
  	  <h:outputText id="record" value="#{cc.attrs.extensionsWizzard.record}" />
@@ -25,11 +31,29 @@
  	  <h:outputLabel for="limit" value="Limit: " styleClass="outputLabel"/>
  	  <h:outputText id="limit" value="#{cc.attrs.extensionsWizzard.limit}" />
  	  
+ 	  <h:outputLabel for="timeLimit" value="Time Limit: " styleClass="outputLabel"/>
+ 	  <h:outputText id="timeLimit" value="#{cc.attrs.extensionsWizzard.timeLimit}" />
+ 	  
+ 	  <h:outputLabel for="firstAlert" value="First Alert: " styleClass="outputLabel"/>
+ 	  <h:outputText id="firstAlert" value="#{cc.attrs.extensionsWizzard.firstAlert}" />
+ 	  
+ 	  <h:outputLabel for="secondAlert" value="Second Alert: " styleClass="outputLabel"/>
+ 	  <h:outputText id="secondAlert" value="#{cc.attrs.extensionsWizzard.secondAlert}" />
+ 	  
  	  <h:outputLabel for="wait" value="Wait: " styleClass="outputLabel"/>
  	  <h:outputText id="wait" value="#{cc.attrs.extensionsWizzard.wait}" />
  	  
+ 	  <h:outputLabel for="timeWait" value="Time Wait: " styleClass="outputLabel"/>
+ 	  <h:outputText id="timeWait" value="#{cc.attrs.extensionsWizzard.timeWait}" />
+ 	  
  	  <h:outputLabel for="transfer" value="Transfer: " styleClass="outputLabel"/>
  	  <h:outputText id="transfer" value="#{cc.attrs.extensionsWizzard.transfer}" />
+ 	  
+ 	  <h:outputLabel for="firstExtension" value="First extension: " styleClass="outputLabel"/>
+ 	  <h:outputText id="firstExtension" value="#{cc.attrs.extensionsWizzard.firstExtension}" />
+ 	  
+ 	  <h:outputLabel for="secondExtension" value="Second extension: " styleClass="outputLabel"/>
+ 	  <h:outputText id="secondExtension" value="#{cc.attrs.extensionsWizzard.secondExtension}" />
  	  
    </h:panelGrid>
   

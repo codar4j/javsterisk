@@ -20,7 +20,8 @@
 				
 				<p:outputLabel for="contextCreate" value="Contexto" /> 
 				<p:selectOneMenu id="contextCreate" value="#{extensionsController.context}" 						 
-                        effect="fade" filter="true" filterMatchMode="startsWith">
+                        effect="fade" filter="true" filterMatchMode="startsWith"
+                        required="true">
 		 			<f:selectItem itemLabel="Seleccione Context" itemValue="#{null}"/>
                 	<f:selectItems value="#{contextController.contexts}" var="context" itemLabel="#{context.name}" itemValue="#{context.name}"/>
 		        </p:selectOneMenu>
