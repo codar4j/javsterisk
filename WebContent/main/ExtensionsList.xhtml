@@ -179,11 +179,11 @@
             		showEffect="fade" hideEffect="explode">  
            
 	            <h:panelGroup id="editPanel">
-	               <my:extensionsEditForm id="editComponent" extensionsEdit="#{extensionsController.selectedExtensiones[0]}" rendered="#{extensionsController.selectedExtensionesSize == 1}"/>
-	               <h:outputText value="Debe de seleccionar un dial plan!" rendered="#{extensionsController.selectedExtensionesSize != 1}"/>
+	               <my:extensionsEditForm id="editComponent" extensionsWizzardEdit="#{extensionsController.selectedExtension.extensionsWizzard}" rendered="#{extensionsController.selectedExtension != null}"/>
+	               <h:outputText value="Debe de seleccionar un dial plan!" rendered="#{extensionsController.selectedExtension == null}"/>
 	            </h:panelGroup>      
 	            
-	            <p:separator rendered="#{extensionsController.selectedExtensionesSize == 1}"/>	   	           
+	            <p:separator rendered="#{extensionsController.selectedExtension != null}"/>	   	           
             	
 				<p:commandButton id="editBtn" 
 					 ajax="true"					 
@@ -192,7 +192,7 @@
 					 update="editModalDialog,:formList:extensionsList,:messages"				 
 					 actionListener="#{extensionsController.modifier}" 					
 					 oncomplete="if(!args.validationFailed){editModal.hide();}else{editModal.show();}"
-					 rendered="#{extensionsController.selectedExtensionesSize == 1}"/>
+					 rendered="#{extensionsController.selectedExtension != null}"/>
 			
 				<f:facet name="footer">				 	
 					<b>* campos requeridos</b>

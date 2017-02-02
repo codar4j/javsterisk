@@ -64,6 +64,8 @@ public class ExtensionsController extends BaseController implements Serializable
 	
 	private String context;
 	
+	private String selectedContext;
+	
 	@ManagedProperty("#{securityController}")
 	private SecurityController securityController;
 	
@@ -333,6 +335,7 @@ public class ExtensionsController extends BaseController implements Serializable
 
 	public void setSelectedExtension(Extensions selectedExtension) {
 		this.selectedExtension = selectedExtension;
+		this.selectedContext = this.selectedExtension.getId().getContext();
 	}
 
 	public int getSelectedExtensionesSize() {
@@ -358,6 +361,14 @@ public class ExtensionsController extends BaseController implements Serializable
 
 	public void setContext(String context) {
 		this.context = context;
+	}
+
+	public String getSelectedContext() {
+		return selectedContext;
+	}
+
+	public void setSelectedContext(String selectedContext) {
+		this.selectedContext = selectedContext;
 	}
 
 	public SecurityController getSecurityController() {

@@ -8,17 +8,20 @@
 
 		<!-- INTERFACE -->
 		<composite:interface>
-			<composite:attribute name="extensionsEdit" />
+			<composite:attribute name="extensionsWizzardEdit" />
 		</composite:interface>
 
 		<!-- IMPLEMENTATION -->	
 		<composite:implementation>
 
-				<h:panelGrid columns="3" columnClasses="titleCell">
+			<h:panelGrid columns="1" columnClasses="titleCell" border="0">
+			
+				<h:panelGrid columns="3" columnClasses="titleCell" border="0">
 
-				<p:outputLabel for="contextEdit" value="Contexto" /> 
-				<p:selectOneMenu id="contextEdit" value="#{cc.attrs.extensionsEdit.id.context}" 						 
-                        effect="fade" filter="true" filterMatchMode="startsWith">
+				<p:outputLabel for="contextEdit" value="Contexto" />  
+				<p:selectOneMenu id="contextEdit" value="#{extensionsController.selectedContext}" 						 
+                        effect="fade" filter="true" filterMatchMode="startsWith"
+                        required="true">
 		 			<f:selectItem itemLabel="Seleccione Context" itemValue="#{null}"/>
                 	<f:selectItems value="#{contextController.contexts}" var="context" itemLabel="#{context.name}" itemValue="#{context.name}"/>
 		        </p:selectOneMenu>
@@ -26,7 +29,7 @@
 				
 				<p:outputLabel for="digitoEdit" value="Digito" /> 
 				<p:selectOneMenu id="digitoEdit" 
-							value="#{cc.attrs.extensionsEdit.extensionsWizzard.digito}" 
+							value="#{cc.attrs.extensionsWizzardEdit.digito}" 
 							required="true">  
                 		<f:selectItem itemLabel="Seleccione Digito" itemValue="#{null}"/>
                 		<f:selectItem itemLabel="0" itemValue="0"/>
@@ -44,7 +47,7 @@
 				
 				<p:outputLabel for="longitudEdit" value="Longitud" /> 
 				<p:selectOneMenu id="longitudEdit" 
-							value="#{cc.attrs.extensionsEdit.extensionsWizzard.longitud}" 
+							value="#{cc.attrs.extensionsWizzardEdit.longitud}" 
 							required="true">  
                 		<f:selectItem itemLabel="Seleccione Longitud" itemValue="#{null}"/>
                 		<f:selectItem itemLabel="1" itemValue="1"/>
@@ -56,33 +59,111 @@
                 		<f:selectItem itemLabel="7" itemValue="7"/>
                 		<f:selectItem itemLabel="8" itemValue="8"/>
                 		<f:selectItem itemLabel="9" itemValue="9"/>                   		                 		         		              
-            	</p:selectOneMenu>	
+            	</p:selectOneMenu>
 				<p:message for="longitudEdit" />
 				
-				<p:outputLabel for="recordEdit" value="Record" /> 
-				<p:selectBooleanButton id="recordEdit" value="#{cc.attrs.extensionsEdit.extensionsWizzard.record}" onLabel="Yes" 
-					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
-					style="width:60px" required="false"/>            		        		
-				<p:message for="recordEdit" />
+				</h:panelGrid>
 				
-				<p:outputLabel for="limitEdit" value="Limit" /> 
-				<p:selectBooleanButton id="limitEdit" value="#{cc.attrs.extensionsEdit.extensionsWizzard.limit}" onLabel="Yes" 
-					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
-					style="width:60px" required="false"/>            		        		
-				<p:message for="limitEdit" />
+				<p:fieldset>
 				
-				<p:outputLabel for="waitEdit" value="Wait" /> 
-				<p:selectBooleanButton id="waitEdit" value="#{cc.attrs.extensionsEdit.extensionsWizzard.wait}" onLabel="Yes" 
-					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
-					style="width:60px" required="false"/>            		        		
-				<p:message for="waitEdit" />
+					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
+					
+						<p:outputLabel for="recordEdit" value="Record" /> 
+						<p:selectBooleanButton id="recordEdit" value="#{cc.attrs.extensionsWizzardEdit.record}" onLabel="Yes" 
+							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+							style="width:60px" required="false"/>            		        		
+						<p:message for="recordEdit" />
 				
-				<p:outputLabel for="transferEdit" value="Transfer" /> 
-				<p:selectBooleanButton id="transferEdit" value="#{cc.attrs.extensionsEdit.extensionsWizzard.transfer}" onLabel="Yes" 
-					offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
-					style="width:60px" required="false"/>            		        		
-				<p:message for="transferEdit" />
-
+					</h:panelGrid>
+				
+				</p:fieldset>
+				
+				<p:fieldset>
+				
+					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
+						
+						<p:outputLabel for="limitEdit" value="Limit" /> 
+						<p:selectBooleanButton id="limitEdit" value="#{cc.attrs.extensionsWizzardEdit.limit}" onLabel="Yes" 
+							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+							style="width:60px" required="false"/>            		        		
+						<p:message for="limitEdit" />
+						
+						<p:outputLabel for="timeLimitEdit" value="Time Limit" /> 
+						<p:inputText id="timeLimitEdit"
+							value="#{cc.attrs.extensionsWizzardEdit.timeLimit}" required="false"
+							autocomplete="off" >
+							<p:watermark for="timeLimitEdit" value="Ingrese Time Limit milliseconds" />
+						</p:inputText>
+						<p:message for="timeLimitEdit" />
+						
+						<p:outputLabel for="firstAlertEdit" value="First Alert" /> 
+						<p:inputText id="firstAlertEdit"
+							value="#{cc.attrs.extensionsWizzardEdit.firstAlert}" required="false"
+							autocomplete="off" >
+							<p:watermark for="firstAlertEdit" value="Ingrese first alert" />
+						</p:inputText>
+						<p:message for="firstAlertEdit" />
+						
+						<p:outputLabel for="secondAlertEdit" value="Second Alert" /> 
+						<p:inputText id="secondAlertEdit"
+							value="#{cc.attrs.extensionsWizzardEdit.secondAlert}" required="false"
+							autocomplete="off" >
+							<p:watermark for="secondAlertEdit" value="Ingrese second alert" />
+						</p:inputText>
+						<p:message for="secondAlertEdit" />
+						
+					</h:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset>
+				
+					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
+						
+						<p:outputLabel for="waitEdit" value="Wait" /> 
+						<p:selectBooleanButton id="waitEdit" value="#{cc.attrs.extensionsWizzardEdit.wait}" onLabel="Yes" 
+							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+							style="width:60px" required="false"/>            		        		
+						<p:message for="waitEdit" />
+						
+						<p:outputLabel for="timeWaitEdit" value="Time wait" /> 
+						<p:inputText id="timeWaitEdit"
+							value="#{cc.attrs.extensionsWizzardEdit.timeWait}" required="false"
+							autocomplete="off" >
+							<p:watermark for="timeWaitEdit" value="Ingrese time wait" />
+						</p:inputText>
+						<p:message for="timeWaitEdit" />
+						
+					</h:panelGrid>
+				</p:fieldset>
+				
+				<p:fieldset>
+				
+					<h:panelGrid columns="3" columnClasses="titleCell" border="0">
+						
+						<p:outputLabel for="transferEdit" value="Transfer" /> 
+						<p:selectBooleanButton id="transferEdit" value="#{cc.attrs.extensionsWizzardEdit.transfer}" onLabel="Yes" 
+							offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" 
+							style="width:60px" required="false"/>            		        		
+						<p:message for="transferEdit" />
+						
+						<p:outputLabel for="firstExtensionEdit" value="First extension" /> 
+						<p:inputText id="firstExtensionEdit"
+							value="#{cc.attrs.extensionsWizzardEdit.firstExtension}" required="false"
+							autocomplete="off" >
+							<p:watermark for="firstExtensionEdit" value="Ingrese first extension" />
+						</p:inputText>
+						<p:message for="firstExtensionEdit" />
+						
+						<p:outputLabel for="secondExtensionEdit" value="Second extension" /> 
+						<p:inputText id="secondExtensionEdit"
+							value="#{cc.attrs.extensionsWizzardEdit.secondExtension}" required="false"
+							autocomplete="off" >
+							<p:watermark for="secondExtensionEdit" value="Ingrese second extension" />
+						</p:inputText>
+						<p:message for="secondExtensionEdit" />
+						
+					</h:panelGrid>
+				</p:fieldset>
 	
 			</h:panelGrid>
 		
