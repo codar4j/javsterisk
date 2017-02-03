@@ -66,6 +66,10 @@ public class ExtensionsController extends BaseController implements Serializable
 	
 	private String selectedContext;
 	
+	private String originalContext;	
+	private String originalDigito;
+	private int originalLongitud;
+	
 	@ManagedProperty("#{securityController}")
 	private SecurityController securityController;
 	
@@ -97,40 +101,13 @@ public class ExtensionsController extends BaseController implements Serializable
 		}
 	}
 	
-	public void register() { 		
-		log.info("Start register()");
-//		String permission = formatPermission(new StringBuilder(this.getClass().getSimpleName()), Thread.currentThread().getStackTrace(), 2);	
-//		log.info("Permission module is in list ToDo : {}", permission);
-		if ( securityController.isAdministrator() ) {		
-			try {
-				
-				makeExtensions();
-
-				extensionsWizzardDAO.register(newExtensionsWizzard);
-				
-				log.info("Registration successful");
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));			
-				initNewExtensions();
-			} catch (Exception e) {				
-				if(e.getCause().getCause().getCause() instanceof ConstraintViolationException){
-					log.error("ConstraintViolationException", e);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El Dial Plan ya existe"));
-				} else {
-					log.error("Exception", e);
-				}
-			}
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authorization!", "No tiene privilegios para esta accion"));
-		}		
-	}
-
-	private void makeExtensions() {
+	private ExtensionsWizzard makeExtensions(ExtensionsWizzard extensionsWizzard, String context) {
 		
-		newExtensionsWizzard.setExtensions(new ArrayList<Extensions>(0));
+		extensionsWizzard.setExtensions(new ArrayList<Extensions>(0));
 		
 		int id = extensionsDAO.findAllOrderedById().size() + 1;
 		
-		String extension = StringUtils.rightPad(EXT_PREFIX + newExtensionsWizzard.getDigito(), newExtensionsWizzard.getLongitud() + 1, EXT_CHAR);
+		String extension = StringUtils.rightPad(EXT_PREFIX + extensionsWizzard.getDigito(), extensionsWizzard.getLongitud() + 1, EXT_CHAR);
 		
 		log.info("-> context : {}", context);
 		log.info("-> extesnion generated : {}", extension);		
@@ -156,45 +133,45 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		String limit = "";
 		
-		if(newExtensionsWizzard.isLimit()) {
+		if(extensionsWizzard.isLimit()) {
 			
-			limit = ",L(" + newExtensionsWizzard.getTimeLimit() + "::)";
+			limit = ",L(" + extensionsWizzard.getTimeLimit() + "::)";
 			
-			if(!"".equals(newExtensionsWizzard.getFirstAlert().trim()) 
-					&& "".equals(newExtensionsWizzard.getSecondAlert().trim())) {
-				limit = ",L(" + newExtensionsWizzard.getTimeLimit() + ":" 
-					+ newExtensionsWizzard.getFirstAlert() + ":)";
+			if(!"".equals(extensionsWizzard.getFirstAlert().trim()) 
+					&& "".equals(extensionsWizzard.getSecondAlert().trim())) {
+				limit = ",L(" + extensionsWizzard.getTimeLimit() + ":" 
+					+ extensionsWizzard.getFirstAlert() + ":)";
 			}
 			
-			if(!"".equals(newExtensionsWizzard.getFirstAlert().trim()) 
-					&& !"".equals(newExtensionsWizzard.getSecondAlert().trim())) {
-				limit = ",L(" + newExtensionsWizzard.getTimeLimit() + ":" 
-						+ newExtensionsWizzard.getFirstAlert() + ":" + newExtensionsWizzard.getSecondAlert() + ")";
+			if(!"".equals(extensionsWizzard.getFirstAlert().trim()) 
+					&& !"".equals(extensionsWizzard.getSecondAlert().trim())) {
+				limit = ",L(" + extensionsWizzard.getTimeLimit() + ":" 
+						+ extensionsWizzard.getFirstAlert() + ":" + extensionsWizzard.getSecondAlert() + ")";
 			} 
 			
 		}
 
 		String wait = "";
 		
-		if(newExtensionsWizzard.isWait()) {
+		if(extensionsWizzard.isWait()) {
 			
-			wait = "," + newExtensionsWizzard.getTimeWait();				
+			wait = "," + extensionsWizzard.getTimeWait();				
 			
 		}
 
 		String app_dial = "SIP/${EXTEN}";
 		
-		if(newExtensionsWizzard.isTransfer()) {				
+		if(extensionsWizzard.isTransfer()) {				
 			
-			if(!"".equals(newExtensionsWizzard.getFirstExtension().trim()) 
-					&& "".equals(newExtensionsWizzard.getSecondExtension().trim())) {
-				app_dial = "SIP/" + newExtensionsWizzard.getFirstExtension();
+			if(!"".equals(extensionsWizzard.getFirstExtension().trim()) 
+					&& "".equals(extensionsWizzard.getSecondExtension().trim())) {
+				app_dial = "SIP/" + extensionsWizzard.getFirstExtension();
 			}
 			
-			if(!"".equals(newExtensionsWizzard.getFirstExtension().trim()) 
-					&& !"".equals(newExtensionsWizzard.getSecondExtension().trim())) {
-				app_dial = "SIP/" + newExtensionsWizzard.getFirstExtension() + "&" +
-						newExtensionsWizzard.getSecondExtension();
+			if(!"".equals(extensionsWizzard.getFirstExtension().trim()) 
+					&& !"".equals(extensionsWizzard.getSecondExtension().trim())) {
+				app_dial = "SIP/" + extensionsWizzard.getFirstExtension() + "&" +
+						extensionsWizzard.getSecondExtension();
 			}
 			
 		}
@@ -204,53 +181,43 @@ public class ExtensionsController extends BaseController implements Serializable
 		log.info("app_dial : {}", app_dial);
 		
 		
-		if(!newExtensionsWizzard.isRecord() ) {
+		if(!extensionsWizzard.isRecord() ) {
 			
 			answer.setId(new ExtensionsId(context, extension, (byte)1));
 			answer.setId_1(id);
-			newExtensionsWizzard.getExtensions().add(answer);
+			extensionsWizzard.getExtensions().add(answer);
 			
 			dial.setId(new ExtensionsId(context, extension, (byte)2));
 			dial.setAppdata(app_dial);
 			dial.setId_1(id + 1);
-			newExtensionsWizzard.getExtensions().add(dial);
+			extensionsWizzard.getExtensions().add(dial);
 			
 			hangup.setId(new ExtensionsId(context, extension, (byte)3));
 			hangup.setId_1(id + 2);
-			newExtensionsWizzard.getExtensions().add(hangup);
-			
-//			answer.setExtensionsWizzard(newExtensionsWizzard);
-//			dial.setExtensionsWizzard(newExtensionsWizzard);
-//			hangup.setExtensionsWizzard(newExtensionsWizzard);
+			extensionsWizzard.getExtensions().add(hangup);
 			
 		} else {
 			
 			answer.setId(new ExtensionsId(context, extension, (byte)1));
 			answer.setId_1(id);
-			newExtensionsWizzard.getExtensions().add(answer);
+			extensionsWizzard.getExtensions().add(answer);
 			
 			set.setId(new ExtensionsId(context, extension, (byte)2));
 			set.setId_1(id + 1);
-			newExtensionsWizzard.getExtensions().add(set);
+			extensionsWizzard.getExtensions().add(set);
 			
 			monitor.setId(new ExtensionsId(context, extension, (byte)3));
 			monitor.setId_1(id + 2);
-			newExtensionsWizzard.getExtensions().add(monitor);
+			extensionsWizzard.getExtensions().add(monitor);
 			
 			dial.setId(new ExtensionsId(context, extension, (byte)4));
 			dial.setAppdata(app_dial);
 			dial.setId_1(id + 3);
-			newExtensionsWizzard.getExtensions().add(dial);
+			extensionsWizzard.getExtensions().add(dial);
 			
 			hangup.setId(new ExtensionsId(context, extension, (byte)5));
 			hangup.setId_1(id + 4);
-			newExtensionsWizzard.getExtensions().add(hangup);
-			
-//			answer.setExtensionsWizzard(newExtensionsWizzard);
-//			set.setExtensionsWizzard(newExtensionsWizzard);
-//			monitor.setExtensionsWizzard(newExtensionsWizzard);
-//			dial.setExtensionsWizzard(newExtensionsWizzard);
-//			hangup.setExtensionsWizzard(newExtensionsWizzard);
+			extensionsWizzard.getExtensions().add(hangup);			
 			
 		}
 			
@@ -266,13 +233,54 @@ public class ExtensionsController extends BaseController implements Serializable
 	
 		extension = null;
 		
+		return extensionsWizzard;
+		
 	}
 
+	public void register() { 		
+		log.info("Start register()");
+//		String permission = formatPermission(new StringBuilder(this.getClass().getSimpleName()), Thread.currentThread().getStackTrace(), 2);	
+//		log.info("Permission module is in list ToDo : {}", permission);
+		if ( securityController.isAdministrator() ) {		
+			try {
+				
+				newExtensionsWizzard = makeExtensions(newExtensionsWizzard, context);
+
+				extensionsWizzardDAO.register(newExtensionsWizzard);
+				
+				log.info("Registration successful");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));			
+				initNewExtensions();
+			} catch (Exception e) {				
+				if(e.getCause().getCause().getCause() instanceof ConstraintViolationException){
+					log.error("ConstraintViolationException", e);
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El Dial Plan ya existe"));
+				} else {
+					log.error("Exception", e);
+				}
+			}
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authorization!", "No tiene privilegios para esta accion"));
+		}		
+	}
+	
 	public void modifier() throws Exception { 
 		log.info("Start modifier()");	    
 		if ( securityController.isAdministrator() ) {
-			Extensions selectedExtensions = selectedExtensiones[0];												
-			extensionsDAO.modifier(selectedExtensions);
+			ExtensionsWizzard selectedExtensionsWizzard = selectedExtension.getExtensionsWizzard();
+			
+			if (!originalContext.equals(selectedContext) 
+					|| !originalDigito.equals(selectedExtensionsWizzard.getDigito())
+					|| originalLongitud != selectedExtensionsWizzard.getLongitud()) {
+//				selectedExtensionsWizzard.getExtensions().clear();
+				extensionsWizzardDAO.deleter(selectedExtensionsWizzard);
+				selectedExtensionsWizzard = makeExtensions(selectedExtensionsWizzard, selectedContext);
+				extensionsWizzardDAO.register(selectedExtensionsWizzard);
+			} else {
+				selectedExtensionsWizzard = makeExtensions(selectedExtensionsWizzard, selectedContext);				
+				extensionsWizzardDAO.modifier(selectedExtensionsWizzard);	
+			}
+			
 			log.info("Modification successful");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Modified!", "Modification successful"));
 			initNewExtensions();
@@ -336,6 +344,9 @@ public class ExtensionsController extends BaseController implements Serializable
 	public void setSelectedExtension(Extensions selectedExtension) {
 		this.selectedExtension = selectedExtension;
 		this.selectedContext = this.selectedExtension.getId().getContext();
+		this.originalContext = this.selectedContext;
+		this.originalDigito = this.selectedExtension.getExtensionsWizzard().getDigito();
+		this.originalLongitud = this.selectedExtension.getExtensionsWizzard().getLongitud();
 	}
 
 	public int getSelectedExtensionesSize() {
@@ -369,6 +380,30 @@ public class ExtensionsController extends BaseController implements Serializable
 
 	public void setSelectedContext(String selectedContext) {
 		this.selectedContext = selectedContext;
+	}
+
+	public String getOriginalContext() {
+		return originalContext;
+	}
+
+	public void setOriginalContext(String originalContext) {
+		this.originalContext = originalContext;
+	}
+
+	public String getOriginalDigito() {
+		return originalDigito;
+	}
+
+	public void setOriginalDigito(String originalDigito) {
+		this.originalDigito = originalDigito;
+	}
+
+	public int getOriginalLongitud() {
+		return originalLongitud;
+	}
+
+	public void setOriginalLongitud(int originalLongitud) {
+		this.originalLongitud = originalLongitud;
 	}
 
 	public SecurityController getSecurityController() {
