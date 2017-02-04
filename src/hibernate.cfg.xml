@@ -34,7 +34,7 @@
 		create      : creates the schema, destroying previous data.
 		create-drop : drop the schema at the end of the session.
 		 -->
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        <property name="hibernate.hbm2ddl.auto">validate</property>
         
         <!-- Print SQL to stdout. -->
         <property name="hibernate.show_sql">true</property>
