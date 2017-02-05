@@ -1,0 +1,7 @@
+version free 1.0
+
+include:
+
+- Dial plan
+- Extensions
+- Console CLI
