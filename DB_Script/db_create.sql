@@ -1,4 +1,4 @@
---Script to create DB structure for javsterisk in mYsql
+--Script to create DB structure for javsterisk in MYsql
 
 -- create database
 create database javsterisk;
