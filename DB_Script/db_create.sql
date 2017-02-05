@@ -1,3 +1,5 @@
+--Script to create DB structure for javsterisk
+
 -- create database
 create database javsterisk;
 
