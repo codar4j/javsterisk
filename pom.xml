@@ -12,6 +12,20 @@
   
   	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<resources>
+	        <resource>
+	            <directory>src</directory>
+	            <filtering>true</filtering>
+	            <includes>
+	                <include>**/*.xml</include>
+	                <include>**/*.properties</include>
+	                <include>**/*.sql</include>
+	            </includes>
+	            <excludes>
+                	<exclude>**/*.java</exclude>
+            	</excludes>	            
+	        </resource>
+	    </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -19,17 +33,23 @@
 				<version>3.2</version>
 				<configuration>
 					<source>1.7</source>
-					<target>1.7</target>
+					<target>1.7</target>					
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.0.0</version>
-				<configuration>					
-					<warSourceDirectory>WebContent</warSourceDirectory>
-					<packagingIncludes>WEB-INF/lib/*.*</packagingIncludes>                
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
+				<configuration>
+		          <webResources>		          	
+		            <resource>
+		              <directory>WebContent</directory>
+		              <includes>
+		                <include>**</include>
+		              </includes>		              		              
+		            </resource>		           
+		          </webResources>
+		        </configuration>		        
+		        <!-- <failOnMissingWebXml>false</failOnMissingWebXml> -->
 			</plugin>
 		</plugins>
 	</build>
