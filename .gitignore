@@ -6,3 +6,4 @@
 /.faces-config.xml.jsfdia
 /.gitlab-ci.yml
 /.settings/
+/target/
