@@ -1,4 +1,5 @@
 --Script to create DB structure for javsterisk in MySql
+-- this script create the DB tables and insert initial data
 
 -- create database
 create database javsterisk;
