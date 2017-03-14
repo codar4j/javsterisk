@@ -112,13 +112,11 @@ public class SipBuddiesController extends BaseController implements Serializable
 				log.info("Registration successful");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));			
 				initNewUser();
-			} catch (Exception e) {				
-				if(e.getCause().getCause() instanceof ConstraintViolationException){
-					log.error("ConstraintViolationException", e);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La extension ya existe"));
-				} else {
-					log.error("Exception", e);
-				}
+			} catch (ConstraintViolationException e) {
+				log.error("ConstraintViolationException", e);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La extension ya existe"));
+			} catch (Exception e) {						
+				log.error("Exception", e);				
 			}
 		} else {
 //			log.error("You have not privileges for this ACL {}", permission);
