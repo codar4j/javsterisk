@@ -16,9 +16,9 @@ insert into permission (role, acl) values ('Estandar', '*')
 
 -- Parameter Table
 --insert into parameter (name, value, description) values('config.file.path', 'C:/JavaApps/atorres/config/', 'Path de Config.properties')
-insert into parameter (name, value, description) values('cli.host', '192.168.107.150', 'Host de Asterisk')
-insert into parameter (name, value, description) values('cli.port', '5060', 'Puerto de Asterisk')
-insert into parameter (name, value, description) values('cli.username', 'root', 'Usuario de Asterisk')
+insert into parameter (name, value, description) values('ami.host', '10.8.0.1', 'Host de AMI')
+insert into parameter (name, value, description) values('ami.port', '5038', 'Puerto de AMI')
+insert into parameter (name, value, description) values('ami.username', 'admin', 'Usuario de AMI')
 insert into parameter (name, value, description) values('asterisk.host', '0926324252', 'Password de Asterisk')
 insert into parameter (name, value, description) values('shutdown.os', 'shutdown -h now', 'Comando para apagar el servidor')
 insert into parameter (name, value, description) values('restart.os', 'shutdown -r now', 'Comando para reiniciar el servidor')
