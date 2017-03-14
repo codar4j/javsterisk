@@ -19,7 +19,7 @@
 				<p:menuitem value="Preferencias" icon="ui-icon-bullet" outcome="PreferenceList"/>
 				<p:menuitem value="Parametros" icon="ui-icon-bullet" outcome="ParameterList" disabled="#{not securityController.administrator}"/>
 			</p:submenu>
-			<p:menuitem value="Sistema" icon="ui-icon-gear" outcome="SystemList" disabled="#{not securityController.administrator}"/>
+			<p:menuitem value="Sistema" icon="ui-icon-gear" outcome="SystemList" disabled="#{not securityController.administrator}" rendered="false"/>
 			<p:separator/>
 			<p:submenu label="Log" icon="ui-icon-note">
 				<p:menuitem value="log del sistema" icon="ui-icon-bullet" outcome="LoggingEventList" disabled="#{not securityController.administrator}"/>
