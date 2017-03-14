@@ -70,10 +70,10 @@
 				<p:outputLabel for="roleCreate" value="Role" />
 					<p:selectOneMenu id="roleCreate" 
 							value="#{cc.attrs.userCreate.role}" 
-							required="true" 							
-							converter="#{entityConverter}">  
+							required="true" 			
+							converter="com.web.javsterisk.converter.RoleConverter">  
                 		<f:selectItem itemLabel="Seleccione Role" itemValue="#{null}" />  
-                		<f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role.value}" itemValue="#{role.value}"/>                 		         		               
+                		<f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role}"/>                 		         		               
             		</p:selectOneMenu>
 				<p:message for="roleCreate" />
 				<p:outputLabel for="extensionCreate" value="Extension" />

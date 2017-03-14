@@ -18,10 +18,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.hibernate.exception.ConstraintViolationException;
 
-//import com.web.asterisk4j.enumeration.RoleType;
+import com.web.javsterisk.dao.RoleDAO;
 import com.web.javsterisk.dao.UserDAO;
+import com.web.javsterisk.entity.Role;
 import com.web.javsterisk.entity.User;
-import com.web.javsterisk.enumeration.RoleType;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -40,6 +40,7 @@ public class UserController extends BaseController implements Serializable{
 	private static final Logger log = LogManager.getLogger(UserController.class);
 	
 	private UserDAO userDAO;
+	private RoleDAO roleDAO;
 	
 	@ManagedProperty("#{localeController}")
 	private LocaleController localeController;
@@ -63,23 +64,31 @@ public class UserController extends BaseController implements Serializable{
 	
 	private List<User> users; 
 	
-	private List<RoleType> roles;
+	private List<Role> roles;
 	
 	private SelectItem[] rolesFilter; 
 	
 	@PostConstruct
 	public void initNewUser() {
-		userDAO = new UserDAO();
+		userDAO = new UserDAO();		
 		if(securityController.isAuthenticated()){
 			
-			   roles = new ArrayList<RoleType>(0);
-			   roles.add(RoleType.ADMINISTRADOR);
-			   roles.add(RoleType.ESTANDAR);
+			roleDAO = new RoleDAO();
+			
+			   roles = new ArrayList<Role>(0);
 			   
-			   rolesFilter = new SelectItem[] {
-					   	new SelectItem("", "Seleccione"), 
-					   	new SelectItem(RoleType.ADMINISTRADOR, RoleType.ADMINISTRADOR.toString()),
-					   	new SelectItem(RoleType.ESTANDAR, RoleType.ESTANDAR.toString())};
+			   roles = roleDAO.findAllOrderedByName();
+			   
+			   rolesFilter = new SelectItem[roles.size() + 1];
+			   rolesFilter[0] = new SelectItem("", "Seleccione"); 
+			   for(int i = 1 ; i < rolesFilter.length; i ++) {
+				   rolesFilter[i] = new SelectItem(roles.get(i-1).getName(), roles.get(i-1).getName());
+			   }
+			   
+//			   rolesFilter = new SelectItem[] {
+//					   	new SelectItem("", "Seleccione"), 
+//					   	new SelectItem(RoleType.ADMINISTRADOR, RoleType.ADMINISTRADOR.toString()),
+//					   	new SelectItem(RoleType.ESTANDAR, RoleType.ESTANDAR.toString())};
 			
 			users = userDAO.findAllOrderedByUsername();
 			newUser = new User();		
@@ -217,11 +226,11 @@ public class UserController extends BaseController implements Serializable{
 		this.users = users;
 	}
 
-	public List<RoleType> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<RoleType> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 

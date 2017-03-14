@@ -60,11 +60,11 @@
 		            <p:message for="emailEdit" />
 		            <p:outputLabel for="roleEdit" value="Role" />
 					<p:selectOneMenu id="roleEdit" 
-							value="#{cc.attrs.userEdit.role.name}" 
+							value="#{cc.attrs.userEdit.role}" 
 							required="true" 							
-							converter="#{entityConverter}">  
+							converter="com.web.javsterisk.converter.RoleConverter">  
                 		<f:selectItem itemLabel="Seleccione Role" itemValue="#{null}" />  
-                		<f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role.value}" itemValue="#{role.value}"/>                 		         		               
+                		<f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role}"/>                 		         		               
             		</p:selectOneMenu>
 				<p:message for="roleEdit" />
 				<p:outputLabel for="extensionEdit" value="Extension" />
