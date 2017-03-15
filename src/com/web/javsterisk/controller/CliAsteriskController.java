@@ -58,7 +58,7 @@ public class CliAsteriskController extends BaseController implements Serializabl
 				
 				PushContext pushContext = PushContextFactory.getDefault().getPushContext();
 				pushContext.push("/clearTerminal", "Pressed"); 
-				return null;
+				return "";
 				
 			} else {
 			

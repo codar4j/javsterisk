@@ -16,10 +16,10 @@ import org.hyperic.sigar.cmd.SigarCommandBase;
  */
 public class BaseController extends SigarCommandBase{
 	
-	protected final String CLI_HOST = "cli.host";	
-	protected final String CLI_USERNAME = "cli.username";	
+	protected final String CLI_HOST = "ami.host";	
+	protected final String CLI_USERNAME = "ami.username";	
 	protected final String CLI_PASSWORD = "asterisk.host";	
-	protected final String CLI_PORT = "cli.port";
+	protected final String CLI_PORT = "ami.port";
 	protected final String ASTERISK_CHANNELS = "asterisk.show.channels";		
 	protected final String ASTERISK_PEERS = "asterisk.show.peers";
 	
