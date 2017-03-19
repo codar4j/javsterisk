@@ -62,7 +62,7 @@ public class Cdr implements java.io.Serializable {
 //	@Column(name = "lastapp", nullable = false, length = 200)
 	private String lastapp;
 	
-	@NotNull
+//	@NotNull
 	@Size(max = 200)
 //	@Column(name = "lastdata", nullable = false, length = 200)		
 	private String lastdata;

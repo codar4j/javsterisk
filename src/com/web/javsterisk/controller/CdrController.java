@@ -98,9 +98,10 @@ public class CdrController extends BaseController implements Serializable{
 		}
 		
 		cdrsFilter = new SelectItem[] {
-			   	new SelectItem("", "Seleccione"), 
+			   	new SelectItem("", "Seleccione"), 			   	
 			   	new SelectItem(CallStatus.ANSWERED.getValue(), CallStatus.ANSWERED.getValue()),
-			   	new SelectItem(CallStatus.NOANSWER.getValue(), CallStatus.NOANSWER.getValue())};	
+			   	new SelectItem(CallStatus.NOANSWER.getValue(), CallStatus.NOANSWER.getValue()),
+			   	new SelectItem(CallStatus.BUSY.getValue(), CallStatus.BUSY.getValue())};	
 		
 		searchByDate();
 		}
