@@ -201,11 +201,13 @@
         		<p:column headerText="Used GB">                  	        			
             		<h:outputText value="#{disk.used}" />            		  
         		</p:column>
-        		<p:column headerText="%">                  	        			
-            		<h:outputText value="#{disk.usePct}" />            		  
-        		</p:column>
         		<p:column headerText="Free GB">                  	        			
-            		<h:outputText value="#{disk.avail}" />            		  
+            		<h:outputText value="#{disk.free}" />            		  
+        		</p:column>
+        		<p:column headerText="Free %">                  	        			
+            		<h:outputText value="#{disk.usePct}" >
+            			<f:convertNumber type="number"  />
+            		</h:outputText>            		  
         		</p:column>        		         		        		
             </p:dataTable>  
         </p:panel>  

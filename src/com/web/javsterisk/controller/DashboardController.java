@@ -1,5 +1,6 @@
 package com.web.javsterisk.controller;
 
+import java.io.File;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ import javax.faces.bean.ViewScoped;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hyperic.sigar.CpuPerc;
-import org.hyperic.sigar.FileSystem;
-import org.hyperic.sigar.FileSystemUsage;
+//import org.hyperic.sigar.FileSystem;
+//import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.NfsFileSystem;
 import org.hyperic.sigar.ProcState;
@@ -29,7 +30,7 @@ import org.primefaces.model.chart.PieChartModel;
 import com.web.javsterisk.dao.ParameterDAO;
 import com.web.javsterisk.entity.Cpu;
 import com.web.javsterisk.entity.CpuInfo;
-import com.web.javsterisk.entity.FSystem;
+import com.web.javsterisk.entity.FileSystem;
 import com.web.javsterisk.entity.Parameter;
 import com.web.javsterisk.entity.Ram;
 import com.web.javsterisk.entity.Service;
@@ -71,7 +72,7 @@ public class DashboardController extends BaseController implements Serializable{
 	private MeterGaugeChartModel cpuGaugeModel;
 	
 	private List<Ram> rams;
-	private List<FSystem> disks;
+	private List<FileSystem> disks;
 	private List<Cpu> cpus;
 	
 	private CpuInfo cpuInfo;
@@ -175,60 +176,44 @@ public class DashboardController extends BaseController implements Serializable{
 	public void setRamGaugeModel(MeterGaugeChartModel ramGaugeModel) {
 		this.ramGaugeModel = ramGaugeModel;
 	}
-	
+
 	public PieChartModel getDiskModel() {
 		log.info("getDiskModel()");
-		try {
-			long used, avail, total, pct;
-			FileSystem[] fslist = this.proxy.getFileSystemList();
-			if(fslist.length > 0){
-				FileSystem fs = fslist[0];
-				FileSystemUsage usage;
-				if (fs instanceof NfsFileSystem) {
-	                NfsFileSystem nfs = (NfsFileSystem)fs;
-	                if (!nfs.ping()) {
-	                    println(nfs.getUnreachableMessage());
-	                    return null;
-	                }
-	            }
-				usage = this.sigar.getFileSystemUsage(fs.getDirName());	            
-	            used = usage.getTotal() - usage.getFree();
-	            avail = usage.getAvail();
-	            total = usage.getTotal();
 
-	            pct = (long)(usage.getUsePercent() * 100);	            
-	                
-	            disks = new ArrayList<FSystem>(0);
+		disks = new ArrayList<FileSystem>(0);
 
-	            FSystem fileSystem = new FSystem();
-	            fileSystem.setDevName(fs.getDevName());
-	            fileSystem.setTotal(formatSize(total));
-	            fileSystem.setUsed(formatSize(used));
-	            fileSystem.setAvail(formatSize(avail));    
-	            fileSystem.setUsePct(pct);
-	            fileSystem.setDirName(fs.getDirName());
-	            fileSystem.setTypeName(fs.getSysTypeName() + "/" + fs.getTypeName());
-	            
-	            log.info("-------------------------------");
-				log.info("Disk Dev Name : {}", fileSystem.getDevName());
-				log.info("Disk Total : {} GB", fileSystem.getTotal());
-				log.info("Disk Used : {} GB", fileSystem.getUsed());
-				log.info("Disk Free : {} GB", fileSystem.getAvail());
-				log.info("Disk Used : {} %", fileSystem.getUsePct());
-				log.info("Disk Dir Name : {}", fileSystem.getDirName());
-				log.info("Disk Type Name : {}", fileSystem.getTypeName());
-				log.info("-------------------------------");
-	            
-	            disks.add(fileSystem);	
-	            
-	            diskModel = new PieChartModel();
-	    		diskModel.set("Used", fileSystem.getUsePct());
-	    		diskModel.set("free", 100 - fileSystem.getUsePct());	    			
-			}
-		} catch (SigarException e) {
-			log.error("SigarException", e);
-		}
+		// FSystem fileSystem = new FSystem();
+		// fileSystem.setDevName(fs.getDevName());
+		// fileSystem.setTotal(formatSize(total));
+		// fileSystem.setUsed(formatSize(used));
+		// fileSystem.setAvail(formatSize(avail));
+		// fileSystem.setUsePct(pct);
+		// fileSystem.setDirName(fs.getDirName());
+		// fileSystem.setTypeName(fs.getSysTypeName() + "/" + fs.getTypeName());
+
+		File fileSystem = new File("/");
 		
+		double total = fileSystem.getTotalSpace() / 1024 / 1024 / 1024;
+		double free = fileSystem.getFreeSpace() / 1024 / 1024 / 1024;
+		double freePct = (free * 100) / total; 
+		
+		log.info("-------------------------------");
+		log.info("Disk Dev Name : {}", fileSystem.getName());
+		log.info("Disk Total : {}", total);
+		log.info("Disk Used : {}", total - free);
+		log.info("Disk Free : {}", free);
+		log.info("-------------------------------");
+		
+		FileSystem fs = new FileSystem(fileSystem.getName(), total,
+				total - free, 
+				free, freePct);
+
+		disks.add(fs);
+
+		diskModel = new PieChartModel();
+		diskModel.set("Used", total - free);
+		diskModel.set("free", free);
+
 		return diskModel;
 	}
 
@@ -303,11 +288,11 @@ public class DashboardController extends BaseController implements Serializable{
 		this.rams = rams;
 	}
 
-	public List<FSystem> getDisks() {
+	public List<FileSystem> getDisks() {
 		return disks;
 	}
 
-	public void setDisks(List<FSystem> disks) {
+	public void setDisks(List<FileSystem> disks) {
 		this.disks = disks;
 	}
 
