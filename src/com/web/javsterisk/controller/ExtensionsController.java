@@ -94,7 +94,7 @@ public class ExtensionsController extends BaseController implements Serializable
 		extensionsWizzardDAO = new ExtensionsWizzardDAO();
 		log.info("@PostConstruct Extensions");
 		if(securityController.isAuthenticated()){
-			context = null;
+			context = "from-sip";
 			param_record_path = parameterDAO.findByName("asterisk.recorder.path");			
 			newExtensionsWizzard = new ExtensionsWizzard();			
 			extensiones = extensionsDAO.findAllOrderedById();
@@ -342,11 +342,13 @@ public class ExtensionsController extends BaseController implements Serializable
 	}
 
 	public void setSelectedExtension(Extensions selectedExtension) {
-		this.selectedExtension = selectedExtension;
-		this.selectedContext = this.selectedExtension.getId().getContext();
-		this.originalContext = this.selectedContext;
-		this.originalDigito = this.selectedExtension.getExtensionsWizzard().getDigito();
-		this.originalLongitud = this.selectedExtension.getExtensionsWizzard().getLongitud();
+		if (selectedExtension != null) {
+			this.selectedExtension = selectedExtension;		
+			this.selectedContext = this.selectedExtension.getId().getContext();
+			this.originalContext = this.selectedContext;
+			this.originalDigito = this.selectedExtension.getExtensionsWizzard().getDigito();
+			this.originalLongitud = this.selectedExtension.getExtensionsWizzard().getLongitud();
+		}
 	}
 
 	public int getSelectedExtensionesSize() {
