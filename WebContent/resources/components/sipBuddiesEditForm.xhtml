@@ -14,7 +14,7 @@
 		<!-- IMPLEMENTATION -->
 		<composite:implementation>
 		
-			<h:panelGrid columns="3" columnClasses="titleCell">
+			<h:panelGrid columns="3" columnClasses="titleCell" border="0">
 				
 				<p:outputLabel for="nameEdit" value="Name" /> 
 				<p:inputText id="nameEdit"
@@ -56,15 +56,6 @@
                 		<f:selectItems value="#{sipBuddiesController.sipTypes}" var="sipType" itemLabel="#{sipType.value}" itemValue="#{sipType.value}"/>                   		                 		         		              
             	</p:selectOneMenu>
 				<p:message for="typeEdit" />
-				
-				<p:outputLabel for="contextEdit" value="Context" /> 
-				<p:selectOneMenu id="contextEdit" 
-							value="#{cc.attrs.sipBuddiesEdit.context}" 
-							required="true">  
-                		<f:selectItem itemLabel="Seleccione Context" itemValue="#{null}"/>
-                		<f:selectItems value="#{contextController.contexts}" var="context" itemLabel="#{context.name}" itemValue="#{context.name}"/>                   		                 		         		              
-            	</p:selectOneMenu>					
-				<p:message for="contextEdit" />
 				
 				<p:outputLabel for="qualifyEdit" value="Qualify" /> 
 				<p:inputText id="qualifyEdit"

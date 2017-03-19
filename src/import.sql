@@ -43,4 +43,4 @@ insert into parameter (name, value, description) values('asterisk.recorder.ext',
 
 
 -- Context Table
-insert into context (name, detail) values('demo', 'es un contexto de prueba')
+insert into context (name, detail) values('from-sip', 'from-sip')

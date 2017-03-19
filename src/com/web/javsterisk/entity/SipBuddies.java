@@ -63,7 +63,7 @@ public class SipBuddies implements java.io.Serializable {
 	@NotNull
 	@Size(max = 80)
 	@Column(name = "context", nullable = false, length = 80)	
-	private String context = null;//"from-sip";
+	private String context = "from-sip";
 	
 	@Size(max = 7)
 	@Column(name = "amaflags", length = 7)	
