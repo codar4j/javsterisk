@@ -77,7 +77,7 @@ public class SipBuddiesController extends BaseController implements Serializable
 					   	new SelectItem(SipType.PEERS, SipType.PEERS.getValue()),
 					   	new SelectItem(SipType.FRIEND, SipType.FRIEND.getValue())};
 			
-			sipBuddieses = sipBuddiesDAO.findAllOrderedById();
+			sipBuddieses = sipBuddiesDAO.findAllOrderedByField("name", true);
 			
 			if(sipBuddieses.size() > 0){
 				   sipBuddiesesFilter = new SelectItem[sipBuddieses.size() + 1];

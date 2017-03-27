@@ -95,7 +95,8 @@ public class UserDAO {
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
-			log.error(e.getMessage(), e);				
+			log.error(e.getMessage(), e);
+			throw e;
 		} finally {
 			HibernateUtil.closeSessionAndUnbindFromThread();	
 		}	

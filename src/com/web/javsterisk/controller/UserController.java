@@ -111,13 +111,12 @@ public class UserController extends BaseController implements Serializable{
 				log.info("Registration successful");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));			
 				initNewUser();
-			} catch (Exception e) {				
-				if(e.getCause().getCause() instanceof ConstraintViolationException){
-					log.error("ConstraintViolationException", e);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El usuario ya existe"));
-				} else {
-					log.error("Exception", e);
-				}
+			} catch (ConstraintViolationException e) {
+				log.error("Exception", e);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El usuario ya existe"));
+			} catch (Exception e) {
+				log.error("Exception", e);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", e.getMessage()));
 			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authorization!", "No tiene privilegios para esta accion"));

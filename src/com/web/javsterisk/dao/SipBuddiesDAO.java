@@ -40,17 +40,17 @@ public class SipBuddiesDAO {
 	}
 	
 	/**
-	 * List all records ordered by id
+	 * List all records ordered by field
 	 * @return List<SipBuddies>
 	 */
-	public List<SipBuddies> findAllOrderedById() {
+	public List<SipBuddies> findAllOrderedByField(String field, boolean asc) {
 		log.info("Listing all records");
 		List<SipBuddies> list = null;
 		try {
 			HibernateUtil.openSessionAndBindToThread();
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			Criteria criteria = session.createCriteria(SipBuddies.class);
-			criteria.addOrder(Order.asc("id"));
+			criteria.addOrder(asc ? Order.asc(field) : Order.desc(field));
 			list = criteria.list();
 		} finally {
 			HibernateUtil.closeSessionAndUnbindFromThread();	
