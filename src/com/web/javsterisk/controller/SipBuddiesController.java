@@ -133,6 +133,7 @@ public class SipBuddiesController extends BaseController implements Serializable
 				if(secretEdit != null && !secretEdit.trim().equalsIgnoreCase("")){				
 					selectedSipBuddies.setSecret(secretEdit);	
 				}
+				selectedSipBuddies.setDefaultuser(selectedSipBuddies.getName());
 				sipBuddiesDAO.modifier(selectedSipBuddies);
 				log.info("Modification successful");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Modified!", "Modification successful"));
