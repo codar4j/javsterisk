@@ -29,11 +29,12 @@ public class ExtensionsWizzardDAO {
 			HibernateUtil.openSessionAndBindToThread();			
 			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			tx = session.beginTransaction();
-			session.save(object);
+			session.persist(object);
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
-			log.error(e.getMessage(), e);				
+			log.error(e.getMessage(), e);	
+			throw e;
 		} finally {
 			HibernateUtil.closeSessionAndUnbindFromThread();	
 		}	

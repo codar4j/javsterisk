@@ -97,7 +97,7 @@ public class ExtensionsController extends BaseController implements Serializable
 			context = "from-sip";
 			param_record_path = parameterDAO.findByName("asterisk.recorder.path");			
 			newExtensionsWizzard = new ExtensionsWizzard();			
-			extensiones = extensionsDAO.findAllOrderedById();
+			extensiones = extensionsDAO.findAllOrderedByField("id.exten", true);
 		}
 	}
 	
@@ -117,13 +117,13 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		Extensions set = new Extensions();
 		set.setApp(APP_SET);
-		set.setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%-%H%M%S)}-${CALLERID(num)}");
+		set.setAppdata("MONITOR_FILENAME=${STRFTIME($,,%Y%m%d-%H%M%S)}-${CALLERID(num)}");
 		
 //		char c  = (char) 43;
 		
 		Extensions monitor = new Extensions();
 		monitor.setApp(APP_MIX_MONITOR);
-		monitor.setAppdata(param_record_path.getValue() + " + ${MONITOR_FILENAME}.wav,b");		
+		monitor.setAppdata(param_record_path.getValue() + "${MONITOR_FILENAME}.wav,b");		
 		
 		Extensions dial = new Extensions();
 		dial.setApp(APP_DIAL);
@@ -135,17 +135,17 @@ public class ExtensionsController extends BaseController implements Serializable
 		
 		if(extensionsWizzard.isLimit()) {
 			
-			limit = ",L(" + extensionsWizzard.getTimeLimit() + "::)";
+			limit = ",,L(" + extensionsWizzard.getTimeLimit() + "::)";
 			
 			if(!"".equals(extensionsWizzard.getFirstAlert().trim()) 
 					&& "".equals(extensionsWizzard.getSecondAlert().trim())) {
-				limit = ",L(" + extensionsWizzard.getTimeLimit() + ":" 
+				limit = ",,L(" + extensionsWizzard.getTimeLimit() + ":" 
 					+ extensionsWizzard.getFirstAlert() + ":)";
 			}
 			
 			if(!"".equals(extensionsWizzard.getFirstAlert().trim()) 
 					&& !"".equals(extensionsWizzard.getSecondAlert().trim())) {
-				limit = ",L(" + extensionsWizzard.getTimeLimit() + ":" 
+				limit = ",,L(" + extensionsWizzard.getTimeLimit() + ":" 
 						+ extensionsWizzard.getFirstAlert() + ":" + extensionsWizzard.getSecondAlert() + ")";
 			} 
 			
@@ -251,13 +251,11 @@ public class ExtensionsController extends BaseController implements Serializable
 				log.info("Registration successful");
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));			
 				initNewExtensions();
+			} catch (ConstraintViolationException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El Dial Plan ya existe"));
+				log.error("ConstraintViolationException", e);
 			} catch (Exception e) {				
-				if(e.getCause().getCause().getCause() instanceof ConstraintViolationException){
-					log.error("ConstraintViolationException", e);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El Dial Plan ya existe"));
-				} else {
-					log.error("Exception", e);
-				}
+				log.error("Exception", e);
 			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Authorization!", "No tiene privilegios para esta accion"));

@@ -59,6 +59,28 @@ public class ExtensionsDAO {
 	}
 	
 	/**
+	 * 
+	 * @param field
+	 * @param asc
+	 * @return List<Extensions>
+	 */
+	public List<Extensions> findAllOrderedByField(String field, boolean asc) {
+		log.info("Listing all records");
+		List<Extensions> list = null;
+		try {
+			HibernateUtil.openSessionAndBindToThread();
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			Criteria criteria = session.createCriteria(Extensions.class);
+			criteria.addOrder(asc ? Order.asc(field) : Order.desc(field));
+			criteria.addOrder(Order.asc("id.priority"));
+			list = criteria.list();
+		} finally {
+			HibernateUtil.closeSessionAndUnbindFromThread();	
+		}		
+		return list;		
+	}
+	
+	/**
 	 * Register record in DB
 	 * @param object
 	 * @throws Exceptions
