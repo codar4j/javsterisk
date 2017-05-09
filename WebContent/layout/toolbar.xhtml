@@ -23,7 +23,7 @@
 			<p:separator/>
 			<p:submenu label="Log" icon="ui-icon-note">
 				<p:menuitem value="log del sistema" icon="ui-icon-bullet" outcome="LoggingEventList" disabled="#{not securityController.administrator}"/>
-				<p:menuitem value="log de asterisk" icon="ui-icon-bullet" outcome="LogAsteriskList" disabled="#{not securityController.administrator}"/>
+				<p:menuitem value="log de asterisk" icon="ui-icon-bullet" rendered="false" outcome="LogAsteriskList" disabled="#{not securityController.administrator}"/>
 			</p:submenu>			
 		</p:submenu>
 		
