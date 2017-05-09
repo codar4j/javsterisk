@@ -35,7 +35,7 @@
 					
 					<p:commandButton id="deleteToolBar" global="false" process="@this,parameterList" partialSubmit="true" title="Eliminar" icon="ui-icon-trash" disabled="true" />
 					
-					<p:commandButton id="reportToolBar" type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/parameterList.rptdesign');" />
+					<p:commandButton id="reportToolBar" rendered="false" type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/parameterList.rptdesign');" />
 					
 					<p:separator />
 										

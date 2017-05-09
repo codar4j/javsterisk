@@ -37,7 +37,7 @@
 					
 					<p:commandButton id="deleteToolBar" global="false" process="@this,userList" partialSubmit="true" title="Eliminar" icon="ui-icon-trash" update=":formDelete:deleteModalDialog" oncomplete="deleteModal.show();" />
 					
-					<p:commandButton id="reportToolBar" type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/userList.rptdesign');" />
+					<p:commandButton id="reportToolBar" rendered="false" type="button" title="Reporte" icon="ui-icon-print" onclick="callBirt('#{facesContext.externalContext.requestContextPath}/frameset?__report=report/userList.rptdesign');" />
 					
 					<p:separator />
 										
