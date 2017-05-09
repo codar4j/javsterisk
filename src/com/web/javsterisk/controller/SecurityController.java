@@ -50,8 +50,6 @@ public class SecurityController extends BaseController implements Serializable{
 	
 	private User user;
 	
-	private Boolean rememberMe;
-	
 	private String principal;
 	
 	private final String URI_SUFIX = ".jsf";
@@ -65,15 +63,7 @@ public class SecurityController extends BaseController implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	public Boolean getRememberMe() {
-		return rememberMe;
-	}
 
-	public void setRememberMe(Boolean rememberMe) {
-		this.rememberMe = rememberMe;
-	}
-	
 	public LocaleController getLocaleController() {
 		return localeController;
 	}
@@ -132,7 +122,7 @@ public class SecurityController extends BaseController implements Serializable{
 		
 			try {
 				
-				UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword(), getRememberMe());						
+				UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());						
 				currentUser.login(token);
 
 				user = userDAO.findByUsername(user.getUsername());
