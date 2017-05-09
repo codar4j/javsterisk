@@ -39,6 +39,24 @@ public class ExtensionsWizzardDAO {
 			HibernateUtil.closeSessionAndUnbindFromThread();	
 		}	
 	}
+	
+	public void merger(ExtensionsWizzard object) throws Exception {
+		log.info("Merger : {}", object.toString());
+		Transaction tx = null;
+		try {
+			HibernateUtil.openSessionAndBindToThread();			
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			session.merge(object);
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+			log.error(e.getMessage(), e);	
+			throw e;
+		} finally {
+			HibernateUtil.closeSessionAndUnbindFromThread();	
+		}	
+	}
 
 	/**
 	 * Modifier record in DB

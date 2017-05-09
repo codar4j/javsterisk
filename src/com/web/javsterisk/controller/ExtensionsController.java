@@ -275,8 +275,9 @@ public class ExtensionsController extends BaseController implements Serializable
 				selectedExtensionsWizzard = makeExtensions(selectedExtensionsWizzard, selectedContext);
 				extensionsWizzardDAO.register(selectedExtensionsWizzard);
 			} else {
+				extensionsWizzardDAO.deleter(selectedExtensionsWizzard);
 				selectedExtensionsWizzard = makeExtensions(selectedExtensionsWizzard, selectedContext);				
-				extensionsWizzardDAO.modifier(selectedExtensionsWizzard);	
+				extensionsWizzardDAO.merger(selectedExtensionsWizzard);	
 			}
 			
 			log.info("Modification successful");
