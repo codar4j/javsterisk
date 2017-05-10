@@ -2,6 +2,10 @@
 -- this script create the DB tables and insert initial data
 -- create the change of free
 
+--------------------------------------------------------
+-- Create the database and user
+--------------------------------------------------------
+
 -- create database
 create database javsterisk;
 
@@ -10,6 +14,11 @@ create user 'javsterisk'@'localhost' identified by 'javsterisk';
 
 -- grant privileges for user on database
 grant all privileges on javsterisk.* to 'javsterisk'@'localhost';
+
+
+--------------------------------------------------------
+-- Create tables
+--------------------------------------------------------
 
 -- Create javsterisk DB objects
 
@@ -206,12 +215,12 @@ grant all privileges on javsterisk.* to 'javsterisk'@'localhost';
         foreign key (context, exten, priority) 
         references extensions (context, exten, priority);
         
+--------------------------------------------------------
+-- Insert default data
+--------------------------------------------------------
         
  -- Insert data
         
--- Extension Table 
---insert into Extension (code, value, description) values ('RRHH', '105', 'Recursos Humanos');
-
 -- Role Table
 insert into role (name) values ('Administrador');
 insert into role (name) values ('Estandar');
@@ -224,7 +233,6 @@ insert into permission (role, acl) values ('Administrador', '*');
 insert into permission (role, acl) values ('Estandar', '*');
 
 -- Parameter Table
---insert into parameter (name, value, description) values('config.file.path', 'C:/JavaApps/atorres/config/', 'Path de Config.properties');
 insert into parameter (name, value, description) values('ami.host', '10.8.0.1', 'Host de AMI');
 insert into parameter (name, value, description) values('ami.port', '5038', 'Puerto de AMI');
 insert into parameter (name, value, description) values('ami.username', 'admin', 'Usuario de AMI');
@@ -248,6 +256,3 @@ insert into parameter (name, value, description) values('asterisk.show.peers', '
 insert into parameter (name, value, description) values('asterisk.recorder.url', 'http://grabaciones_asterisk', 'Virtual Host de grabaciones de asterisk');
 insert into parameter (name, value, description) values('asterisk.recorder.path', '/usr/grabaciones/', 'Path de grabaciones de asterisk');
 insert into parameter (name, value, description) values('asterisk.recorder.ext', 'wav', 'Extension de grabaciones');
-
--- Context Table
---insert into context (name, detail) values('demo', 'es un contexto de prueba');
