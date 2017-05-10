@@ -6,31 +6,50 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.util.resource.ResourceCollection;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.webapp.WebAppContext;
 
-public class MainServer extends AbstractHandler {
+import com.web.javsterisk.controller.CdrController;
 
-	@Override
-	public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-		response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        baseRequest.setHandled(true);
-        response.getWriter().println("<h1>javsterisk</h1>");
-	}
+public class MainServer {
+	
+	private static final Logger log = LogManager.getLogger(MainServer.class);
+	
+//	private final Server server;
+	public static final String SERVER_REFERENCE = "jettyInMemory";
 	
 	public static void main(String[] args) throws Exception {
-		 Server server = new Server(8080);
-		 
-		 ContextHandler context = new ContextHandler();
-	     context.setContextPath( "/javsterisk" );
-	     context.setHandler( new MainServer() );
-         server.setHandler(context);
-         server.start();
-         server.join();
-	}
 
+		Server server = new Server();
+
+        Connector connector = new SelectChannelConnector();
+        connector.setPort(8080);
+        connector.setHost("127.0.0.1");
+        server.addConnector(connector);
+
+        WebAppContext wac = new WebAppContext();
+        
+//        wac.setcont  .setcon setContextPath("/javsterisk");
+        
+//        wac.setBaseResource(
+//            new ResourceCollection(
+//                new String[] {"./src/main/webapp", "./target"}));
+//        
+//        wac.setResourceAlias("/WEB-INF/classes/", "/classes/");
+
+//        server.setHandler(wac);
+        server.setStopAtShutdown(true);
+        server.start();
+        server.join();
+	}
+	
 }
